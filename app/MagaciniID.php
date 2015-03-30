@@ -11,5 +11,5 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 class MagaciniID extends Model{
     protected $table = 'magacinid';
-    protected $fillable = ['naziv','naziv','opis','created_at','updated_at'];
+    protected $fillable = ['naziv','opis','created_at','updated_at'];
 }

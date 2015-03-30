@@ -44,6 +44,7 @@
                     <a class="navbar-brand" href="{!! url('/administracija') !!}"><span class="glyphicon glyphicon-home"></span> Magacin</a>
                 </div>
                 <div id="dMenija" class="collapse navbar-collapse">
+                    @if(\App\Security::autentifikacijaTest())
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-folder-open"></span> Magacini <span class="caret"></span></a>
@@ -69,6 +70,7 @@
                         </li>
                         <li><a href="/administracija/logout"><span class="glyphicon glyphicon-off"></span> Odjava</a></li>
                     </ul>
+                    @endif
                 </div>
             </div>
         </nav>
