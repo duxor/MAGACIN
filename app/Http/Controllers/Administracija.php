@@ -1,9 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-use App\MagaciniID;
+use App\OsnovneMetode;
 use App\Security;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
 
 class Administracija extends Controller {
 //LOG[in,out]
@@ -18,7 +17,7 @@ class Administracija extends Controller {
 		return Security::logout();
 	}
 //_______
-	public function getIndex(){
+	public function getIndex(){dd(OsnovneMetode::nestanakProizvoda());
 		return Security::autentifikacija('stranice.administracija.index',null);
 	}
 

@@ -5,6 +5,7 @@ use App\Security;
 use App\MagaciniID;
 use App\Magacin as Skladiste;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 
 class Magacin extends Controller {
 
@@ -39,8 +40,36 @@ class Magacin extends Controller {
 	public function getPregled($id){
 		$magacin = MagaciniID::where('id','=',$id)->get(['id','naziv'])->first()->toArray();
 		$umagacinu = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
-			->where('magacinid_id','=',$id)->get(['magacinid_id','proizvod.sifra','proizvod.naziv','kolicina_stanje','kolicina_min','pozicija_id'])->toArray();
+			->where('magacinid_id','=',$id)->get(['magacin.id','magacinid_id','proizvod.sifra','proizvod.naziv','kolicina_stanje','kolicina_min','pozicija_id'])->toArray();
 		return Security::autentifikacija('stranice.administracija.magacin',compact('magacin','umagacinu'));
+	}
+	public function postProizvod(){
+		if(Security::autentifikacijaTest()){
+			$magacin = Skladiste::where('id','=',Input::get('magacin_id'))->get(['id','kolicina_stanje','kolicina_min'])->first();
+			switch(Input::get('znak')){
+				case '+': $magacin->kolicina_stanje = $magacin->kolicina_stanje+Input::get('kolicina_stanje');
+					break;
+				case '-': $magacin->kolicina_stanje = $magacin->kolicina_stanje-Input::get('kolicina_stanje');
+					break;
+				case 'min': $magacin->kolicina_min = Input::get('kolicina_stanje');
+					break;
+			}
+			$magacin->save();
+			return Redirect::back();
+		}
+		return Security::rediectToLogin();
+	}
+	public function getZaNarudzbu(){
+		$zaNarudzbu = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
+			->join('magacinid','magacinid.id','=','magacin.magacinid_id')
+			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
+			->whereRaw('kolicina_stanje<kolicina_min')
+			->get(['magacin.proizvod_id','sifra','proizvod.naziv as naziv_proizvoda',
+				'kolicina_stanje','kolicina_min',
+				'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
+				'magacin.pozicija_id','stolaza','polica','pozicija.pozicija as pozicija_na_stolazi'])
+			->toArray();
+		return Security::autentifikacija('stranice.administracija.narudzba',compact('zaNarudzbu'));
 	}
 
 }

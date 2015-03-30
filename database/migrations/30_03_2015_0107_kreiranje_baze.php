@@ -64,7 +64,7 @@ class KreiranjeBaze extends Migration {
 		});
 		Schema::create('magacin',function(Blueprint $table){
 			$table->bigIncrements('id');
-			$table->unsignedBigInteger('magacinID_id');
+			$table->unsignedBigInteger('magacinid_id');
 			$table->foreign('magacinid_id')->references('id')->on('magacinid');
 			$table->unsignedBigInteger('proizvod_id');
 			$table->foreign('proizvod_id')->references('id')->on('proizvod');
