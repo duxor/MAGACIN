@@ -11,6 +11,6 @@ use App\Magacin as Skladiste;
 
 class OsnovneMetode {
     public static function nestanakProizvoda(){
-        return Skladiste::whereRaw('kolicina_stanje<=kolicina_min')->get(['id'])->count();
+        return Skladiste::whereRaw('kolicina_stanje<kolicina_min')->get(['id'])->count();
     }
 }

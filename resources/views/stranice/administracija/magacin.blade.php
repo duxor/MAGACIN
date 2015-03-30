@@ -30,7 +30,7 @@
                     <td>{{$proizvod['kolicina_min']}}</td>
                     <td>
                         <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-lg btn-success" onclick="magacinid({{$proizvod['id']}},'+')"><span class="glyphicon glyphicon-plus"></span> Dodaj na stanje</a>
-                        <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-lg btn-warning" onclick="magacinid({{$proizvod['id']}},'-')"><span class="glyphicon glyphicon-minus"></span> Skini sa stanja</a>
+                        <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-lg btn-danger" onclick="magacinid({{$proizvod['id']}},'-')"><span class="glyphicon glyphicon-minus"></span> Skini sa stanja</a>
                         <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-lg btn-primary" onclick="magacinid({{$proizvod['id']}},'min')"><span class="glyphicon glyphicon-indent-left"></span> Ažuriraj minimum</a>
                     </td>
                 </tr>

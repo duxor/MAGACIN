@@ -5,11 +5,12 @@
     @if($magacini)
         <table class="table table-striped">
             <thead>
-                <tr><th>Naziv</th><th>Opis</th><th></th></tr>
+                <tr><th></th><th>Naziv</th><th>Opis</th><th></th></tr>
             </thead>
             <tbody>
                 @foreach($magacini as $m)
                     <tr>
+                        <td><a href="/administracija/magacin/pregled/{{$m['id']}}" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                         <td><a href="/administracija/magacin/pregled/{{$m['id']}}">{{$m['naziv']}}</a></td>
                         <td>{{$m['opis']}}</td>
                         <td>

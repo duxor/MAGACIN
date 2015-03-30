@@ -65,5 +65,26 @@ class Proizvod extends Controller {
 		}
 		return Security::rediectToLogin();
 	}
+	public function getZaNarudzbu(){
+		$zaNarudzbu = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
+			->join('magacinid','magacinid.id','=','magacin.magacinid_id')
+			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
+			->whereRaw('kolicina_stanje<kolicina_min')
+			->get(['magacin.proizvod_id','sifra','proizvod.naziv as naziv_proizvoda',
+				'kolicina_stanje','kolicina_min',
+				'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
+				'magacin.pozicija_id','stolaza','polica','pozicija.pozicija as pozicija_na_stolazi'])
+			->toArray();
+		return Security::autentifikacija('stranice.administracija.narudzba',compact('zaNarudzbu'));
+	}
+	public function postNarudzbenica(){
+		$proizvodi = json_decode(Input::get('proizvodi'));
+		foreach($proizvodi as $k => $proizvod){
+			if($proizvod){
+				$proizvodi[$k] = Proizvodi::where('id','=',$proizvod)->get(['id','sifra','naziv','opis'])->first()->toArray();//,'cijena'
+			}else unset($proizvodi[$k]);
+		}
+		dd($proizvodi);
+	}
 
 }

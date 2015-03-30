@@ -59,17 +59,5 @@ class Magacin extends Controller {
 		}
 		return Security::rediectToLogin();
 	}
-	public function getZaNarudzbu(){
-		$zaNarudzbu = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
-			->join('magacinid','magacinid.id','=','magacin.magacinid_id')
-			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
-			->whereRaw('kolicina_stanje<kolicina_min')
-			->get(['magacin.proizvod_id','sifra','proizvod.naziv as naziv_proizvoda',
-				'kolicina_stanje','kolicina_min',
-				'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
-				'magacin.pozicija_id','stolaza','polica','pozicija.pozicija as pozicija_na_stolazi'])
-			->toArray();
-		return Security::autentifikacija('stranice.administracija.narudzba',compact('zaNarudzbu'));
-	}
 
 }

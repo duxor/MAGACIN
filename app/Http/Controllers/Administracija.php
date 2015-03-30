@@ -17,7 +17,7 @@ class Administracija extends Controller {
 		return Security::logout();
 	}
 //_______
-	public function getIndex(){dd(OsnovneMetode::nestanakProizvoda());
+	public function getIndex(){
 		return Security::autentifikacija('stranice.administracija.index',null);
 	}
 
