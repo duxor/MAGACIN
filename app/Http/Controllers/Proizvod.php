@@ -8,6 +8,7 @@ use App\Security;
 use App\Proizvodi;
 use App\Magacin as Skladiste;
 use App\ZaNarudzbu;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class Proizvod extends Controller {
@@ -79,6 +80,9 @@ class Proizvod extends Controller {
 					'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
 					'magacin.pozicija_id','stolaza','polica','pozicija.pozicija as pozicija_na_stolazi'])
 				->toArray();
+			/*foreach($zaNarudzbu as $k => $stavka){
+				$zaNarudzbu[$k]['naruceno'] = ZaNarudzbu::where()->whereRaw('kolicina_porucena>=kolicina_pristigla')->count();// > 0 ? true : false;
+			}dd($zaNarudzbu);*/
 			return Security::autentifikacija('stranice.administracija.narudzba',compact('zaNarudzbu'));
 		}
 		return Security::rediectToLogin();
