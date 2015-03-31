@@ -75,11 +75,24 @@ class KreiranjeBaze extends Migration {
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 		});
+		Schema::create('narudzbenice',function(Blueprint $table){
+			$table->bigIncrements('id');
+			$table->dateTime('datum_narudzbe');
+			$table->dateTime('datum_isporuke')->nullable();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->nullable();
+		});
 		Schema::create('za_narudzbu',function(Blueprint $table){
 			$table->bigIncrements('id');
-			$table->unsignedBigInteger('magacin_id');
+			$table->unsignedBigInteger('magacin_id')->nullable();
 			$table->foreign('magacin_id')->references('id')->on('magacin');
 			$table->tinyInteger('aktivan')->default(1);
+			$table->integer('kolicina_porucena');
+			$table->integer('kolicina_pristigla')->default(0);
+			$table->unsignedBigInteger('narudzbenice_id');
+			$table->foreign('narudzbenice_id')->references('id')->on('narudzbenice');
+			$table->unsignedBigInteger('proizvod_id')->nullable();
+			$table->foreign('proizvod_id')->references('id')->on('proizvod');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 		});
@@ -94,9 +107,14 @@ class KreiranjeBaze extends Migration {
 
 		Schema::drop('za_narudzbu');
 		Schema::drop('magacin');
+
+		Schema::drop('za_narudzbu');
+		Schema::drop('narudzbenice');
+
 		Schema::drop('proizvod');
 		Schema::drop('magacinID');
 		Schema::drop('pozicija');
+
 	}
 
 }

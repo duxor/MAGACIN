@@ -2,10 +2,12 @@
 
 use App\Http\Requests;
 use App\MagaciniID;
+use App\Narudzbenice;
 use App\Pozicija;
 use App\Security;
 use App\Proizvodi;
 use App\Magacin as Skladiste;
+use App\ZaNarudzbu;
 use Illuminate\Support\Facades\Input;
 
 class Proizvod extends Controller {
@@ -66,25 +68,70 @@ class Proizvod extends Controller {
 		return Security::rediectToLogin();
 	}
 	public function getZaNarudzbu(){
-		$zaNarudzbu = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
-			->join('magacinid','magacinid.id','=','magacin.magacinid_id')
-			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
-			->whereRaw('kolicina_stanje<kolicina_min')
-			->get(['magacin.proizvod_id','sifra','proizvod.naziv as naziv_proizvoda',
-				'kolicina_stanje','kolicina_min',
-				'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
-				'magacin.pozicija_id','stolaza','polica','pozicija.pozicija as pozicija_na_stolazi'])
-			->toArray();
-		return Security::autentifikacija('stranice.administracija.narudzba',compact('zaNarudzbu'));
+		if(Security::autentifikacijaTest()){
+			$zaNarudzbu = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
+				->join('magacinid','magacinid.id','=','magacin.magacinid_id')
+				->join('pozicija','pozicija.id','=','magacin.pozicija_id')
+				->whereRaw('kolicina_stanje<kolicina_min')
+				->get(['magacin.id','sifra','proizvod.naziv as naziv_proizvoda',
+					'kolicina_stanje','kolicina_min',
+					'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
+					'magacin.pozicija_id','stolaza','polica','pozicija.pozicija as pozicija_na_stolazi'])
+				->toArray();
+			return Security::autentifikacija('stranice.administracija.narudzba',compact('zaNarudzbu'));
+		}
+		return Security::rediectToLogin();
 	}
 	public function postNarudzbenica(){
-		$proizvodi = json_decode(Input::get('proizvodi'));
-		foreach($proizvodi as $k => $proizvod){
-			if($proizvod){
-				$proizvodi[$k] = Proizvodi::where('id','=',$proizvod)->get(['id','sifra','naziv','opis'])->first()->toArray();//,'cijena'
-			}else unset($proizvodi[$k]);
+		if(Security::autentifikacijaTest()){
+			$proizvodi = json_decode(Input::get('proizvodi'));
+			foreach($proizvodi as $k => $proizvod){
+				if($proizvod){
+					$proizvodi[$k] = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
+						->where('magacin.id','=',$proizvod)->get(['magacin.id','sifra','naziv','opis','kolicina_stanje','kolicina_min','pozicija_id'])->first()->toArray();//,'cijena'
+				}else unset($proizvodi[$k]);
+			}
+			return Security::autentifikacija('stranice.administracija.narudzba',compact('proizvodi'));
 		}
-		dd($proizvodi);
+		return Security::rediectToLogin();
+	}
+	public function postPrednarudzba(){
+		if(Security::autentifikacijaTest()){
+			$narudzbenica = new Narudzbenice();
+			$narudzbenica->datum_narudzbe = Input::get('datum');
+			$narudzbenica->save();
+
+			$prednarudzbenica = [];
+			foreach(Input::get('kolicina_narudzba') as $skladiste_id => $kolicina){
+				$zaNarudzbu = new ZaNarudzbu();
+				$zaNarudzbu->magacin_id = $skladiste_id;
+				$zaNarudzbu->kolicina_porucena = $kolicina;
+				$zaNarudzbu->narudzbenice_id = $narudzbenica->id;
+				$prednarudzbenica[$skladiste_id] = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
+							->where('magacin.id','=',$skladiste_id)
+							->get(['proizvod.id','sifra','naziv'])->first()->toArray();
+				$prednarudzbenica[$skladiste_id]['kolicina_naruceno'] = $kolicina;
+				$zaNarudzbu->proizvod_id = $prednarudzbenica[$skladiste_id]['id'];
+				$zaNarudzbu->save();
+			}
+			$narudzba = $narudzbenica->id;
+			return Security::autentifikacija('stranice.administracija.narudzba',compact('prednarudzbenica','narudzba'));
+		}
+		return Security::rediectToLogin();
+	}
+	public function getNarudzbePotvrdi($id){
+		if(Security::autentifikacijaTest()){
+			return redirect('/administracija/proizvod');
+		}
+		return Security::rediectToLogin();
+	}
+	public function getNarudzbeResetuj($id){
+		if(Security::autentifikacijaTest()){
+			ZaNarudzbu::where('narudzbenice_id','=',$id)->delete();
+			Narudzbenice::destroy($id);
+			return redirect('/administracija/proizvod/za-narudzbu');
+		}
+		return Security::rediectToLogin();
 	}
 
 }
