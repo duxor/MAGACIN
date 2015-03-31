@@ -65,7 +65,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>@if(\App\OsnovneMetode::nestanakProizvoda()>0)<span class="badge">{{\App\OsnovneMetode::nestanakProizvoda()}}</span>@endif Za narudžbu <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/administracija/proizvod/za-narudzbu"><span class="glyphicon glyphicon-eye-open"></span> Aktuelno</a></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-briefcase"></span> Arhiva</a></li>
+                                <li><a href="/administracija/proizvod/narudzbe"><span class="glyphicon glyphicon-briefcase"></span> Arhiva</a></li>
                             </ul>
                         </li>
                         <li><a href="/administracija/logout"><span class="glyphicon glyphicon-off"></span> Odjava</a></li>

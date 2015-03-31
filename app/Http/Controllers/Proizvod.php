@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Input;
 class Proizvod extends Controller {
 
 	public function getIndex(){
-		$proizvodi = Proizvodi::get(['id','sifra','naziv','opis','cijena'])->toArray();
+		$proizvodi = Proizvodi::get(['id','sifra','naziv','opis','cijena_nabavna','cijena_prodajna'])->toArray();
 		return Security::autentifikacija('stranice.administracija.proizvodi',compact('proizvodi'));
 	}
 	public function getNovi(){
@@ -25,14 +25,15 @@ class Proizvod extends Controller {
 			$proizvod->sifra = Input::get('sifra');
 			$proizvod->naziv = Input::get('naziv');
 			$proizvod->opis = Input::get('opis');
-			$proizvod->cijena = Input::get('cijena');
+			$proizvod->cijena_nabavna = Input::get('cijena_nabavna');
+			$proizvod->cijena_prodajna = Input::get('cijena_prodajna');
 			$proizvod->save();
 			return redirect('/administracija/proizvod');
 		}
 		return Security::rediectToLogin();
 	}
 	public function getAzuriraj($id){
-		$proizvod = Proizvodi::where('id','=',$id)->get(['id','sifra','naziv','opis','cijena'])->first()->toArray();
+		$proizvod = Proizvodi::where('id','=',$id)->get(['id','sifra','naziv','opis','cijena_nabavna','cijena_prodajna'])->first()->toArray();
 		return Security::autentifikacija('stranice.administracija.proizvodi',compact('proizvod'));
 	}
 	public function getUkloni($id){
@@ -121,6 +122,9 @@ class Proizvod extends Controller {
 	}
 	public function getNarudzbePotvrdi($id){
 		if(Security::autentifikacijaTest()){
+			$narudzbenica = Narudzbenice::where('id','=',$id)->get(['id','potvrda'])->first();
+			$narudzbenica->potvrda = 1;
+			$narudzbenica->save();
 			return redirect('/administracija/proizvod');
 		}
 		return Security::rediectToLogin();
@@ -130,6 +134,14 @@ class Proizvod extends Controller {
 			ZaNarudzbu::where('narudzbenice_id','=',$id)->delete();
 			Narudzbenice::destroy($id);
 			return redirect('/administracija/proizvod/za-narudzbu');
+		}
+		return Security::rediectToLogin();
+	}
+	public function getNarudzbe(){
+		if(Security::autentifikacijaTest()){
+			$narudzbe = Narudzbenice::orderBy('potvrda','DESC')->get(['datum_narudzbe','datum_isporuke','potvrda'])->toArray();
+			dd($narudzbe);
+			return ;
 		}
 		return Security::rediectToLogin();
 	}

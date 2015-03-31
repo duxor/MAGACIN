@@ -42,7 +42,8 @@ class KreiranjeBaze extends Migration {
 			$table->string('sifra', 45);
 			$table->string('naziv', 45);
 			$table->text('opis')->nullable();
-			$table->float('cijena')->nullable();
+			$table->float('cijena_nabavna')->nullable();
+			$table->float('cijena_prodajna')->nullable();
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 		});
@@ -79,6 +80,7 @@ class KreiranjeBaze extends Migration {
 			$table->bigIncrements('id');
 			$table->dateTime('datum_narudzbe');
 			$table->dateTime('datum_isporuke')->nullable();
+			$table->tinyInteger('potvrda')->default(0);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 		});
@@ -106,11 +108,9 @@ class KreiranjeBaze extends Migration {
 		Schema::drop('prava_pristupa');
 
 		Schema::drop('za_narudzbu');
-		Schema::drop('magacin');
-
-		Schema::drop('za_narudzbu');
 		Schema::drop('narudzbenice');
 
+		Schema::drop('magacin');
 		Schema::drop('proizvod');
 		Schema::drop('magacinID');
 		Schema::drop('pozicija');

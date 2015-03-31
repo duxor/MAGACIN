@@ -15,37 +15,43 @@ class TestPodaci extends Seeder{
                 'sifra'=>'test001',
                 'naziv'=>'Mašina za veš',
                 'opis'=>'Velika, sa dimenzijama LxMxD',
-                'cijena'=>'450'
+                'cijena_nabavna'=>'400',
+                'cijena_prodajna'=>'450'
             ],
             [//2
                 'sifra'=>'test002',
                 'naziv'=>'Mašina za posuđe',
                 'opis'=>'Uspravna, sa velikim poklopcem.',
-                'cijena'=>'360'
+                'cijena_nabavna'=>'400',
+                'cijena_prodajna'=>'450'
             ],
             [//3
                 'sifra'=>'test003',
                 'naziv'=>'Usisivač',
                 'opis'=>'Automatski sa robotskim funkcijama.',
-                'cijena'=>'240'
+                'cijena_nabavna'=>'200',
+                'cijena_prodajna'=>'240'
             ],
             [//4
                 'sifra'=>'test004',
                 'naziv'=>'Bojler',
                 'opis'=>'Veliki od 200l',
-                'cijena'=>'280'
+                'cijena_nabavna'=>'250',
+                'cijena_prodajna'=>'280'
             ],
             [//5
                 'sifra'=>'test005',
                 'naziv'=>'Kuhinjska napa',
                 'opis'=>'Utisnuta, sa velikim kapacitetom i garancijom na 5 godina.',
-                'cijena'=>'400'
+                'cijena_nabavna'=>'380',
+                'cijena_prodajna'=>'400'
             ],
             [//6
                 'sifra'=>'test007',
                 'naziv'=>'Mikser',
                 'opis'=>'Ručni, sa 5 funkcionalnih brzina.',
-                'cijena'=>'30'
+                'cijena_nabavna'=>'20',
+                'cijena_prodajna'=>'30'
             ],
         ];
         Proizvodi::insert($proizvodi);
@@ -113,7 +119,7 @@ class TestPodaci extends Seeder{
                 'magacinid_id'=>1,
                 'proizvod_id'=>3,
                 'kolicina_stanje'=>15,
-                'kolicina_min'=>3,
+                'kolicina_min'=>21,
                 'pozicija_id'=>4
             ],
             [
@@ -148,7 +154,7 @@ class TestPodaci extends Seeder{
                 'magacinid_id'=>3,
                 'proizvod_id'=>2,
                 'kolicina_stanje'=>3,
-                'kolicina_min'=>2,
+                'kolicina_min'=>7,
                 'pozicija_id'=>2
             ],
             [

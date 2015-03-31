@@ -5,7 +5,7 @@
     @if($proizvodi)
         <table class="table table-striped">
             <thead>
-                <tr><th>Šifra</th><th>Naziv</th><th>Opis</th><th>Cijena</th><th></th></tr>
+                <tr><th>Šifra</th><th>Naziv</th><th>Opis</th><th>Nabavna cijena</th><th>Prodajna cijena</th><th></th><th></th><th></th></tr>
             </thead>
             <tbody>
                 @foreach($proizvodi as $p)
@@ -13,11 +13,11 @@
                         <td><a href="/administracija/proizvod/azuriraj/{{$p['id']}}">{{$p['sifra']}}</a></td>
                         <td>{{$p['naziv']}}</td>
                         <td>{{$p['opis']}}</td>
-                        <td>{{$p['cijena']}}</td>
-                        <td>
-                            <a href="/administracija/proizvod/azuriraj/{{$p['id']}}" class="btn btn-lg btn-info"><span class="glyphicon glyphicon-pencil"></span> Ažuriraj</a>
-                            <a href="/administracija/proizvod/magacin/{{$p['id']}}" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-log-in"></span> Dodaj u magacin</a>
-                            <a href="/administracija/proizvod/ukloni/{{$p['id']}}" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-trash"></span> Ukloni</a>
+                        <td>{{$p['cijena_nabavna']}}</td>
+                        <td>{{$p['cijena_prodajna']}}</td>
+                        <td><a href="/administracija/proizvod/azuriraj/{{$p['id']}}" class="btn btn-lg btn-info"><span class="glyphicon glyphicon-pencil"></span> Ažuriraj</a></td>
+                        <td><a href="/administracija/proizvod/magacin/{{$p['id']}}" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-log-in"></span> Dodaj u magacin</a></td>
+                        <td><a href="/administracija/proizvod/ukloni/{{$p['id']}}" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-trash"></span> Ukloni</a></td>
                         </td>
                     </tr>
                 @endforeach
@@ -56,11 +56,18 @@
                 <span id="sopis" class="glyphicon form-control-feedback"></span>
             </div>
         </div>
-        <div id="dcijena" class="form-group has-feedback">
-            {!! Form::label('lcijena','Naziv',['class'=>'control-label col-sm-2']) !!}
+        <div id="dcijena_nabavna" class="form-group has-feedback">
+            {!! Form::label('lcijena_nabavna','Nabavna cijena',['class'=>'control-label col-sm-2']) !!}
             <div class="col-sm-10">
-                {!! Form::text('cijena',$proizvod['cijena'],['placeholder'=>'Cijena','class'=>'form-control','id'=>'cijena']) !!}
-                <span id="scijena" class="glyphicon form-control-feedback"></span>
+                {!! Form::text('cijena_nabavna',$proizvod['cijena_nabavna'],['placeholder'=>'Nabavna cijena','class'=>'form-control','id'=>'cijena_nabavna']) !!}
+                <span id="scijena_nabavna" class="glyphicon form-control-feedback"></span>
+            </div>
+        </div>
+        <div id="dcijena_prodajna" class="form-group has-feedback">
+            {!! Form::label('lcijena_prodajna','Prodajna cijena',['class'=>'control-label col-sm-2']) !!}
+            <div class="col-sm-10">
+                {!! Form::text('cijena_prodajna',$proizvod['cijena_prodajna'],['placeholder'=>'Prodajna cijena','class'=>'form-control','id'=>'cijena_prodajna']) !!}
+                <span id="scijena_prodajna" class="glyphicon form-control-feedback"></span>
             </div>
         </div>
         <div class="form-group">
