@@ -20,6 +20,8 @@
         <!-- stilovi START::-->
         {!! HTML::style('css/templejtBackEnd.css') !!}
         {!! HTML::style('css/bootstrap.min.css') !!}
+         {!! HTML::style('css/app.css') !!}
+        
         <!-- stilovi END::-->
 
         <!-- skripte START::-->
@@ -58,7 +60,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/administracija/proizvod"><span class="glyphicon glyphicon-eye-open"></span> Pregled i ažuriranje</a></li>
                                 <li><a href="/administracija/proizvod/novi"><span class="glyphicon glyphicon-plus"></span> Dodavanje novog</a></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-search"></span> Pretraga</a></li>
+                                <li><a href="#search"><span class="glyphicon glyphicon-search"></span> Pretraga</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -70,6 +72,15 @@
                         </li>
                         <li><a href="/administracija/logout"><span class="glyphicon glyphicon-off"></span> Odjava</a></li>
                     </ul>
+                    <!--begin search-->
+                    <div id="search">
+                        <button type="button" class="close">×</button>
+                            <form action="/administracija/search/" method="post">
+                                <input type="search" name="pretraga" value="" placeholder="unesite termin za pretragu" />
+                                <button type="submit" class="btn btn-primary">Pretraga</button>
+                            </form>
+                    </div>
+                    <!--end search-->
                     @endif
                 </div>
             </div>
