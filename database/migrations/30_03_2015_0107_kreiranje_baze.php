@@ -73,6 +73,7 @@ class KreiranjeBaze extends Migration {
 			$table->integer('kolicina_min');
 			$table->unsignedBigInteger('pozicija_id');
 			$table->foreign('pozicija_id')->references('id')->on('pozicija');
+			$table->tinyInteger('naruceno')->default(0);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 		});

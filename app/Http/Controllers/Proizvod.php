@@ -3,13 +3,14 @@
 use App\Http\Requests;
 use App\MagaciniID;
 use App\Narudzbenice;
+use App\OsnovneMetode;
 use App\Pozicija;
 use App\Security;
 use App\Proizvodi;
 use App\Magacin as Skladiste;
 use App\ZaNarudzbu;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Anouar\Fpdf\Facades\Fpdf;
 
 class Proizvod extends Controller {
 
@@ -75,6 +76,7 @@ class Proizvod extends Controller {
 				->join('magacinid','magacinid.id','=','magacin.magacinid_id')
 				->join('pozicija','pozicija.id','=','magacin.pozicija_id')
 				->whereRaw('kolicina_stanje<kolicina_min')
+				->where('naruceno','=',0)
 				->get(['magacin.id','sifra','proizvod.naziv as naziv_proizvoda',
 					'kolicina_stanje','kolicina_min',
 					'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
@@ -102,6 +104,9 @@ class Proizvod extends Controller {
 	}
 	public function postPrednarudzba(){
 		if(Security::autentifikacijaTest()){
+
+
+
 			$narudzbenica = new Narudzbenice();
 			$narudzbenica->datum_narudzbe = Input::get('datum');
 			$narudzbenica->save();
@@ -120,15 +125,23 @@ class Proizvod extends Controller {
 				$zaNarudzbu->save();
 			}
 			$narudzba = $narudzbenica->id;
+			$header = ['R.br','Sifra','Naziv','Kolicina'];
+			OsnovneMetode::pdfTabela($header,$prednarudzbenica,'narudzba_'.$narudzba);
 			return Security::autentifikacija('stranice.administracija.narudzba',compact('prednarudzbenica','narudzba'));
 		}
 		return Security::rediectToLogin();
 	}
-	public function getNarudzbePotvrdi($id){
+	public function postNarudzbePotvrdi($id){
 		if(Security::autentifikacijaTest()){
 			$narudzbenica = Narudzbenice::where('id','=',$id)->get(['id','potvrda'])->first();
 			$narudzbenica->potvrda = 1;
 			$narudzbenica->save();
+			if(Input::has('naruceno')){
+				Skladiste::whereIn('id', ZaNarudzbu::where('narudzbenice_id','=',$id)->get(['magacin_id'])->toArray())
+				//->join('za_narudzbu','magacin.id','=','za_narudzbu.magacin_id')
+					//->where('narudzbenice_id','=',$id)
+					->update(['naruceno'=>1]);
+			}
 			return redirect('/administracija/proizvod');
 		}
 		return Security::rediectToLogin();
@@ -137,15 +150,18 @@ class Proizvod extends Controller {
 		if(Security::autentifikacijaTest()){
 			ZaNarudzbu::where('narudzbenice_id','=',$id)->delete();
 			Narudzbenice::destroy($id);
+			unlink('pdf/narudzba_'.$id.'.pdf');
 			return redirect('/administracija/proizvod/za-narudzbu');
 		}
 		return Security::rediectToLogin();
 	}
 	public function getNarudzbe(){
 		if(Security::autentifikacijaTest()){
-			$narudzbe = Narudzbenice::orderBy('potvrda','DESC')->get(['datum_narudzbe','datum_isporuke','potvrda'])->toArray();
-			dd($narudzbe);
-			return ;
+			$narudzbeArhiva = Narudzbenice::orderBy('potvrda','DESC')->orderBy('datum_isporuke')->get(['id','datum_narudzbe','datum_isporuke','potvrda'])->toArray();
+			foreach($narudzbeArhiva as $k => $narudzba){
+				$narudzbeArhiva[$k]['pdf'] = 'pdf/narudzba_'.$narudzba['id'].'.pdf';
+			}
+			return view('stranice.administracija.narudzba',compact('narudzbeArhiva'));
 		}
 		return Security::rediectToLogin();
 	}

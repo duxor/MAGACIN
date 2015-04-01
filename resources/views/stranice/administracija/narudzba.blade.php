@@ -118,22 +118,6 @@
                 </tfoot>
             </table>
             {!!Form::close()!!}
-
-            <!--
-            --prikazuje se sifra, naziv, opis
-            -trenutno imam
-            -minimalno moram imati
-            -unosim broj artikala
-            >>klik na naruci
-
-            >prikaz prednarudzbenice > pritisak na potvrdi
-            >>>>
-            >upis u tabelu
-            >izvoz u pdf
-
-            >>u arhivi se prikazuju necekirane narudzbenice
-            >svaka stavka narudzbenice moze da se cekira - nakon cega se cekirani broj dodaje u bazu proizvoda
-            -->
         @else
             <p>Nema proizvoda za narudžbu.</p>
         @endif
@@ -163,13 +147,48 @@
                 <tfoot>
                     <tr>
                         <td>
-                            <a href="/administracija/proizvod/narudzbe-potvrdi/{{$narudzba}}" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-check"></span> Naruči</a>
+                            {!!Form::open(['url'=>'/administracija/proizvod/narudzbe-potvrdi/'.$narudzba])!!}
+                            <div class="form-group">
+                                {!!Form::checkbox('naruceno')!!}
+                                {!!Form::label('lnaruceno','Ne prikazuj u notifikacijama naručene proizvode')!!}
+                            </div>
+                            {!!Form::button('<span class="glyphicon glyphicon-check"></span> Naruči',['class'=>'btn btn-lg btn-primary','type'=>'submit'])!!}
+                            <a href="/pdf/narudzba_{{$narudzba}}.pdf" target="_blank" class="btn btn-lg btn-info"><span class="glyphicon glyphicon-list-alt"></span> PDF</a>
                             <a href="/administracija/proizvod/narudzbe-resetuj/{{$narudzba}}" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-trash"></span> Otkaži</a>
+                            {!!Form::close()!!}
                         </td>
                         <td></td><td></td><td></td>
                     </tr>
                 </tfoot>
             </table>
+        @endif
+    @endif
+
+
+    @if(isset($narudzbeArhiva))
+        @if($narudzbeArhiva)
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Broj narudžbe</th>
+                        <th>Datum narudžbe</th>
+                        <th>Datum isporuke</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($narudzbeArhiva as $narudzba)
+                    <tr>
+                        <td><a href="/{{$narudzba['pdf']}}" target="_blank" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                        <td>{{$narudzba['id']}}</td>
+                        <td>{{$narudzba['datum_narudzbe']}}</td>
+                        <td>{{$narudzba['datum_isporuke']}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @else
+            <p>Ne postoji ni jedna narudžba u evidenciji.</p>
         @endif
     @endif
 @endsection
