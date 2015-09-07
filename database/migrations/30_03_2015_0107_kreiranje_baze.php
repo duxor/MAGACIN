@@ -186,27 +186,21 @@ class KreiranjeBaze extends Migration {
 
 	public function down()
 	{
-		Schema::drop('log');
-		Schema::drop('korisnici');
-		Schema::drop('prava_pristupa');
-		Schema::drop('vrsta_korisnika');
-		
-		Schema::drop('korisnici_aplikacije');
-		Schema::drop('aplikacija');
-		Schema::drop('vrsta_proizvoda');
-
-
-		
 		Schema::drop('proizvod_iz_magacina');
+		Schema::drop('korisnici_aplikacije');
 		Schema::drop('za_narudzbu');
 		Schema::drop('fakture');
 		Schema::drop('vrsta_fakture');
-
-		Schema::drop('magacin');
-		Schema::drop('proizvod');
+		Schema::drop('magacin');	
 		Schema::drop('magacinID');
 		Schema::drop('pozicija');
-
+		Schema::drop('proizvod');
+		Schema::drop('aplikacija');
+		Schema::drop('vrsta_proizvoda');
+		Schema::drop('log');
+		Schema::drop('korisnici');
+		Schema::drop('vrsta_korisnika');	
+		Schema::drop('prava_pristupa');
 	}
 
 }
