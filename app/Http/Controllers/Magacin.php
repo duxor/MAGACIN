@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Security;
 use App\MagaciniID;
 use App\Magacin as Skladiste;
+use App\ZaNarudzbu;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
@@ -11,10 +12,10 @@ class Magacin extends Controller {
 
 	public function getIndex(){
 		$magacini = MagaciniID::get(['id','naziv','opis'])->toArray();
-		return Security::autentifikacija('stranice.administracija.magacini',compact('magacini'));
+		return Security::autentifikacija('administracija.magacini',compact('magacini'));
 	}
 	public function getNovi(){
-		return Security::autentifikacija('stranice.administracija.magacini',['novi'=>true]);
+		return Security::autentifikacija('administracija.magacini',['novi'=>true]);
 	}
 	public function postMagacin(){
 		if(Security::autentifikacijaTest()){
@@ -28,7 +29,7 @@ class Magacin extends Controller {
 	}
 	public function getAzuriraj($id){
 		$magacin = MagaciniID::where('id','=',$id)->get(['id','naziv','opis'])->first()->toArray();
-		return Security::autentifikacija('stranice.administracija.magacini',compact('magacin'));
+		return Security::autentifikacija('administracija.magacini',compact('magacin'));
 	}
 	public function getUkloni($id){
 		if(Security::autentifikacijaTest()){
@@ -40,8 +41,9 @@ class Magacin extends Controller {
 	public function getPregled($id){
 		$magacin = MagaciniID::where('id','=',$id)->get(['id','naziv'])->first()->toArray();
 		$umagacinu = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
-			->where('magacinid_id','=',$id)->get(['magacin.id','magacinid_id','proizvod.sifra','proizvod.naziv','kolicina_stanje','kolicina_min','pozicija_id'])->toArray();
-		return Security::autentifikacija('stranice.administracija.magacin',compact('magacin','umagacinu'));
+			->where('magacinid_id','=',$id)
+			->get(['magacin.id','magacinid_id','proizvod.sifra','proizvod.naziv','kolicina_stanje','kolicina_min','pozicija_id'])->toArray();
+		return Security::autentifikacija('administracija.magacin',compact('magacin','umagacinu'));
 	}
 	public function postProizvod(){
 		if(Security::autentifikacijaTest()){
@@ -54,7 +56,16 @@ class Magacin extends Controller {
 				case 'min': $magacin->kolicina_min = Input::get('kolicina_stanje');
 					break;
 			}
+			$magacin->naruceno = 0;
 			$magacin->save();
+			return Redirect::back();
+		}
+		return Security::rediectToLogin();
+	}
+	public function getProizvodUkloni($id){
+		if(Security::autentifikacijaTest()){
+			ZaNarudzbu::where('magacin_id','=',$id)->delete();
+			Skladiste::destroy($id);
 			return Redirect::back();
 		}
 		return Security::rediectToLogin();

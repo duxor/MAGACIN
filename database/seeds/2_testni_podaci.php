@@ -5,12 +5,13 @@ use App\Proizvodi;
 use App\MagaciniID;
 use App\Pozicija;
 use App\Magacin;
-
+use App\Korisnici;
+use App\Security;
 class TestPodaci extends Seeder{
 
     public function run(){
 
-        $proizvodi = [
+        Proizvodi::insert([
             [//1
                 'sifra'=>'test001',
                 'naziv'=>'Mašina za veš',
@@ -53,26 +54,24 @@ class TestPodaci extends Seeder{
                 'cijena_nabavna'=>'20',
                 'cijena_prodajna'=>'30'
             ],
-        ];
-        Proizvodi::insert($proizvodi);
+        ]);
 
-        $magacini = [
+        MagaciniID::insert([
             [//1
                 'naziv'=>'Magacin 1',
                 'opis'=>'Magacin u ulici Miloša Obilića 69'
             ],
             [//2
                 'naziv'=>'Magacin 2',
-                'opis'=>'Magacin u naselju Ratka Mladića'
+                'opis'=>'Magacin u naselju Vojvode Putnika'
             ],
             [//3
                 'naziv'=>'Magacin 3',
                 'opis'=>'Magacin za municiju :)'
             ],
-        ];
-        MagaciniID::insert($magacini);
+        ]);
 
-        $pozicija = [
+        Pozicija::insert([
             [//1
                 'stolaza'=>'1',
                 'polica'=>'1',
@@ -97,10 +96,9 @@ class TestPodaci extends Seeder{
                 'pozicija'=>'5',
                 'opis'=>'Opis neki 3.....'
             ],
-        ];
-        Pozicija::insert($pozicija);
+        ]);
 
-        $magacin = [
+        Magacin::insert([
             [
                 'magacinid_id'=>1,
                 'proizvod_id'=>1,
@@ -171,8 +169,54 @@ class TestPodaci extends Seeder{
                 'kolicina_min'=>3,
                 'pozicija_id'=>4
             ],
-        ];
-        Magacin::insert($magacin);
+        ]);
+
+        Korisnici::insert([
+            [//dobavljac
+                'prezime' => 'Petrović',
+                'ime' => 'Petar',
+                'email' => 'petrovic.petar@petrovo.com',
+                'username' => 'petar',
+                'password' => Security::generateHashPass('petar'),
+                'prava_pristupa_id' => 3,//dobavljac
+                'vrsta_korisnika_id' => 3,//dobavljac
+                'naziv' => 'Servis Petrovo',
+                'adresa' => 'Ul. Miloša Obilića bb',
+                'grad' => '73300 Foča',
+                'jib' => '2222222',
+                'pib' => '',
+                'pdv' => '22222222222',
+                'ziro_racun_1' => '434535345535',
+                'banka_1' => 'Uni Credit Bank',
+                'ziro_racun_2' => '32432433443232',
+                'banka_2' => 'Razvojna banka Foča',
+                'registracija' => 'Opština Foča',
+                'broj_upisa' => '5443323',
+                'telefon' => '058/211-999'
+            ],
+            [//kupac - fizicko lice
+                'prezime' => 'Marković',
+                'ime' => 'Marko',
+                'email' => 'markovicc@gmail.com',
+                'username' => 'marko',
+                'password' => Security::generateHashPass('marko'),
+                'prava_pristupa_id' => 1,//zabranjen
+                'vrsta_korisnika_id' => 1,//kupac - fizicko lice
+                'naziv' => null,
+                'adresa' => 'Ul. Cara Dusana bb',
+                'grad' => '73300 Foča',
+                'jib' => null,
+                'pib' => null,
+                'pdv' => null,
+                'ziro_racun_1' => null,
+                'banka_1' => null,
+                'ziro_racun_2' => null,
+                'banka_2' => null,
+                'registracija' => null,
+                'broj_upisa' => null,
+                'telefon' => '065/290-331'
+            ]
+        ]);
 
     }
 

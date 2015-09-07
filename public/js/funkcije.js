@@ -29,11 +29,7 @@ $(function () {
             $(this).removeClass('open');
         }
     });
-    
-    
-   
 });
-
 
 // scroll function
 function scrollToID(id, speed){
@@ -51,8 +47,6 @@ if (typeof console === "undefined") {
         log: function() { }
     };
 }
-var SubmitForma = new SubmitForm();
-
 /*#
  ### Autor: Dusan Perisci
  ### Home: dusanperisic.com
@@ -65,11 +59,10 @@ var SubmitForma = new SubmitForm();
  ###			ID_SPAN = sID
  ### ------------------------------------------------------------------
  ### Primjer:
- ### JS: var SubmitForma = new SubmitForm();
  ### HTML:
  ### <form id="forma" class="form-horizontal">
  ### 	<div id="dime" class="form-group has-feedback">
- ###		<label for="ime" class="control-label col-sm-2">Ime</label>	
+ ###		<label for="ime" class="control-label col-sm-2">Ime</label>
  ###		<div class="col-sm-10">
  ###			<input id="ime" name="ime" class="form-control" placeholder="Unesite vaše ime">
  ### 			<span id="sime" class="glyphicon form-control-feedback"></span>
@@ -78,7 +71,7 @@ var SubmitForma = new SubmitForm();
  ###	<div class="form-group">
  ###		<div class="col-sm-2"></div>
  ###		<div class="col-sm-10">
- ###			<button type="button" class="btn btn-lg btn-success" onClick="SubmitForma.submit('forma')">
+ ###			<button type="button" class="btn btn-lg btn-success" onClick="SubmitForm.submit('forma')">
  ###				Submit
  ###			</button>
  ###		</biv>
@@ -86,42 +79,122 @@ var SubmitForma = new SubmitForm();
  ### </form>
  ###
  */
-function SubmitForm(){
-	this.submit = function(formaID){
-		var test = 1;
-		var input = document.forms[formaID].getElementsByTagName('input');
-		var area = document.forms[formaID].getElementsByTagName('textarea');
-		var inputL = input.length,
-			areaL = area.length;
-		for(i=0; i< Math.max(inputL,areaL); i++){
-			if(i < inputL && input[i].getAttribute('id'))
-				test = succErr(input[i].getAttribute('type')=='email'?'email':'input',input[i].getAttribute('id'), test);
-			if(i < areaL && area[i].getAttribute('id')) 
-				test = succErr('area',area[i].getAttribute('id'), test);
-		}
-		if(test) $('#'+formaID).submit();
+var SubmitForm = {
+	submit: function(formaID){
+		if(this.check(formaID)) $('#'+formaID).submit();
 		else alert('Popunite sve podatke.');
-	}
-	var testEmail = function(email){
+	},
+	check:function(formaID){
+		var test=1;
+		var inputi = $('#'+formaID+' :input:visible[id]');
+		for(i=0; i< inputi.length; i++)test = this.succErr(inputi[i], test);
+		return test;
+	},
+	testEmail: function(email){
 		var i1 = email.indexOf('@'),
 			i2 = email.indexOf('.');
 		if((i1 < 1 || i2 < 1) || (i1 > i2)) return false;
 		else return true;
-	}
-	var succErr = function(tip, ime, t){
-		var polje = tip == 'input' || tip == 'email' ? 'input[name="'+ime+'"]' : tip == 'area' ? '#'+ime : null;
-		if($(polje).val().length > 2 && (tip=='email'?testEmail($(polje).val()):true)){
-			$('#d'+ime).removeClass('has-error');
-			$('#d'+ime).addClass('has-success');
-			$('#s'+ime).removeClass('glyphicon-remove');
-			$('#s'+ime).addClass('glyphicon-ok');
+	},
+	succErr: function(input, t){
+		if($(input).val().length > 2 && ($(input).attr('type')=='email'?this.testEmail($(input).val()):true)){
+			$('#d'+input.name).removeClass('has-error');
+			$('#d'+input.name).addClass('has-success');
+			$('#s'+input.name).removeClass('glyphicon-remove');
+			$('#s'+input.name).addClass('glyphicon-ok');
 			return t;
 		}else{
-			$('#d'+ime).removeClass('has-success');
-			$('#d'+ime).addClass('has-error');
-			$('#s'+ime).removeClass('glyphicon-ok');
-			$('#s'+ime).addClass('glyphicon-remove');
+			$('#d'+input.name).removeClass('has-success');
+			$('#d'+input.name).addClass('has-error');
+			$('#s'+input.name).removeClass('glyphicon-ok');
+			$('#s'+input.name).addClass('glyphicon-remove');
 			return 0;
 		}
+	}
+}
+/*#
+ ### Autor: Dusan Perisci
+ ### Home: dusanperisic.com
+ ###
+ ### Napomena: 	Klasa je pisana kao dodatak Laravel framework-a
+ ### ------------------------------------------------------------------
+ ### Primjer:
+ ### HTML:  <div id="poruka" style="display: none"></div>
+ ###        <div id="wait" style="display:none"><center><i class='icon-spin6 animate-spin' style="font-size: 350%"></i></center></div>
+ ###        <div id="hide">
+ ###            {!!Form::hidden('_token',csrf_token())!!}
+ ###            {!!Form::text('prezime',null,['class'=>'form-control'])!!}
+ ###            {!!Form::text('ime',null,['class'=>'form-control'])!!}
+ ###            {!!Form::button('<span class="glyphicon glyphicon-save"></span> Sačuvaj',['class'=>'btn btn-lg btn-primary','onclick'=>'Komunikacija.posalji("/url","podaciID","poruka","wait","hide")'])!!}
+ ###        </div>
+ ###
+ ### LARAVEL metoda:
+ ### 	public function postTest(){
+ ###        $podaci=json_decode(Input::get('podaci'));
+ ###		return json_encode(['msg'=>'prezime='.$podci->prezime.' ime='.$podaci->ime,'check'=>1]);
+ ###	}
+ ### VARIJABLE:
+ ### url = adresa kojoj se prosledjuju podaci
+ ### podaciID = promjenjiva koja sadrzi ID elementa koji obuhvata sve input elemente za prenos podataka, ukljucujuci i _token=csrf_token()
+ ### poruka = ID elementa u kome ce da se ispisuje poruka
+ ### wait = ID elementa koji sadrzi wait animaciju
+ ### hide = ID elementa ciji sadrzaj treba da se sakrije dok je wait aktivan
+ ###
+ */
+var Komunikacija = {
+	posalji: function(url,podaciID,poruka,wait,hide){
+		var podaci=this.podaci('',null,podaciID,{});
+		$('#'+hide).css('display','none');
+		$('#'+wait).fadeToggle();
+		$.post(url,
+			{
+				_token:podaci['_token'],
+				podaci:JSON.stringify(podaci)
+			},
+			function(data){
+				data=JSON.parse(data);
+				$('#'+poruka).html('<div class="alert alert-'+ (data['check']?'success':'danger') +'" role="alert">'+data['msg']+'</div>');
+				$('#'+wait).fadeToggle();
+				$('#'+poruka).fadeToggle('slow');
+				window.setTimeout(function(){
+					$('#'+poruka).fadeToggle('slow');
+					$('#'+hide).fadeToggle('slow')
+				},5000);
+			}
+		);
+	},
+	podaci:function(i,inputi,podaciID,podaci){
+		if(inputi==null) {
+			var inputi = $('#' + podaciID + ' :input');
+			i = inputi.length - 1;
+		}
+		podaci[inputi[i].name]=inputi[i].value;
+		if(i==0) return podaci;
+		return this.podaci(i-1,inputi,null,podaci);
+	},
+	proslijedi:function(url,token,podaci){
+		$.post(url,{
+			_token:token,
+			podaci:JSON.stringify(podaci)
+		},function(data){
+			return true;
+		});
+	},
+	proslijediSaPrikzom:function(url,token,podaci,poruka,wait,hide){
+		$('#'+hide).css('display','none');
+		$('#'+wait).fadeToggle();
+		$.post(url,{
+			_token:token,
+			podaci:JSON.stringify(podaci)
+		},function(data){
+			data=JSON.parse(data);
+			$('#'+poruka).html('<div class="alert alert-'+ (data['check']?'success':'danger') +'" role="alert">'+data['msg']+'</div>');
+			$('#'+wait).fadeToggle();
+			$('#'+poruka).fadeToggle('slow');
+			window.setTimeout(function(){
+				$('#'+poruka).fadeToggle('slow');
+				$('#'+hide).fadeToggle('slow')
+			},5000);
+		});
 	}
 }

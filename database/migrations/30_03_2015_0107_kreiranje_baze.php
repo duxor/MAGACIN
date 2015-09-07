@@ -14,6 +14,13 @@ class KreiranjeBaze extends Migration {
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 		});
+		Schema::create('vrsta_korisnika', function(Blueprint $table)
+		{
+			$table->bigIncrements('id');
+			$table->string('naziv', 45)->unique();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->nullable();
+		});
 		Schema::create('korisnici', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
@@ -25,17 +32,31 @@ class KreiranjeBaze extends Migration {
 			$table->string('token', 250)->nullable();
 			$table->unsignedBigInteger('prava_pristupa_id');
 			$table->foreign('prava_pristupa_id')->references('id')->on('prava_pristupa');
+			$table->unsignedBigInteger('vrsta_korisnika_id');
+			$table->foreign('vrsta_korisnika_id')->references('id')->on('vrsta_korisnika');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
+			$table->string('naziv',250)->nullable();
+			$table->string('adresa',250)->nullable();
+			$table->string('grad',250)->nullable();
+			$table->string('jib',250)->nullable();
+			$table->string('pib',250)->nullable();
+			$table->string('pdv',250)->nullable();
+			$table->string('ziro_racun_1',250)->nullable();
+			$table->string('banka_1',250)->nullable();
+			$table->string('ziro_racun_2',250)->nullable();
+			$table->string('banka_2',250)->nullable();
+			$table->string('registracija',250)->nullable();
+			$table->string('broj_upisa',250)->nullable();
+			$table->string('telefon',45)->nullable();
+			$table->text('opis');
 		});
 		Schema::create('log', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
-			$table->timestamp('date')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->unsignedBigInteger('korisnici_id');
 			$table->foreign('korisnici_id')->references('id')->on('korisnici');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->timestamp('updated_at')->nullable();
 		});
 		Schema::create('proizvod',function(Blueprint $table){
 			$table->bigIncrements('id');
@@ -79,8 +100,8 @@ class KreiranjeBaze extends Migration {
 		});
 		Schema::create('narudzbenice',function(Blueprint $table){
 			$table->bigIncrements('id');
-			$table->dateTime('datum_narudzbe');
-			$table->dateTime('datum_isporuke')->nullable();
+			$table->date('datum_narudzbe');
+			$table->date('datum_isporuke')->nullable();
 			$table->tinyInteger('potvrda')->default(0);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
@@ -107,6 +128,7 @@ class KreiranjeBaze extends Migration {
 		Schema::drop('log');
 		Schema::drop('korisnici');
 		Schema::drop('prava_pristupa');
+		Schema::drop('vrsta_korisnika');
 
 		Schema::drop('za_narudzbu');
 		Schema::drop('narudzbenice');

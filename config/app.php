@@ -146,6 +146,7 @@ return [
 		'App\Providers\RouteServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
 		'Anouar\Fpdf\FpdfServiceProvider',
+		'Elibyy\TCPDF\ServiceProvider',
 
 	],
 

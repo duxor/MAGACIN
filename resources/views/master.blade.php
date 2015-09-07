@@ -53,8 +53,7 @@
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-
-
+                    <li><a class="navbar-btn" href="/administracija"><i class="glyphicon glyphicon-cog"></i> Administracija</a></li>
                 </ul>
             </div>
         </div>

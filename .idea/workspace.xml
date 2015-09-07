@@ -1,7 +1,184 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d44f3585-50b9-42ab-8d66-8c024de21595" name="Default" comment="" />
+    <list default="true" id="d44f3585-50b9-42ab-8d66-8c024de21595" name="Default" comment="Relokacija 1.0">
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\app\Http\Controllers\Auth\AuthController.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\app\Http\Controllers\Auth\PasswordController.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\app\Http\Controllers\Search.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\public\css\app.css" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\auth\login.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\auth\password.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\auth\register.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\auth\reset.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\emails\password.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\masterBackEnd.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\stranice\administracija\index.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\stranice\administracija\login.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\stranice\administracija\magacin.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\stranice\administracija\magacini.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\stranice\administracija\narudzba.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\stranice\administracija\proizvodi.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\stranice\index.blade.php" afterPath="" />
+      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\vendor\.gitkeep" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.env.example" afterPath="$PROJECT_DIR$/.env.example" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitattributes" afterPath="$PROJECT_DIR$/.gitattributes" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/.gitignore" afterPath="$PROJECT_DIR$/database/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/storage/app/.gitignore" afterPath="$PROJECT_DIR$/storage/app/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/storage/framework/.gitignore" afterPath="$PROJECT_DIR$/storage/framework/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/storage/framework/cache/.gitignore" afterPath="$PROJECT_DIR$/storage/framework/cache/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/storage/framework/sessions/.gitignore" afterPath="$PROJECT_DIR$/storage/framework/sessions/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/storage/framework/views/.gitignore" afterPath="$PROJECT_DIR$/storage/framework/views/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/storage/logs/.gitignore" afterPath="$PROJECT_DIR$/storage/logs/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/.htaccess" afterPath="$PROJECT_DIR$/public/.htaccess" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" afterPath="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/2_testni_podaci.php" afterPath="$PROJECT_DIR$/database/seeds/2_testni_podaci.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" afterPath="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/errors/503.blade.php" afterPath="$PROJECT_DIR$/resources/views/errors/503.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/APLIKACIJA.iml" afterPath="$PROJECT_DIR$/.idea/APLIKACIJA.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/BusServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/BusServiceProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Commands/Command.php" afterPath="$PROJECT_DIR$/app/Commands/Command.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/ConfigServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/ConfigServiceProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Events/Event.php" afterPath="$PROJECT_DIR$/app/Events/Event.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/ExampleTest.php" afterPath="$PROJECT_DIR$/tests/ExampleTest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Glavni.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Glavni.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Commands/Inspire.php" afterPath="$PROJECT_DIR$/app/Console/Commands/Inspire.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Console/Kernel.php" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Kernel.php" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Korisnici.php" afterPath="$PROJECT_DIR$/app/Korisnici.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Magacin.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Magacin.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/OsnovneMetode.php" afterPath="$PROJECT_DIR$/app/OsnovneMetode.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Proizvod.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Proizvod.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Services/Registrar.php" afterPath="$PROJECT_DIR$/app/Services/Registrar.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/Request.php" afterPath="$PROJECT_DIR$/app/Http/Requests/Request.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/TestCase.php" afterPath="$PROJECT_DIR$/tests/TestCase.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/alerts.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/alerts.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/alerts.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/alerts.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/app.less" afterPath="$PROJECT_DIR$/resources/assets/less/app.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bootstrap/app.php" afterPath="$PROJECT_DIR$/bootstrap/app.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/app.php" afterPath="$PROJECT_DIR$/config/app.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/artisan" afterPath="$PROJECT_DIR$/artisan" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/auth.php" afterPath="$PROJECT_DIR$/config/auth.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bootstrap/autoload.php" afterPath="$PROJECT_DIR$/bootstrap/autoload.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/background-variant.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/background-variant.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/badges.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/badges.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/bootstrap.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/bootstrap.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/public/css/bootstrap.min.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/bootstrap.min.js" afterPath="$PROJECT_DIR$/public/js/bootstrap.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/border-radius.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/border-radius.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/breadcrumbs.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/breadcrumbs.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/button-groups.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/button-groups.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/buttons.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/buttons.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/buttons.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/buttons.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/cache.php" afterPath="$PROJECT_DIR$/config/cache.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/carousel.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/carousel.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/center-block.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/center-block.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/clearfix.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/clearfix.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/close.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/close.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/code.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/code.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/compile.php" afterPath="$PROJECT_DIR$/config/compile.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/component-animations.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/component-animations.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/database.php" afterPath="$PROJECT_DIR$/config/database.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/datepicker.css" afterPath="$PROJECT_DIR$/public/css/datepicker.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/datepicker.js" afterPath="$PROJECT_DIR$/public/js/datepicker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/dropdowns.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/dropdowns.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/filesystems.php" afterPath="$PROJECT_DIR$/config/filesystems.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/forms.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/forms.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/forms.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/forms.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/funkcije.js" afterPath="$PROJECT_DIR$/public/js/funkcije.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/fonts/glyphicons-halflings-regular.svg" afterPath="$PROJECT_DIR$/public/fonts/glyphicons-halflings-regular.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/glyphicons.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/glyphicons.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/gradients.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/gradients.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/grid-framework.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/grid-framework.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/grid.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/grid.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/grid.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/grid.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/hide-text.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/hide-text.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/image.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/image.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/index.php" afterPath="$PROJECT_DIR$/public/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/input-groups.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/input-groups.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/jumbotron.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/jumbotron.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/labels.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/labels.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/labels.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/labels.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/list-group.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/list-group.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/list-group.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/list-group.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/mail.php" afterPath="$PROJECT_DIR$/config/mail.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master.blade.php" afterPath="$PROJECT_DIR$/resources/views/master.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/media.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/media.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/modals.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/modals.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/nav-divider.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/nav-divider.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/nav-vertical-align.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/nav-vertical-align.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/navbar.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/navbar.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/navs.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/navs.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/normalize.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/normalize.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/opacity.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/opacity.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/pager.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/pager.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/pagination.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/pagination.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/pagination.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/pagination.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/pagination.php" afterPath="$PROJECT_DIR$/resources/lang/en/pagination.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/panels.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/panels.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/panels.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/panels.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/passwords.php" afterPath="$PROJECT_DIR$/resources/lang/en/passwords.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phpspec.yml" afterPath="$PROJECT_DIR$/phpspec.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phpunit.xml" afterPath="$PROJECT_DIR$/phpunit.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/popovers.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/popovers.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/print.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/print.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/progress-bar.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/progress-bar.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/progress-bars.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/progress-bars.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/queue.php" afterPath="$PROJECT_DIR$/config/queue.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readme.md" afterPath="$PROJECT_DIR$/readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/reset-filter.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/reset-filter.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/resize.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/resize.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/responsive-embed.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/responsive-embed.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/responsive-utilities.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/responsive-utilities.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/responsive-visibility.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/responsive-visibility.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/robots.txt" afterPath="$PROJECT_DIR$/public/robots.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/scaffolding.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/scaffolding.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.php" afterPath="$PROJECT_DIR$/server.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/services.php" afterPath="$PROJECT_DIR$/config/services.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/session.php" afterPath="$PROJECT_DIR$/config/session.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/size.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/size.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/skrollr.min.js" afterPath="$PROJECT_DIR$/public/js/skrollr.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/stylinggt.js" afterPath="$PROJECT_DIR$/public/js/stylinggt.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/tab-focus.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/tab-focus.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/table-row.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/table-row.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/tables.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/tables.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/templejt.css" afterPath="$PROJECT_DIR$/public/css/templejt.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/templejtBackEnd.css" afterPath="$PROJECT_DIR$/public/css/templejtBackEnd.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/text-emphasis.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/text-emphasis.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/text-overflow.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/text-overflow.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/theme.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/theme.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/thumbnails.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/thumbnails.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/tooltip.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/tooltip.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/type.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/type.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/utilities.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/utilities.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/validation.php" afterPath="$PROJECT_DIR$/resources/lang/en/validation.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/variables.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/variables.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/vendor-prefixes.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/vendor-prefixes.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/view.php" afterPath="$PROJECT_DIR$/config/view.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/less/bootstrap/wells.less" afterPath="$PROJECT_DIR$/resources/assets/less/bootstrap/wells.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="APLIKACIJA.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -25,120 +202,90 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Administracija.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Administracija.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.038462" vertical-offset="0" max-vertical-offset="527">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-              <folding>
-                <element signature="e#39#58#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="187">
-              <caret line="3" column="54" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
+            <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="221">
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Proizvod.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Proizvod.php">
+      <file leaf-file-name="hide-text.less" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/hide-text.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.153846" vertical-offset="677" max-vertical-offset="1275">
-              <caret line="63" column="89" selection-start-line="63" selection-start-column="89" selection-end-line="63" selection-end-column="89" />
-              <folding>
-                <element signature="e#39#61#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="masterBackEnd.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/masterBackEnd.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.423077" vertical-offset="663" max-vertical-offset="1547">
-              <caret line="58" column="76" selection-start-line="58" selection-start-column="76" selection-end-line="58" selection-end-column="123" />
+            <state vertical-scroll-proportion="0.3313253" vertical-offset="60" max-vertical-offset="459">
+              <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Magacin.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Magacin.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.307693" vertical-offset="316" max-vertical-offset="884">
-              <caret line="42" column="91" selection-start-line="42" selection-start-column="91" selection-end-line="42" selection-end-column="91" />
-              <folding>
-                <element signature="e#39#61#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="magacin.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/stranice/administracija/magacin.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.31161973" vertical-offset="163" max-vertical-offset="816">
-              <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-              <folding>
-                <element signature="e#55#79#0#HTML" expanded="true" />
-                <element signature="e#528#552#0#HTML" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/1_Kreiranje_Baze.php" />
-        <option value="$PROJECT_DIR$/app/PravaPristupa.php" />
-        <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
-        <option value="$PROJECT_DIR$/resources/stranice/administracija/login.blade.php" />
-        <option value="$PROJECT_DIR$/resources/masterBackEnd.blade.php" />
-        <option value="$PROJECT_DIR$/config/app.php" />
-        <option value="$PROJECT_DIR$/database/migrations/1____kreiranje_baze.php" />
-        <option value="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" />
-        <option value="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" />
         <option value="$PROJECT_DIR$/resources/master.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Glavni.php" />
         <option value="$PROJECT_DIR$/resources/stranice/index.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/master.blade.php" />
-        <option value="$PROJECT_DIR$/public/css/templejt.css" />
-        <option value="$PROJECT_DIR$/public/css/templejtBackEnd.css" />
         <option value="$PROJECT_DIR$/config/database.php" />
         <option value="$PROJECT_DIR$/resources/views/stranice/administracija/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/stranice/administracija/login.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" />
         <option value="$PROJECT_DIR$/app/Proizvodi.php" />
-        <option value="$PROJECT_DIR$/app/MagaciniID.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Magacin.php" />
-        <option value="$PROJECT_DIR$/resources/views/stranice/administracija/magacini.blade.php" />
         <option value="$PROJECT_DIR$/app/Pozicija.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Proizvod.php" />
-        <option value="$PROJECT_DIR$/resources/views/masterBackEnd.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Magacin.php" />
+        <option value="$PROJECT_DIR$/app/MagaciniID.php" />
+        <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
+        <option value="$PROJECT_DIR$/resources/views/stranice/administracija/magacini.blade.php" />
+        <option value="$PROJECT_DIR$/app/Narudzbenice.php" />
+        <option value="$PROJECT_DIR$/app/ZaNarudzbu.php" />
+        <option value="$PROJECT_DIR$/public/css/templejt.css" />
+        <option value="$PROJECT_DIR$/public/css/templejtBackEnd.css" />
+        <option value="$PROJECT_DIR$/public/css/app.css" />
+        <option value="$PROJECT_DIR$/resources/views/stranice/administracija/rezultat.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/stranice/administracija/narudzba.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/stranice/administracija/proizvodi.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/stranice/administracija/magacin.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/stranice/administracija/pretraga.blade.php" />
+        <option value="$PROJECT_DIR$/app/VrstaKorisnika.php" />
+        <option value="$PROJECT_DIR$/composer.json" />
+        <option value="$PROJECT_DIR$/config/app.php" />
+        <option value="$PROJECT_DIR$/vendor/tecnick.com/tcpdf/examples/config/tcpdf_config_alt.php" />
+        <option value="$PROJECT_DIR$/vendor/tecnick.com/tcpdf/config/tcpdf_config.php" />
+        <option value="$PROJECT_DIR$/vendor/tecnick.com/tcpdf/tcpdf_autoconfig.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/resources/views/stranice/administracija/korisnici.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/masterBackEnd.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Glavni.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Magacin.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Proizvod.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/index.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/login.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/magacin.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/narudzba.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/pretraga.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/proizvodi.blade.php" />
+        <option value="$PROJECT_DIR$/app/OsnovneMetode.php" />
+        <option value="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/magacini.blade.php" />
+        <option value="$PROJECT_DIR$/database/seeds/2_testni_podaci.php" />
+        <option value="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" />
+        <option value="$PROJECT_DIR$/resources/views/master.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/master.blade.php" />
+        <option value="$PROJECT_DIR$/public/js/funkcije.js" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/korisnici.blade.php" />
+        <option value="$PROJECT_DIR$/app/Korisnici.php" />
       </list>
     </option>
   </component>
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
-    <gulpfiles>
-      <GulpfileState>
-        <gulpfile-path>$PROJECT_DIR$/gulpfile.js</gulpfile-path>
-      </GulpfileState>
-    </gulpfiles>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
@@ -147,7 +294,7 @@
     <option name="width" value="1382" />
     <option name="height" value="744" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -175,153 +322,23 @@
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
+              <option name="myItemId" value="MAGACIN" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
+              <option name="myItemId" value="MAGACIN" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="APLIKACIJA" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stranice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stranice" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="administracija" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="seeds" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migrations" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
+              <option name="myItemId" value="MAGACIN" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -335,7 +352,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
+              <option name="myItemId" value="MAGACIN" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -353,7 +370,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="APLIKACIJA" />
+              <option name="myItemId" value="MAGACIN" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -381,14 +398,16 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="false" />
+    <property name="SearchEverywhereHistoryKey" value="form&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/illuminate/html/FormBuilder.php&#10;formb&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/illuminate/html/FormBuilder.php&#10;formbu&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/illuminate/html/FormBuilder.php&#10;tcpdf&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/tecnick.com/tcpdf/examples/config/tcpdf_config_alt.php&#10;tcpdf_include.php&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/tecnick.com/tcpdf/examples/tcpdf_include.php&#10;tcpdf_autoconfig&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/tecnick.com/tcpdf/tcpdf_autoconfig.php&#10;tcpdf_config_alt&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/tecnick.com/tcpdf/examples/config/tcpdf_config_alt.php&#10;tcpdf_include&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/tecnick.com/tcpdf/examples/tcpdf_include.php&#10;tcpdf_config&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/tecnick.com/tcpdf/examples/config/tcpdf_config_alt.php&#10;f&#9;FILE&#9;file://E:/PROJEKTI/MAGACIN/APLIKACIJA/MAGACIN/vendor/illuminate/html/FormBuilder.php&#10;FormB&#9;null&#9;null" />
+    <property name="recentsLimit" value="5" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\MAGACIN\public\js" />
+      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\MAGACIN\public\css" />
       <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\stranice\administracija" />
       <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\stranice\administracija" />
       <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources" />
-      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\public" />
-      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\app" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views" />
@@ -410,15 +429,15 @@
       <BehatRunner />
       <method />
     </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
       <tasks />
       <pass-parent-envs>true</pass-parent-envs>
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <list size="0" />
@@ -436,31 +455,74 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32843137" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24673203" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26207906" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1913767" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32843137" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49183005" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29198185" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -477,66 +539,16 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="Relokacija 1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Relokacija 1.0" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1224" max-vertical-offset="1836">
-          <caret line="98" column="33" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
-          <folding>
-            <element signature="e#7#48#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Administracija.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="272">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-          <folding>
-            <element signature="e#39#58#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/stranice/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="204">
-          <caret line="6" column="11" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Glavni.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="272">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/masterBackEnd.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="486" max-vertical-offset="1326">
-          <caret line="44" column="20" selection-start-line="44" selection-start-column="20" selection-end-line="44" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/templejtBackEnd.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/tinymce/langs/readme.md">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="607">
@@ -544,121 +556,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/DatabaseSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43889844" vertical-offset="0" max-vertical-offset="581">
-          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43889844" vertical-offset="0" max-vertical-offset="3519">
-          <caret line="15" column="15" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6781411" vertical-offset="218" max-vertical-offset="799">
-          <caret line="39" column="34" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.10739437" vertical-offset="860" max-vertical-offset="1428">
-          <caret line="47" column="74" selection-start-line="47" selection-start-column="74" selection-end-line="47" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Glavni.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="272">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/templejt.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.83196044" vertical-offset="107" max-vertical-offset="714">
-          <caret line="36" column="1" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/database.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7607573" vertical-offset="612" max-vertical-offset="2227">
           <caret line="62" column="36" selection-start-line="62" selection-start-column="36" selection-end-line="62" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/templejtBackEnd.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14003295" vertical-offset="0" max-vertical-offset="607">
-          <caret line="5" column="70" selection-start-line="5" selection-start-column="70" selection-end-line="5" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/stranice/administracija/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.08777969" vertical-offset="0" max-vertical-offset="581">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/funkcije.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13179572" vertical-offset="498" max-vertical-offset="1921">
-          <caret line="34" column="15" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/stranice/administracija/login.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94014084" vertical-offset="44" max-vertical-offset="680">
-          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Security.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32922536" vertical-offset="1122" max-vertical-offset="1768">
-          <caret line="90" column="16" selection-start-line="90" selection-start-column="16" selection-end-line="90" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/stranice/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17555939" vertical-offset="0" max-vertical-offset="581">
-          <caret line="6" column="11" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.0" vertical-offset="1224" max-vertical-offset="1836">
-          <caret line="98" column="33" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
-          <folding>
-            <element signature="e#7#48#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/MagaciniID.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23407917" vertical-offset="0" max-vertical-offset="581">
-          <caret line="13" column="75" selection-start-line="13" selection-start-column="75" selection-end-line="13" selection-end-column="75" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -666,23 +567,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23407917" vertical-offset="0" max-vertical-offset="581">
           <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Korisnici.php">
+    <entry file="file://$PROJECT_DIR$/app/Security.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="-4.576923" vertical-offset="714" max-vertical-offset="1768">
+          <caret line="62" column="46" selection-start-line="62" selection-start-column="27" selection-end-line="62" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Proizvodi.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20481928" vertical-offset="0" max-vertical-offset="581">
+        <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="238">
           <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="58" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/MagaciniID.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="255">
+          <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -690,88 +595,264 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20481928" vertical-offset="0" max-vertical-offset="581">
           <caret line="7" column="102" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="102" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/stranice/administracija/magacini.blade.php">
+    <entry file="file://$PROJECT_DIR$/database/seeds/DatabaseSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43889844" vertical-offset="0" max-vertical-offset="1105">
-          <caret line="15" column="173" selection-start-line="15" selection-start-column="173" selection-end-line="15" selection-end-column="173" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="187">
-          <caret line="3" column="54" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
-          <folding />
+        <state vertical-scroll-proportion="0.35111877" vertical-offset="0" max-vertical-offset="581">
+          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Pozicija.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23407917" vertical-offset="0" max-vertical-offset="581">
-          <caret line="13" column="91" selection-start-line="13" selection-start-column="91" selection-end-line="13" selection-end-column="91" />
-          <folding />
+          <caret line="13" column="63" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Narudzbenice.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2605364" vertical-offset="0" max-vertical-offset="522">
+          <caret line="13" column="60" selection-start-line="13" selection-start-column="60" selection-end-line="13" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/ZaNarudzbu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2605364" vertical-offset="0" max-vertical-offset="522">
+          <caret line="13" column="148" selection-start-line="13" selection-start-column="148" selection-end-line="13" selection-end-column="148" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/datepicker.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="535">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.2323233" vertical-offset="732" max-vertical-offset="1326">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/templejt.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0362438" vertical-offset="0" max-vertical-offset="731">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/templejtBackEnd.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="481" max-vertical-offset="1343">
+          <caret line="73" column="1" selection-start-line="73" selection-start-column="1" selection-end-line="73" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/datepicker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5862069" vertical-offset="0" max-vertical-offset="119">
+          <caret line="1" column="4071" selection-start-line="1" selection-start-column="4060" selection-end-line="1" selection-end-column="4071" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/VrstaKorisnika.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15632184" vertical-offset="0" max-vertical-offset="870">
+          <caret line="13" column="62" selection-start-line="13" selection-start-column="62" selection-end-line="13" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5891156" vertical-offset="2083" max-vertical-offset="3570">
+          <caret line="148" column="39" selection-start-line="148" selection-start-column="39" selection-end-line="148" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="537">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="511">
+          <caret line="0" column="31" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/login.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="884">
+          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/magacin.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1445">
+          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/narudzba.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4624">
+          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/pretraga.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/proizvodi.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2771">
+          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Administracija.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.038462" vertical-offset="0" max-vertical-offset="527">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding>
-            <element signature="e#39#58#0#PHP" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.5483871" vertical-offset="0" max-vertical-offset="558">
+          <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Magacin.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.307693" vertical-offset="316" max-vertical-offset="884">
-          <caret line="42" column="91" selection-start-line="42" selection-start-column="91" selection-end-line="42" selection-end-column="91" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/stranice/administracija/proizvodi.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.568662" vertical-offset="1241" max-vertical-offset="2652">
-          <caret line="92" column="56" selection-start-line="92" selection-start-column="56" selection-end-line="92" selection-end-column="56" />
-          <folding />
+        <state vertical-scroll-proportion="0.24954128" vertical-offset="0" max-vertical-offset="1258">
+          <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Proizvod.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.153846" vertical-offset="677" max-vertical-offset="1275">
-          <caret line="63" column="89" selection-start-line="63" selection-start-column="89" selection-end-line="63" selection-end-column="89" />
+        <state vertical-scroll-proportion="5.2715597" vertical-offset="0" max-vertical-offset="3434">
+          <caret line="180" column="42" selection-start-line="180" selection-start-column="42" selection-end-line="180" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Glavni.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2437276" vertical-offset="0" max-vertical-offset="558">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/master.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37384897" vertical-offset="188" max-vertical-offset="1411">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/illuminate/html/FormBuilder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33268481" vertical-offset="4368" max-vertical-offset="16626">
+          <caret line="269" column="29" selection-start-line="269" selection-start-column="20" selection-end-line="269" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/korisnici.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.71132076" vertical-offset="1187" max-vertical-offset="3111">
+          <caret line="92" column="64" selection-start-line="92" selection-start-column="64" selection-end-line="92" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/2_testni_podaci.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4364641" vertical-offset="885" max-vertical-offset="3774">
+          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.907919" vertical-offset="357" max-vertical-offset="2516">
+          <caret line="51" column="30" selection-start-line="51" selection-start-column="26" selection-end-line="51" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27992633" vertical-offset="545" max-vertical-offset="1190">
+          <caret line="45" column="24" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/master.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.2188679" vertical-offset="1003" max-vertical-offset="1785">
+          <caret line="21" column="52" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/funkcije.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35791367" vertical-offset="940" max-vertical-offset="3485">
+          <caret line="67" column="79" selection-start-line="67" selection-start-column="16" selection-end-line="67" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65745854" vertical-offset="0" max-vertical-offset="543">
+          <caret line="28" column="50" selection-start-line="28" selection-start-column="50" selection-end-line="28" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/administracija/magacini.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="527" max-vertical-offset="1139">
+          <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/OsnovneMetode.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68679243" vertical-offset="1268" max-vertical-offset="1836">
+          <caret line="174" column="20" selection-start-line="174" selection-start-column="20" selection-end-line="174" selection-end-column="20" />
           <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
+            <element signature="e#106#135#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/masterBackEnd.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Korisnici.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.423077" vertical-offset="663" max-vertical-offset="1547">
-          <caret line="58" column="76" selection-start-line="58" selection-start-column="76" selection-end-line="58" selection-end-column="123" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="394">
+          <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/stranice/administracija/magacin.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31161973" vertical-offset="163" max-vertical-offset="816">
-          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-          <folding>
-            <element signature="e#55#79#0#HTML" expanded="true" />
-            <element signature="e#528#552#0#HTML" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="221">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/less/bootstrap/mixins/hide-text.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3313253" vertical-offset="60" max-vertical-offset="459">
+          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
