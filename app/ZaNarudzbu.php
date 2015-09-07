@@ -11,5 +11,5 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 class ZaNarudzbu extends Model{
     protected $table = 'za_narudzbu';
-    protected $fillable = ['magacin_id','aktivan','kolicina_porucena','kolicina_pristigla','narudzbenice_id','proizvod_id','created_at','updated_at'];
+    protected $fillable = ['aktivan','kolicina_porucena','kolicina_pristigla','created_at','updated_at','narudzbenice_id','proizvod_id',];
 }
