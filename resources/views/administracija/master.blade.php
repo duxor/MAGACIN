@@ -30,6 +30,45 @@
         {!! HTML::script('tinymce/tinymce.min.js') !!}
         <style>h1,h2,p{text-align: center}</style>
         <!-- stilovi END::-->
+        <style>
+#dashboard {
+    width: 70px;
+    background-color: rgb(110,138,195);
+    padding: 20px 20px 0 20px;
+    position: absolute;
+    left: -92px;
+    z-index: 100;
+}
+#dashboard img {
+    margin-bottom: 20px;
+    border: 1px solid rgb(0,0,0);
+}
+</style> <script>
+        $(document).ready(function() {
+            $('#dashboard').hover(
+            function() {
+            $(this).stop().animate(
+            {
+            left: '0',
+            backgroundColor: 'rgb(27,45,94)'
+            },
+            500,
+            'easeInSine'
+            ); // end animate
+            },
+            function() {
+            $(this).stop().animate(
+            {
+            left: '-92px',
+            backgroundColor: 'rgb(255,211,224)'
+            },
+            1500,
+            'easeOutBounce'
+            ); // end animate
+            }
+            ); // end hover
+        }); // end ready
+    </script>
 
     </head>
     <body>
