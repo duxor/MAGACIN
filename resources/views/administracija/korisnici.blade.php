@@ -108,7 +108,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4">Naziv</label>
-                                <div class="col-sm-8">{!!Form::text('nziv',null,['class'=>'form-control'])!!}</div>
+                                <div class="col-sm-8">{!!Form::text('naziv',null,['class'=>'form-control'])!!}</div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4">Adresa</label>
