@@ -34,9 +34,9 @@ class KorisniciKontroler extends Controller {
             'email'=>$podaci->email,
             'password'=>$podaci->password,
         ],[
-            'username'=>'required|min:5|unique:korisnici,username',
+            'username'=>'required|min:4|unique:korisnici,username',
             'email'=>'required|email|unique:korisnici,email',
-            'password'=>'required|min:5',
+            'password'=>'required|min:4',
 
         ],[
             //username
@@ -84,7 +84,7 @@ class KorisniciKontroler extends Controller {
 		$novi->opis=$podaci->opis;
 		$novi->save();
 		return json_encode(['msg'=>'Uspješno ste dodali novog korisnika.','check'=>1]);
-		
-		
+
+
 	}
 }
