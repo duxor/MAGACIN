@@ -20,18 +20,8 @@ class KonfiguracioniPodaci extends Seeder{
             ['naziv' => 'Vlasnik'],//4
             ['naziv' => 'Administrator']//5
         ]);
-
         Korisnici::insert([
-            /*[//1
-                'prezime' => 'Zabranjen',
-                'ime' => 'Zabranjen',
-                'email' => 'zabrana@zabrana.com',
-                'username' => 'zabrana',
-                'password' => Security::generateHashPass('zabrana'),
-                'prava_pristupa_id' => 1,
-                'vrsta_korisnika_id' => 1
-            ],*/
-            [//2
+            [//1
                 'prezime' => 'Administrator',
                 'ime' => 'Administrator',
                 'email' => 'admin@admin.com',
@@ -42,7 +32,7 @@ class KonfiguracioniPodaci extends Seeder{
             ]
         ]);
         Korisnici::insert([
-            [//3
+            [//2
                 'prezime' => 'Kulić',
                 'ime' => 'Radivoje',
                 'email' => 'kula63@teol.net',

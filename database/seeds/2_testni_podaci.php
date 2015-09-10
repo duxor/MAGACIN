@@ -7,170 +7,242 @@ use App\Pozicija;
 use App\Magacin;
 use App\Korisnici;
 use App\Security;
+use App\Aplikacija;
+use App\VrstaProizvoda;
 class TestPodaci extends Seeder{
 
     public function run(){
-
+        Aplikacija::insert([
+            [//1
+                'naziv'=>'Elektroservis Kula Foča',
+                'slug'=>'eskulaf',
+                'korisnici_id'=>2,
+                'opis'=>'',
+                'napomena'=>'',
+                'logo'=>''
+            ]
+        ]);
+        VrstaProizvoda::insert([
+            [
+                'naziv'=>'Veliki kućanski aparati',
+                'napomena'=>'',
+                'aplikacija_id'=>1
+            ],
+            [
+                'naziv'=>'Mali kućanski aparati',
+                'napomena'=>'',
+                'aplikacija_id'=>1
+            ]
+        ]);
         Proizvodi::insert([
             [//1
                 'sifra'=>'test001',
                 'naziv'=>'Mašina za veš',
                 'opis'=>'Velika, sa dimenzijama LxMxD',
-                'cijena_nabavna'=>'400',
-                'cijena_prodajna'=>'450'
+                'bar_kod'=>'',
+                'proizvodjac'=>'Gorenje',
+                'jedinica_mjere'=>'Kom',
+                'pakovanje_kolicina'=>1,
+                'pakovanje_jedinica_mjere'=>'Paket',
+                'vrsta_proizvoda_id'=>1,
+                'aplikacija_id'=>1,
+                'foto'=>''
             ],
             [//2
                 'sifra'=>'test002',
                 'naziv'=>'Mašina za posuđe',
                 'opis'=>'Uspravna, sa velikim poklopcem.',
-                'cijena_nabavna'=>'400',
-                'cijena_prodajna'=>'450'
+                'bar_kod'=>'',
+                'proizvodjac'=>'Gorenje',
+                'jedinica_mjere'=>'Kom',
+                'pakovanje_kolicina'=>1,
+                'pakovanje_jedinica_mjere'=>'Paket',
+                'vrsta_proizvoda_id'=>1,
+                'aplikacija_id'=>1,
+                'foto'=>''
             ],
             [//3
                 'sifra'=>'test003',
                 'naziv'=>'Usisivač',
                 'opis'=>'Automatski sa robotskim funkcijama.',
-                'cijena_nabavna'=>'200',
-                'cijena_prodajna'=>'240'
+                'bar_kod'=>'',
+                'proizvodjac'=>'Gorenje',
+                'jedinica_mjere'=>'Kom',
+                'pakovanje_kolicina'=>1,
+                'pakovanje_jedinica_mjere'=>'Paket',
+                'vrsta_proizvoda_id'=>2,
+                'aplikacija_id'=>1,
+                'foto'=>''
             ],
             [//4
                 'sifra'=>'test004',
                 'naziv'=>'Bojler',
                 'opis'=>'Veliki od 200l',
-                'cijena_nabavna'=>'250',
-                'cijena_prodajna'=>'280'
+                'bar_kod'=>'',
+                'proizvodjac'=>'Gorenje',
+                'jedinica_mjere'=>'Kom',
+                'pakovanje_kolicina'=>1,
+                'pakovanje_jedinica_mjere'=>'Paket',
+                'vrsta_proizvoda_id'=>1,
+                'aplikacija_id'=>1,
+                'foto'=>''
             ],
             [//5
                 'sifra'=>'test005',
                 'naziv'=>'Kuhinjska napa',
                 'opis'=>'Utisnuta, sa velikim kapacitetom i garancijom na 5 godina.',
-                'cijena_nabavna'=>'380',
-                'cijena_prodajna'=>'400'
+                'bar_kod'=>'',
+                'proizvodjac'=>'Gorenje',
+                'jedinica_mjere'=>'Kom',
+                'pakovanje_kolicina'=>1,
+                'pakovanje_jedinica_mjere'=>'Paket',
+                'vrsta_proizvoda_id'=>1,
+                'aplikacija_id'=>1,
+                'foto'=>''
             ],
             [//6
                 'sifra'=>'test007',
                 'naziv'=>'Mikser',
                 'opis'=>'Ručni, sa 5 funkcionalnih brzina.',
-                'cijena_nabavna'=>'20',
-                'cijena_prodajna'=>'30'
+                'bar_kod'=>'',
+                'proizvodjac'=>'Gorenje',
+                'jedinica_mjere'=>'Kom',
+                'pakovanje_kolicina'=>1,
+                'pakovanje_jedinica_mjere'=>'Paket',
+                'vrsta_proizvoda_id'=>2,
+                'aplikacija_id'=>1,
+                'foto'=>''
             ],
         ]);
-
         MagaciniID::insert([
             [//1
                 'naziv'=>'Magacin 1',
-                'opis'=>'Magacin u ulici Miloša Obilića 69'
+                'opis'=>'Magacin u ulici Miloša Obilića 69',
+                'aplikacija_id'=>1
             ],
             [//2
                 'naziv'=>'Magacin 2',
-                'opis'=>'Magacin u naselju Vojvode Putnika'
+                'opis'=>'Magacin u naselju Vojvode Putnika',
+                'aplikacija_id'=>1
             ],
             [//3
                 'naziv'=>'Magacin 3',
-                'opis'=>'Magacin za municiju :)'
+                'opis'=>'Magacin za municiju :)',
+                'aplikacija_id'=>1
             ],
         ]);
-
         Pozicija::insert([
             [//1
                 'stolaza'=>'1',
                 'polica'=>'1',
                 'pozicija'=>'1',
-                'opis'=>'Srednja, na početku...'
+                'opis'=>'Srednja, na početku...',
+                'aplikacija_id'=>1
             ],
             [//2
                 'stolaza'=>'1',
                 'polica'=>'2',
                 'pozicija'=>'1',
-                'opis'=>'Opis neki 1.....'
+                'opis'=>'Opis neki 1.....',
+                'aplikacija_id'=>1
             ],
             [//3
                 'stolaza'=>'2',
                 'polica'=>'1',
                 'pozicija'=>'3',
-                'opis'=>'Opis neki 2.....'
+                'opis'=>'Opis neki 2.....',
+                'aplikacija_id'=>1
             ],
             [//4
                 'stolaza'=>'2',
                 'polica'=>'1',
                 'pozicija'=>'5',
-                'opis'=>'Opis neki 3.....'
+                'opis'=>'Opis neki 3.....',
+                'aplikacija_id'=>1
             ],
         ]);
-
         Magacin::insert([
             [
-                'magacinid_id'=>1,
+                'magacin_id_id'=>1,
                 'proizvod_id'=>1,
                 'kolicina_stanje'=>7,
                 'kolicina_min'=>3,
-                'pozicija_id'=>1
+                'pozicija_id'=>1,
+                'cijena'=>400
             ],
             [
-                'magacinid_id'=>1,
+                'magacin_id_id'=>1,
                 'proizvod_id'=>2,
                 'kolicina_stanje'=>12,
                 'kolicina_min'=>5,
-                'pozicija_id'=>2
+                'pozicija_id'=>2,
+                'cijena'=>600
             ],
             [
-                'magacinid_id'=>1,
+                'magacin_id_id'=>1,
                 'proizvod_id'=>3,
                 'kolicina_stanje'=>15,
                 'kolicina_min'=>21,
-                'pozicija_id'=>4
+                'pozicija_id'=>4,
+                'cijena'=>300
             ],
             [
-                'magacinid_id'=>2,
+                'magacin_id_id'=>2,
                 'proizvod_id'=>5,
                 'kolicina_stanje'=>56,
                 'kolicina_min'=>23,
-                'pozicija_id'=>1
+                'pozicija_id'=>1,
+                'cijena'=>200
             ],
             [
-                'magacinid_id'=>2,
+                'magacin_id_id'=>2,
                 'proizvod_id'=>1,
                 'kolicina_stanje'=>32,
                 'kolicina_min'=>12,
-                'pozicija_id'=>2
+                'pozicija_id'=>2,
+                'cijena'=>500
             ],
             [
-                'magacinid_id'=>2,
+                'magacin_id_id'=>2,
                 'proizvod_id'=>3,
                 'kolicina_stanje'=>44,
                 'kolicina_min'=>12,
-                'pozicija_id'=>3
+                'pozicija_id'=>3,
+                'cijena'=>400
             ],
             [
-                'magacinid_id'=>3,
+                'magacin_id_id'=>3,
                 'proizvod_id'=>1,
                 'kolicina_stanje'=>34,
                 'kolicina_min'=>25,
-                'pozicija_id'=>1
+                'pozicija_id'=>1,
+                'cijena'=>340
             ],
             [
-                'magacinid_id'=>3,
+                'magacin_id_id'=>3,
                 'proizvod_id'=>2,
                 'kolicina_stanje'=>3,
                 'kolicina_min'=>7,
-                'pozicija_id'=>2
+                'pozicija_id'=>2,
+                'cijena'=>500
             ],
             [
-                'magacinid_id'=>3,
+                'magacin_id_id'=>3,
                 'proizvod_id'=>3,
                 'kolicina_stanje'=>5,
                 'kolicina_min'=>2,
-                'pozicija_id'=>3
+                'pozicija_id'=>3,
+                'cijena'=>450
             ],
             [
-                'magacinid_id'=>3,
+                'magacin_id_id'=>3,
                 'proizvod_id'=>4,
                 'kolicina_stanje'=>6,
                 'kolicina_min'=>3,
-                'pozicija_id'=>4
+                'pozicija_id'=>4,
+                'cijena'=>200
             ],
         ]);
-
         Korisnici::insert([
             [//dobavljac
                 'prezime' => 'Petrović',

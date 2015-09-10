@@ -58,16 +58,10 @@ class KreiranjeBaze extends Migration {
 			$table->foreign('korisnici_id')->references('id')->on('korisnici');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 		});
-		Schema::create('vrsta_proizvoda',function(Blueprint $table){
-			$table->bigIncrements('id');
-			$table->string('naziv', 45);
-			$table->text('napomena')->nullable();
-			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->timestamp('updated_at')->nullable();		
-		});
 		Schema::create('aplikacija',function(Blueprint $table){
 			$table->bigIncrements('id');
 			$table->string('naziv', 45);
+			$table->string('slug', 45);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 			$table->unsignedBigInteger('korisnici_id');
@@ -76,6 +70,15 @@ class KreiranjeBaze extends Migration {
 			$table->text('napomena')->nullable();
 			$table->string('logo', 250)->nullable();
 			$table->tinyInteger('aktivan')->default(1);					
+		});
+		Schema::create('vrsta_proizvoda',function(Blueprint $table){
+			$table->bigIncrements('id');
+			$table->string('naziv', 45);
+			$table->text('napomena')->nullable();
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->nullable();
+			$table->unsignedBigInteger('aplikacija_id');
+			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
 		});
 		Schema::create('proizvod',function(Blueprint $table){
 			$table->bigIncrements('id');
@@ -103,20 +106,24 @@ class KreiranjeBaze extends Migration {
 			$table->text('opis')->nullable();
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
+			$table->unsignedBigInteger('aplikacija_id');
+			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
 		});
 
-		Schema::create('magacinid',function(Blueprint $table){
+		Schema::create('magacin_id',function(Blueprint $table){
 			$table->bigIncrements('id');
 			$table->string('naziv', 45);
 			$table->text('opis')->nullable();
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
+			$table->unsignedBigInteger('aplikacija_id');
+			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
 		});
 		
 		Schema::create('magacin',function(Blueprint $table){
 			$table->bigIncrements('id');
-			$table->unsignedBigInteger('magacinid_id');
-			$table->foreign('magacinid_id')->references('id')->on('magacinid');
+			$table->unsignedBigInteger('magacin_id_id');
+			$table->foreign('magacin_id_id')->references('id')->on('magacin_id');
 			$table->unsignedBigInteger('proizvod_id');
 			$table->foreign('proizvod_id')->references('id')->on('proizvod');
 			$table->integer('kolicina_stanje');
@@ -127,10 +134,8 @@ class KreiranjeBaze extends Migration {
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 			$table->float('cijena')->nullable();
-			$table->float('rabat')->nullable();
+			$table->float('rabat')->nullable()->default(0);
 			$table->float('cijena_rabat')->nullable();
-			$table->unsignedBigInteger('aplikacija_id');
-			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
 		});
 		Schema::create('vrsta_fakture',function(Blueprint $table){
 			$table->bigIncrements('id');
@@ -180,23 +185,20 @@ class KreiranjeBaze extends Migration {
 			$table->unsignedBigInteger('za_narudzbu_id');
 			$table->foreign('za_narudzbu_id')->references('id')->on('za_narudzbu');	
 		});
-		
 	}
-
-
 	public function down()
 	{
 		Schema::drop('proizvod_iz_magacina');
-		Schema::drop('korisnici_aplikacije');
 		Schema::drop('za_narudzbu');
 		Schema::drop('fakture');
 		Schema::drop('vrsta_fakture');
-		Schema::drop('magacin');	
-		Schema::drop('magacinID');
+		Schema::drop('magacin');
+		Schema::drop('magacin_id');
 		Schema::drop('pozicija');
 		Schema::drop('proizvod');
-		Schema::drop('aplikacija');
 		Schema::drop('vrsta_proizvoda');
+		Schema::drop('korisnici_aplikacije');
+		Schema::drop('aplikacija');
 		Schema::drop('log');
 		Schema::drop('korisnici');
 		Schema::drop('vrsta_korisnika');	

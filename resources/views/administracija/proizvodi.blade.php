@@ -3,26 +3,34 @@
 
     @if(isset($proizvodi))
     @if($proizvodi)
-        <table class="table table-striped">
-            <thead>
-                <tr><th>Šifra</th><th>Naziv</th><th>Opis</th><th>Nabavna cijena</th><th>Prodajna cijena</th><th></th><th></th><th></th></tr>
-            </thead>
-            <tbody>
+        <h2 style="text-align: left" id="proizvodi"><i class="glyphicon glyphicon-qrcode"></i> Proizvodi
+            <button class="btn btn-primary" data-toggle="modal" data-target="#noviProizvod"><i class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Dodaj novi proizvod"></i></button>
+            <div class="form-inline" style="float: right">
+                <button class="btn btn-sm btn-default" data-toggle="tooltip" title="Pronađi proizvod"><i class="glyphicon glyphicon-search"></i></button>
+                <div class="form-group">{!!Form::text('pretraga_proizvod',null,['class'=>'form-control'])!!}</div>
+                <div class="form-group">{!!Form::select('pretraga_vrsta_proizvoda',array_merge([0=>'Svi proizvodi'],$vrstaProizvoda),0,['class'=>'form-control'])!!}</div>
+            </div>
+        </h2>
+        <div id="work-place">
+            <table class="table table-striped">
+                <thead>
+                <tr><th>Šifra</th><th>Naziv</th><th>Opis</th><th></th><th></th><th></th></tr>
+                </thead>
+                <tbody>
                 @foreach($proizvodi as $p)
                     <tr>
                         <td><a href="/administracija/proizvod/azuriraj/{{$p['id']}}">{{$p['sifra']}}</a></td>
                         <td>{{$p['naziv']}}</td>
                         <td>{{$p['opis']}}</td>
-                        <td>{{$p['cijena_nabavna']}}</td>
-                        <td>{{$p['cijena_prodajna']}}</td>
-                        <td><a href="/administracija/proizvod/azuriraj/{{$p['id']}}" class="btn btn-lg btn-info"><span class="glyphicon glyphicon-pencil"></span> Ažuriraj</a></td>
-                        <td><a href="/administracija/proizvod/magacin/{{$p['id']}}" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-log-in"></span> Dodaj u magacin</a></td>
-                        <td><a href="/administracija/proizvod/ukloni/{{$p['id']}}" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-trash"></span> Ukloni</a></td>
+                        <td><a href="/administracija/proizvod/azuriraj/{{$p['id']}}" class="btn btn-lg btn-info" data-toggle="tooltip" title="Ažuriraj"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td><a href="/administracija/proizvod/magacin/{{$p['id']}}" class="btn btn-lg btn-primary" data-toggle="tooltip" title="Dodaj u magacin"><span class="glyphicon glyphicon-log-in"></span></a></td>
+                        <td><a href="/administracija/proizvod/ukloni/{{$p['id']}}" class="btn btn-lg btn-danger" data-toggle="tooltip" title="Ukloni"><span class="glyphicon glyphicon-trash"></span></a></td>
                         </td>
                     </tr>
                 @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     @else
         <p>Ni jedan proizvod nije dodat u evidenciju.</p>
     @endif

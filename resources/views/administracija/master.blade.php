@@ -131,7 +131,7 @@
         </div>
 
         @yield('body')
-
+        <script>$(function(){$('[data-toggle=tooltip]').tooltip()})</script>
         {!! HTML::script('js/bootstrap.min.js') !!}
 
     </body>

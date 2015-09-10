@@ -12,12 +12,13 @@ use App\ZaNarudzbu;
 use Illuminate\Support\Facades\Input;
 use Anouar\Fpdf\Facades\Fpdf;
 use Illuminate\Support\Facades\Redirect;
-
+use App\VrstaProizvoda;
 class Proizvod extends Controller {
 
 	public function getIndex(){
-		$proizvodi = Proizvodi::get(['id','sifra','naziv','opis','cijena_nabavna','cijena_prodajna'])->toArray();
-		return Security::autentifikacija('administracija.proizvodi',compact('proizvodi'));
+		$proizvodi = Proizvodi::get(['id','sifra','naziv','opis'])->toArray();
+		$vrstaProizvoda=VrstaProizvoda::lists('naziv','id');
+		return Security::autentifikacija('administracija.proizvodi',compact('proizvodi','vrstaProizvoda'));
 	}
 	public function getNovi(){
 		return Security::autentifikacija('administracija.proizvodi',['novi'=>true]);
