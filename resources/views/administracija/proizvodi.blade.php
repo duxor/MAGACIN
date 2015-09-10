@@ -30,51 +30,56 @@
 
     @if(isset($novi) or isset($proizvod))
         {!! Form::open(['url'=>'/administracija/proizvod/proizvod','class'=>'form-horizontal','id'=>'forma']) !!}
-        @if(!isset($proizvod))
-            {!!$proizvod = null!!}
-        @else
-            {!!Form::hidden('id',$proizvod['id'])!!}
-        @endif
-        <div id="dssifra" class="form-group has-feedback">
-            {!! Form::label('lssifra','Šifra',['class'=>'control-label col-sm-2']) !!}
-            <div class="col-sm-10">
+        @if(!isset($proizvod)) {!!$proizvod = null!!} @else {!!Form::hidden('id',$proizvod['id'])!!} @endif
+        <style>.fontResize *{font-size: 12px}</style>
+        <div class="col-sm-4 fontResize">
+            <img style="width: 100%;margin-bottom:20px" src="/img/default/slika-proizvoda.jpg">
+            {!! Form::text('vrsta_proizvoda_id',$proizvod['vrsta_proizvoda_id'],['class'=>'form-control']) !!}
+            <div id="dssifra" class="has-feedback">
                 {!! Form::text('ssifra',$proizvod['sifra'],['placeholder'=>'Šifra','class'=>'form-control','id'=>'ssifra']) !!}
                 <span id="sssifra" class="glyphicon form-control-feedback"></span>
             </div>
-        </div>
-        <div id="dnaziv" class="form-group has-feedback">
-            {!! Form::label('lnaziv','Naziv',['class'=>'control-label col-sm-2']) !!}
-            <div class="col-sm-10">
+            <div id="dnaziv" class="has-feedback">
                 {!! Form::text('naziv',$proizvod['naziv'],['placeholder'=>'Naziv','class'=>'form-control','id'=>'naziv']) !!}
                 <span id="snaziv" class="glyphicon form-control-feedback"></span>
             </div>
-        </div>
-        <div id="dopis" class="form-group has-feedback">
-            {!! Form::label('lopis','Opis',['class'=>'control-label col-sm-2']) !!}
-            <div class="col-sm-10">
+            <div id="dopis" class="has-feedback">
                 {!! Form::textarea('opis',$proizvod['opis'],['placeholder'=>'Opis','class'=>'form-control','id'=>'opis']) !!}
                 <span id="sopis" class="glyphicon form-control-feedback"></span>
             </div>
         </div>
-        <div id="dcijena_nabavna" class="form-group has-feedback">
-            {!! Form::label('lcijena_nabavna','Nabavna cijena',['class'=>'control-label col-sm-2']) !!}
-            <div class="col-sm-10">
-                {!! Form::text('cijena_nabavna',$proizvod['cijena_nabavna'],['placeholder'=>'Nabavna cijena','class'=>'form-control','id'=>'cijena_nabavna']) !!}
-                <span id="scijena_nabavna" class="glyphicon form-control-feedback"></span>
+        <div class="col-sm-7 fontResize">
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {!! Form::text('bar_kod',$proizvod['bar_kod'],['placeholder'=>'Bar kod','class'=>'form-control']) !!}
+                </div>
             </div>
-        </div>
-        <div id="dcijena_prodajna" class="form-group has-feedback">
-            {!! Form::label('lcijena_prodajna','Prodajna cijena',['class'=>'control-label col-sm-2']) !!}
-            <div class="col-sm-10">
-                {!! Form::text('cijena_prodajna',$proizvod['cijena_prodajna'],['placeholder'=>'Prodajna cijena','class'=>'form-control','id'=>'cijena_prodajna']) !!}
-                <span id="scijena_prodajna" class="glyphicon form-control-feedback"></span>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {!! Form::text('proizvodjac',$proizvod['proizvodjac'],['placeholder'=>'Proizvođač','class'=>'form-control']) !!}
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-10">
-                {!! Form::button('<span class="glyphicon glyphicon-play-circle"></span> Sačuvaj', ['class' => 'btn btn-lg btn-primary','onClick'=>'SubmitForma.submit(\'forma\')']) !!}
-                {!! Form::button('<span class="glyphicon glyphicon-refresh"></span> Resetuj unos', ['class' => 'btn btn-lg btn-warning','type'=>'reset']) !!}
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {!! Form::text('jedinica_mjere',$proizvod['jedinica_mjere'],['placeholder'=>'Jedinica mjere','class'=>'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {!! Form::text('pakovanje_jedinica_mjere',$proizvod['pakovanje_jedinica_mjere'],['placeholder'=>'Pakovanje jedinica mjere','class'=>'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {!! Form::text('pakovanje_kolicina',$proizvod['pakovanje_kolicina'],['placeholder'=>'Pakovanje kolicina','class'=>'form-control']) !!}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9">
+                    {!! Form::button('<span class="glyphicon glyphicon-play-circle"></span> Sačuvaj', ['class' => 'btn btn-lg btn-primary','onClick'=>'SubmitForm.submit(\'forma\')']) !!}
+                    {!! Form::button('<span class="glyphicon glyphicon-refresh"></span> Resetuj unos', ['class' => 'btn btn-lg btn-warning','type'=>'reset']) !!}
+                </div>
             </div>
         </div>
         {!! Form::close() !!}

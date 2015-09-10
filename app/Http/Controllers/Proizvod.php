@@ -17,7 +17,7 @@ class Proizvod extends Controller {
 
 	public function getIndex(){
 		$proizvodi = Proizvodi::get(['id','sifra','naziv','opis','cijena_nabavna','cijena_prodajna'])->toArray();
-		return Security::autentifikacija('stranice.administracija.proizvodi',compact('proizvodi'));
+		return Security::autentifikacija('administracija.proizvodi',compact('proizvodi'));
 	}
 	public function getNovi(){
 		return Security::autentifikacija('administracija.proizvodi',['novi'=>true]);
