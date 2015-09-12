@@ -18,10 +18,10 @@ class Proizvod extends Controller {
 	public function getIndex(){
 		$proizvodi = Proizvodi::get(['id','sifra','naziv','opis'])->toArray();
 		$vrstaProizvoda=VrstaProizvoda::lists('naziv','id');
-		return Security::autentifikacija('administracija.proizvodi',compact('proizvodi','vrstaProizvoda'));
+		return Security::autentifikacija('app-admin.proizvodi.index',compact('proizvodi','vrstaProizvoda'));
 	}
 	public function getNovi(){
-		return Security::autentifikacija('administracija.proizvodi',['novi'=>true]);
+		return Security::autentifikacija('app-admin.proizvodi.index',['novi'=>true]);
 	}
 	public function postProizvod(){
 		if(Security::autentifikacijaTest()){
@@ -38,7 +38,7 @@ class Proizvod extends Controller {
 	}
 	public function getAzuriraj($id){
 		$proizvod = Proizvodi::where('id','=',$id)->get(['id','sifra','naziv','opis','cijena_nabavna','cijena_prodajna'])->first()->toArray();
-		return Security::autentifikacija('administracija.proizvodi',compact('proizvod'));
+		return Security::autentifikacija('app-admin.proizvodi.index',compact('proizvod'));
 	}
 	public function getUkloni($id){
 		if(Security::autentifikacijaTest()){
@@ -50,7 +50,7 @@ class Proizvod extends Controller {
 	public function getMagacin($id){
 		$umagacin = MagaciniID::all()->lists('naziv','id');
 		$proizvod_podaci = Proizvodi::where('id','=',$id)->get(['id','sifra','naziv'])->first()->toArray();
-		return Security::autentifikacija('administracija.proizvodi',compact('umagacin','proizvod_podaci'));
+		return Security::autentifikacija('app-admin.proizvodi.index',compact('umagacin','proizvod_podaci'));
 	}
 	public function postMagacin(){
 		if(Security::autentifikacijaTest()){
@@ -84,7 +84,7 @@ class Proizvod extends Controller {
 					'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
 					'magacin.pozicija_id','stolaza','polica','pozicija.pozicija as pozicija_na_stolazi'])
 				->toArray();
-			return Security::autentifikacija('administracija.narudzba',compact('zaNarudzbu'));
+			return Security::autentifikacija('app-admin.fakture.index',compact('zaNarudzbu'));
 		}
 		return Security::rediectToLogin();
 	}
@@ -97,7 +97,7 @@ class Proizvod extends Controller {
 						->where('magacin.id','=',$proizvod)->get(['magacin.id','sifra','naziv','opis','kolicina_stanje','kolicina_min','pozicija_id'])->first()->toArray();//,'cijena'
 				}else unset($proizvodi[$k]);
 			}
-			return Security::autentifikacija('administracija.narudzba',compact('proizvodi'));
+			return Security::autentifikacija('app-admin.fakture.index',compact('proizvodi'));
 		}
 		return Security::rediectToLogin();
 	}
@@ -123,7 +123,7 @@ class Proizvod extends Controller {
 			$narudzba = $narudzbenica->id;
 			$header = ['R.br','Sifra','Naziv','Kolicina'];
 			OsnovneMetode::pdfTabela($header,$prednarudzbenica,'narudzba_'.$narudzba);
-			return Security::autentifikacija('administracija.narudzba',compact('prednarudzbenica','narudzba'));
+			return Security::autentifikacija('app-admin.fakture.index',compact('prednarudzbenica','narudzba'));
 		}
 		return Security::rediectToLogin();
 	}
@@ -157,7 +157,7 @@ class Proizvod extends Controller {
 					$narudzbeArhiva[$ks][$k]['pdf'] = 'pdf/narudzba_'.$narudzba['id'].'.pdf';
 				}
 			}
-			return view('administracija.narudzba',compact('narudzbeArhiva'));
+			return view('app-admin.fakture.index',compact('narudzbeArhiva'));
 		}
 		return Security::rediectToLogin();
 	}
@@ -169,7 +169,7 @@ class Proizvod extends Controller {
 			->orWhere('proizvod.naziv','Like','%'.Input::get('sifra').'%')
 			->orderBy('magacin.id')
 		->get(['magacinid.id','magacinid.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra','kolicina_stanje','stolaza','polica','pozicija'])->toArray();
-		return Security::autentifikacija('administracija.pretraga',compact('rezultati'));
+		return Security::autentifikacija('app-admin.proizvodi.pretraga',compact('rezultati'));
 	}
 	public function getNarudzbaUredi($id){
 		$pristiglo = ZaNarudzbu::join('narudzbenice','narudzbenice.id','=','za_narudzbu.narudzbenice_id')
@@ -179,7 +179,7 @@ class Proizvod extends Controller {
 			->where('za_narudzbu.narudzbenice_id','=',$id)
 			->get(['za_narudzbu.id','datum_narudzbe','datum_isporuke','kolicina_porucena','kolicina_pristigla','za_narudzbu.magacin_id','proizvod.naziv','proizvod.sifra','magacinid.naziv as magacin','narudzbenice.id as narudzbeniceid'])
 			->toArray();
-		return Security::autentifikacija('administracija.narudzba',compact('pristiglo'));
+		return Security::autentifikacija('app-admin.fakture.index',compact('pristiglo'));
 	}
 	public function postNarudzbaUredi($id){
 		if(Security::autentifikacijaTest()){

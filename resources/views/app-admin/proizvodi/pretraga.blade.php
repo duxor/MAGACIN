@@ -1,4 +1,4 @@
-@extends('administracija.master')
+@extends('admin-master')
 @section('content')
     {!!Form::open(['url'=>'/administracija/proizvod/pretraga','class'=>'form-inline'])!!}
     {!!Form::input('search','sifra', null, ['placeholder'=>'Unesite šifru ili naziv','class'=>'form-control'])!!}
