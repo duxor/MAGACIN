@@ -1,4 +1,4 @@
-@extends('administracija.master')
+@extends('admin-master')
 
 @section('content')
 
@@ -39,7 +39,7 @@
     <script>
         $(document).keypress(function(e) {
             if(e.which == 13) {
-                SubmitForma.submit('forma');
+                SubmitForm.submit('forma');
             }
         });
     </script>

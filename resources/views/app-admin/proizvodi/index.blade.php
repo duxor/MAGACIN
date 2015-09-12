@@ -4,7 +4,8 @@
     @if(isset($proizvodi))
     @if($proizvodi)
         <h2 style="text-align: left" id="proizvodi"><i class="glyphicon glyphicon-qrcode"></i> Proizvodi
-            <button id="dugmeNovi" class="btn btn-primary" onClick="noviProizvod()"><i class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Dodaj novi proizvod"></i></button>
+            <button id="dugmeNovi" class="btn btn-primary" onClick="noviProizvod()" data-toggle="tooltip" title="Dodaj novi proizvod"><i class="glyphicon glyphicon-plus"></i></button>
+            <button id="dugmeUcitaj" class="btn btn-primary" onClick="ucitajProizvode()" data-toggle="tooltip" title="Prikaži proizvode" style="dislay:none"><i class="glyphicon glyphicon-qrcode"></i></button>
             <div class="form-inline" style="float: right">
                 <button class="btn btn-sm btn-default" data-toggle="tooltip" title="Pronađi proizvod"><i class="glyphicon glyphicon-search"></i></button>
                 <div class="form-group">{!!Form::text('pretraga_proizvod',null,['class'=>'form-control'])!!}</div>
@@ -15,13 +16,54 @@
         {!! HTML::style('/dragdrop/css/fileinput.css') !!}
         {!! HTML::script('/dragdrop/js/fileinput.min.js') !!}
         <script>
+            $(function(){ucitajProizvode()})
+            function ucitajProizvode(){
+                $('#dugmeUcitaj').hide();
+                $('#dugmeNovi').fadeIn();
+                $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%;margin-top:80px"></i></center>');
+                $.post('/administracija/proizvod',
+                        {
+                            _token:'{{csrf_token()}}',
+                            slug:'{{Session::get('slug')}}'
+                        },
+                function(data){
+                    var proizvodi=JSON.parse(data);
+                    if(proizvodi.length<1){
+                        $('#work-place').html('<h3>Ne postoji ni jedan proizvod u evidenciji.');
+                        return;
+                    }
+                    var ispis='' +
+                    '<table class="table table-striped">' +
+                        '<thead>' +
+                            '<tr><th>Šifra</th><th>Naziv</th><th>Opis</th><th></th><th></th><th></th></tr>' +
+                        '</thead>' +
+                    '<tbody>';
+                    for(var i=0;i<proizvodi.length;i++){
+                        ispis+='<tr>' +
+                        '<td><a href="/administracija/proizvod/azuriraj/'+proizvodi[i]['id']+'">'+proizvodi[i]['sifra']+'</a></td>' +
+                        '<td>'+proizvodi[i]['naziv']+'</td>' +
+                        '<td>'+proizvodi[i]['opis']+'</td>' +
+                        '<td><a href="#" class="btn btn-sm btn-info" data-toggle="tooltip" title="Ažuriraj" onclick="editProizvod('+proizvodi[i]['id']+')"><span class="glyphicon glyphicon-pencil"></span></a></td>' +
+                        '<td><a href="/administracija/proizvod/magacin/'+proizvodi[i]['id']+'" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Dodaj u magacin"><span class="glyphicon glyphicon-log-in"></span></a></td>' +
+                        '<td><a href="/administracija/proizvod/ukloni/'+proizvodi[i]['id']+'" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Ukloni"><span class="glyphicon glyphicon-trash"></span></a></td>' +
+                        '</td>' +
+                        '</tr>';
+                    }
+                    $('#work-place').html(ispis+'</tbody></table>');
+                    $('[data-toggle=tooltip]').tooltip();
+                });
+            }
             function uploadFoto(){
                 $('#slikaProizoda').fileinput('clear');
                 $("#slikaProizoda").fileinput();
                 //$('#folder').val($(this).closest('a').data('link')+'/');
                 $("#slikaProizoda").fileinput('refresh',{
-                    uploadExtraData: {folder: ''/*$('#folder').val()*/, _token:'{{csrf_token()}}'},
-                    uploadUrl: '//galerije/upload',
+                    uploadExtraData: {
+                        folder: 'eskulaf'/*$('#folder').val()*/,
+                        _token:'{{csrf_token()}}',
+                        id:$('#id_proizvoda').val()
+                    },
+                    uploadUrl: '/administracija/proizvod/upload-foto',
                     uploadAsync: true,
                     maxFileCount: 1,
                     allowedFileTypes:['image'],
@@ -30,20 +72,42 @@
                     removeLabel: 'Ukloni'
                 });
                 $('#uploadSlike').modal();
+
+                $('#slikaProizoda').on('fileuploaded', function(event, data, previewId, index) {
+                    var form = data.form, files = data.files, extra = data.extra,
+                            response = data.response, reader = data.reader;
+                    $('#imgProizvod').attr('src','/'+response);
+                    $('#imgSrc').val('/'+response);console.log($('#imgSrc').val());
+                    $('#uploadSlike').modal('hide');
+                });
+            }
+            function editProizvod(proizvod) {
+                $('#dugmeNovi').hide();
+                $('#dugmeUcitaj').fadeIn();
+                $.post('/administracija/proizvod/edit-ucitaj',
+                        {
+                            _token: '{{csrf_token()}}',
+                            id: proizvod
+                        }, function (data) {console.log(JSON.parse(data));
+                            noviProizvod(JSON.parse(data))
+                        });
             }
             function noviProizvod(proizvod){
-                //proizvod=null;
-                $('#dugmeNovi').fadeOut();
+                $('#dugmeNovi').hide();
+                $('#dugmeUcitaj').fadeIn();
+
                 $('#work-place').hide();
                 $('#work-place').html('' +
                 '<hr><form action="/administracija/proizvod/proizvod" class="form-horizontal" id="forma" method="post" style="margin-top: 50px">'+
-                    (proizvod?'<input name="id" value="'+proizvod['id']+'" hidden="hidden">':'')+
+                    '<input name="_token" value="{{csrf_token()}}" hidden="hidden">'+
+                    (proizvod?'<input id="id_proizvoda" name="id" value="'+proizvod['id']+'" hidden="hidden">':'')+
                     '<style>.fontResize *{font-size: 12px}</style>'+
                     '<div class="col-sm-4 fontResize">' +
-                        '<img style="width: 100%;margin-bottom:20px;cursor: pointer" onClick="uploadFoto()" src="/img/default/slika-proizvoda.jpg">' +
+                        '<img id="imgProizvod" style="width: 100%;margin-bottom:20px;cursor: pointer" onClick="uploadFoto()" src="'+(proizvod?proizvod['foto']?proizvod['foto']:'/img/default/slika-proizvoda.jpg':'/img/default/slika-proizvoda.jpg')+'">' +
+                        '<input type="text" name="imgSrc" id="imgSrc" value="'+(proizvod?proizvod['foto']:'')+'" hidden="hidden">'+
                         '<div class="form-group">' +
                             '<div class="col-sm-12">' +
-                                '<select name="vrsta_proizvoda_id" class="form-control"><option value="0">Vrsta proizvoda</option></select>' +
+                                '{!!Form::select("vrsta_proizvoda_id",$vrstaProizvoda,0,["class"=>"form-control"])!!}'+
                             '</div>' +
                         '</div>' +
                         '<div id="dssifra" class="form-group has-feedback">' +
@@ -107,7 +171,7 @@
                                 '<h2>Izaberite fotografiju proizvoda</h2>' +
                             '</div>' +
                             '<div class="modal-body" id="uploadHtmlBody">'+
-                                '<input type="file" name="foto" id="slikaProizoda">' +
+                                '<input type="file" class="file" name="foto" id="slikaProizoda">' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -116,24 +180,7 @@
             }
         </script>
         <div id="work-place">
-            <table class="table table-striped">
-                <thead>
-                <tr><th>Šifra</th><th>Naziv</th><th>Opis</th><th></th><th></th><th></th></tr>
-                </thead>
-                <tbody>
-                @foreach($proizvodi as $p)
-                    <tr>
-                        <td><a href="/administracija/proizvod/azuriraj/{{$p['id']}}">{{$p['sifra']}}</a></td>
-                        <td>{{$p['naziv']}}</td>
-                        <td>{{$p['opis']}}</td>
-                        <td><a href="/administracija/proizvod/azuriraj/{{$p['id']}}" class="btn btn-lg btn-info" data-toggle="tooltip" title="Ažuriraj"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                        <td><a href="/administracija/proizvod/magacin/{{$p['id']}}" class="btn btn-lg btn-primary" data-toggle="tooltip" title="Dodaj u magacin"><span class="glyphicon glyphicon-log-in"></span></a></td>
-                        <td><a href="/administracija/proizvod/ukloni/{{$p['id']}}" class="btn btn-lg btn-danger" data-toggle="tooltip" title="Ukloni"><span class="glyphicon glyphicon-trash"></span></a></td>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+
         </div>
     @else
         <p>Ni jedan proizvod nije dodat u evidenciju.</p>
@@ -272,4 +319,5 @@
             </div>
         {!! Form::close() !!}
     @endif
+    <i class='icon-spin6 animate-spin' style="font-size: 1px;color:rgba(0,0,0,0)"></i>
 @endsection

@@ -20,7 +20,7 @@ class KonfiguracioniPodaci extends Seeder{
                 'email' => 'admin@admin.com',
                 'username' => 'admin',
                 'password' => Security::generateHashPass('admin'),
-                'prava_pristupa_id' => 4
+                'prava_pristupa_id' => 5
             ]
         ]);
         Korisnici::insert([
@@ -28,8 +28,8 @@ class KonfiguracioniPodaci extends Seeder{
                 'prezime' => 'Kulić',
                 'ime' => 'Radivoje',
                 'email' => 'kula63@teol.net',
-                'username' => 'kula',
-                'password' => Security::generateHashPass('kula'),
+                'username' => 'eskula',
+                'password' => Security::generateHashPass('eskula'),
                 'prava_pristupa_id' => 4,
                 'naziv' => 'SZTR "KULA" FOČA',
                 'adresa' => 'Ul. Svetosavska bb',

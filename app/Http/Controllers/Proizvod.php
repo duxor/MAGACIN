@@ -13,12 +13,18 @@ use Illuminate\Support\Facades\Input;
 use Anouar\Fpdf\Facades\Fpdf;
 use Illuminate\Support\Facades\Redirect;
 use App\VrstaProizvoda;
+use Illuminate\Support\Facades\Session;
 class Proizvod extends Controller {
 
 	public function getIndex(){
 		$proizvodi = Proizvodi::get(['id','sifra','naziv','opis'])->toArray();
 		$vrstaProizvoda=VrstaProizvoda::lists('naziv','id');
 		return Security::autentifikacija('app-admin.proizvodi.index',compact('proizvodi','vrstaProizvoda'));
+	}
+
+	public function postIndex(){
+		return json_encode(Proizvodi::join('aplikacija','proizvod.aplikacija_id','=','aplikacija.id')
+			->where('aplikacija.slug',Session::get('aplikacija'))->get(['proizvod.id','sifra','proizvod.naziv','proizvod.opis'])->toArray());
 	}
 	public function getNovi(){
 		return Security::autentifikacija('app-admin.proizvodi.index',['novi'=>true]);
@@ -29,8 +35,8 @@ class Proizvod extends Controller {
 			$proizvod->sifra = Input::get('ssifra');
 			$proizvod->naziv = Input::get('naziv');
 			$proizvod->opis = Input::get('opis');
-			$proizvod->cijena_nabavna = Input::get('cijena_nabavna');
-			$proizvod->cijena_prodajna = Input::get('cijena_prodajna');
+
+			$proizvod->foto = Input::get('imgSrc');
 			$proizvod->save();
 			return redirect('/administracija/proizvod');
 		}
@@ -204,5 +210,40 @@ class Proizvod extends Controller {
 		}
 		return Security::rediectToLogin();
 	}
+	public function postUploadFoto(){
+		/*if(!Security::autentifikacijaTest(2,'min')){
+			echo json_encode(['error'=>'Niste prijavljeni na platformu.']);
+			return;
+		}*/
+		if (empty($_FILES['foto'])) {
+			echo json_encode(['error'=>'Nisu pronađeni fajlovi za upload.']);
+			return;
+		}
 
+		if(!isset($_POST['folder'])) die();
+		$folder = 'img/aplikacije/'.$_POST['folder'].'/proizvodi/'.(isset($_POST['id'])?$_POST['id']:(Proizvodi::max('id')+1)).'.'.explode('.', $_FILES['foto']['name'])[1];
+		$success = null;
+		$paths=null;
+		if(file_exists($folder)) unlink($folder);
+		if(move_uploaded_file($_FILES['foto']['tmp_name'], $folder)){
+			$success = true;
+			$paths = $folder.$_FILES['foto']['name'];
+		} else {
+			$success = false;
+		}
+		if ($success === true) {
+			$output = $folder;
+		} elseif ($success === false) {
+			$output = ['error'=>'Greška prilikom upload-a. Kontaktirajte tehničku podršku platforme.'];
+			unlink($paths);
+		} else {
+			$output = ['error'=>'Fajlovi nisu procesuirani.'];
+		}
+		echo json_encode($output);
+		return;
+	}
+
+	public function postEditUcitaj(){
+		return json_encode(Proizvodi::find($_POST['id']));
+	}
 }

@@ -40,6 +40,7 @@ class KreiranjeBaze extends Migration {
 			$table->string('broj_upisa',250)->nullable();
 			$table->string('telefon',45)->nullable();
 			$table->text('opis');
+			$table->tinyInteger('aktivan')->default(1);
 		});
 		Schema::create('log', function(Blueprint $table)
 		{

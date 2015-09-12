@@ -99,7 +99,6 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-lamp"></span> Proizvodi <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/administracija/proizvod"><span class="glyphicon glyphicon-eye-open"></span> Pregled i ažuriranje</a></li>
-                                <li><a href="/administracija/proizvod/novi"><span class="glyphicon glyphicon-plus"></span> Dodavanje novog</a></li>
                                 <li><a href="#search"><span class="glyphicon glyphicon-search"></span> Pretraga</a></li>
                             </ul>
                         </li>
