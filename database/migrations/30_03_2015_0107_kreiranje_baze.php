@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
+use DB;
 class KreiranjeBaze extends Migration {
 
 	public function up()
@@ -183,7 +183,9 @@ class KreiranjeBaze extends Migration {
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 			$table->unsignedBigInteger('za_narudzbu_id');
-			$table->foreign('za_narudzbu_id')->references('id')->on('za_narudzbu');	
+			$table->foreign('za_narudzbu_id')->references('id')->on('za_narudzbu');
+			$table->unsignedBigInteger('magacin_id');
+			$table->foreign('magacin_id')->references('id')->on('magacin');
 		});
 	}
 	public function down()

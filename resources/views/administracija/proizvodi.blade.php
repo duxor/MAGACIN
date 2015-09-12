@@ -11,7 +11,26 @@
                 <div class="form-group">{!!Form::select('pretraga_vrsta_proizvoda',array_merge([0=>'Svi proizvodi'],$vrstaProizvoda),0,['class'=>'form-control'])!!}</div>
             </div>
         </h2>
+
+        {!! HTML::style('/dragdrop/css/fileinput.css') !!}
+        {!! HTML::script('/dragdrop/js/fileinput.min.js') !!}
         <script>
+            function uploadFoto(){
+                $('#slikaProizoda').fileinput('clear');
+                $("#slikaProizoda").fileinput();
+                //$('#folder').val($(this).closest('a').data('link')+'/');
+                $("#slikaProizoda").fileinput('refresh',{
+                    uploadExtraData: {folder: ''/*$('#folder').val()*/, _token:'{{csrf_token()}}'},
+                    uploadUrl: '//galerije/upload',
+                    uploadAsync: true,
+                    maxFileCount: 1,
+                    allowedFileTypes:['image'],
+                    msgFilesTooMany: 'Broj selektovanih fotografija ({n}) je veći od dozvoljenog ({m}). Pokušajte ponovo!',
+                    msgInvalidFileType: 'Neispravan tip fajla "{name}". Dozvoljene su samo fotografije.',
+                    removeLabel: 'Ukloni'
+                });
+                $('#uploadSlike').modal();
+            }
             function noviProizvod(proizvod){
                 //proizvod=null;
                 $('#dugmeNovi').fadeOut();
@@ -21,7 +40,7 @@
                     (proizvod?'<input name="id" value="'+proizvod['id']+'" hidden="hidden">':'')+
                     '<style>.fontResize *{font-size: 12px}</style>'+
                     '<div class="col-sm-4 fontResize">' +
-                        '<img style="width: 100%;margin-bottom:20px" src="/img/default/slika-proizvoda.jpg">' +
+                        '<img style="width: 100%;margin-bottom:20px;cursor: pointer" onClick="uploadFoto()" src="/img/default/slika-proizvoda.jpg">' +
                         '<div class="form-group">' +
                             '<div class="col-sm-12">' +
                                 '<select name="vrsta_proizvoda_id" class="form-control"><option value="0">Vrsta proizvoda</option></select>' +
@@ -80,7 +99,19 @@
                             '</div>' +
                         '</div>' +
                     '</div>' +
-                '</form>');
+                '</form>' +
+                '<div class="modal fade" id="uploadSlike">' +
+                    '<div class="modal-dialog">' +
+                        '<div class="modal-content">' +
+                            '<div class="modal-heder">' +
+                                '<h2>Izaberite fotografiju proizvoda</h2>' +
+                            '</div>' +
+                            '<div class="modal-body" id="uploadHtmlBody">'+
+                                '<input type="file" name="foto" id="slikaProizoda">' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>');
                 $('#work-place').fadeIn();
             }
         </script>
