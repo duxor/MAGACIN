@@ -29,13 +29,19 @@ class Proizvod extends Controller {
 	public function getNovi(){
 		return Security::autentifikacija('app-admin.proizvodi.index',['novi'=>true]);
 	}
-	public function postProizvod(){
+	public function postEditSave(){
 		if(Security::autentifikacijaTest()){
 			$proizvod = Input::get('id') ? Proizvodi::where('id','=',Input::get('id'))->get(['id','naziv','opis'])->first() : new Proizvodi();
 			$proizvod->sifra = Input::get('ssifra');
 			$proizvod->naziv = Input::get('naziv');
 			$proizvod->opis = Input::get('opis');
-
+			$proizvod->bar_kod = Input::get('bar_kod');
+			$proizvod->proizvodjac = Input::get('proizvodjac');
+			$proizvod->jedinica_mjere = Input::get('jedinica_mjere');
+			$proizvod->pakovanje_kolicina = Input::get('pakovanje_kolicina');
+			$proizvod->pakovanje_jedinica_mjere = Input::get('pakovanje_jedinica_mjere');
+			$proizvod->vrsta_proizvoda_id = Input::get('vrsta_proizvoda_id');
+			$proizvod->aplikacija_id = Input::get('aplikacija_id');
 			$proizvod->foto = Input::get('imgSrc');
 			$proizvod->save();
 			return redirect('/administracija/proizvod');

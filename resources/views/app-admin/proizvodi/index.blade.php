@@ -56,7 +56,6 @@
             function uploadFoto(){
                 $('#slikaProizoda').fileinput('clear');
                 $("#slikaProizoda").fileinput();
-                //$('#folder').val($(this).closest('a').data('link')+'/');
                 $("#slikaProizoda").fileinput('refresh',{
                     uploadExtraData: {
                         folder: 'eskulaf'/*$('#folder').val()*/,
@@ -84,11 +83,12 @@
             function editProizvod(proizvod) {
                 $('#dugmeNovi').hide();
                 $('#dugmeUcitaj').fadeIn();
+                $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%;margin-top:80px"></i></center>');
                 $.post('/administracija/proizvod/edit-ucitaj',
                         {
                             _token: '{{csrf_token()}}',
                             id: proizvod
-                        }, function (data) {console.log(JSON.parse(data));
+                        }, function (data) {
                             noviProizvod(JSON.parse(data))
                         });
             }
@@ -98,7 +98,7 @@
 
                 $('#work-place').hide();
                 $('#work-place').html('' +
-                '<hr><form action="/administracija/proizvod/proizvod" class="form-horizontal" id="forma" method="post" style="margin-top: 50px">'+
+                '<hr><form action="/administracija/proizvod/edit-save" class="form-horizontal" id="forma" method="post" style="margin-top: 50px">'+
                     '<input name="_token" value="{{csrf_token()}}" hidden="hidden">'+
                     (proizvod?'<input id="id_proizvoda" name="id" value="'+proizvod['id']+'" hidden="hidden">':'')+
                     '<style>.fontResize *{font-size: 12px}</style>'+
