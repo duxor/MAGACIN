@@ -165,7 +165,8 @@ class KreiranjeBaze extends Migration {
 			$table->unsignedBigInteger('korisnici_id');
 			$table->foreign('korisnici_id')->references('id')->on('korisnici');
 			$table->unsignedBigInteger('aplikacija_id');
-			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');		
+			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
+			$table->tinyInteger('aktivan')->default(0);
 		});
 		Schema::create('proizvod_iz_magacina',function(Blueprint $table){
 			$table->bigIncrements('id');

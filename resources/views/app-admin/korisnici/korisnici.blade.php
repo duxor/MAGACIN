@@ -6,14 +6,13 @@
         <div class="form-inline" style="float: right">
             <button class="btn btn-sm btn-default" data-toggle="tooltip" title="Pronađi korisnika"><i class="glyphicon glyphicon-search"></i></button>
             <div class="form-group">{!!Form::text('pretraga_primna',null,['class'=>'form-control'])!!}</div>
-            <div class="form-group">{!!Form::select('pretraga_vrsta_korisnika',array_merge([0=>'Svi korisnici'],$vrstaKorisnika),0,['class'=>'form-control'])!!}</div>
+            <div class="form-group">{!!Form::select('pretraga_vrsta_korisnika',array_merge([0=>'Svi korisnici'],$pravaPristupa),0,['class'=>'form-control'])!!}</div>
         </div>
     </h2>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Prezime i ime</th>
-                <th>Vrsta korisnika</th>
                 <th>Prava pristupa</th>
                 <th></th>
             </tr>
@@ -22,12 +21,6 @@
             @foreach($korisnici as $korisnik)
                 <tr>
                     <td>{{$korisnik['prezime']}} {{$korisnik['ime']}}</td>
-                    <td>@if($korisnik['vrsta_korisnika_id']<4)
-                            {!!Form::select('vrsta_korisnika_'.$korisnik['id'],$vrstaKorisnika,$korisnik['vrsta_korisnika_id'],['class'=>'form-control'])!!}
-                        @else
-                            {{$korisnik['vrsta_korisnika_naziv']}}
-                        @endif
-                    </td>
                     <td>@if($korisnik['prava_pristupa_id']<4)
                             {!!Form::select('prava_pristupa_'.$korisnik['id'],$pravaPristupa,$korisnik['prava_pristupa_id'],['class'=>'form-control'])!!}
                         @else
@@ -101,10 +94,6 @@
                             <div class="form-group">
                                 <label class="col-sm-4">Prava pristupa</label>
                                 <div class="col-sm-8">{!!Form::select('prava_pristupa_id',$pravaPristupa,1,['class'=>'form-control'])!!}</div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-4">Vrsta korisnika</label>
-                                <div class="col-sm-8">{!!Form::select('vrsta_korisnika_id',$vrstaKorisnika,1,['class'=>'form-control'])!!}</div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4">Naziv</label>

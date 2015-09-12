@@ -8,7 +8,7 @@ class Administracija extends Controller {
 //LOG[in,out]
 	public function getLogin(){
 		if(Security::autentifikacijaTest()) return redirect('/administracija');
-		return view('administracija.login');
+		return view('log.login');
 	}
 	public function postLogin(){
 		return Security::login(Input::get('username'),Input::get('password'));

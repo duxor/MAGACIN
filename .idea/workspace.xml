@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d44f3585-50b9-42ab-8d66-8c024de21595" name="Default" comment="">
-      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\app\VrstaKorisnika.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\public\img\kula-logo.JPG" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" afterPath="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/2_testni_podaci.php" afterPath="$PROJECT_DIR$/database/seeds/2_testni_podaci.php" />
+    <list default="true" id="d44f3585-50b9-42ab-8d66-8c024de21595" name="Default" comment="А 1.4.2">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" afterPath="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\index.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/index.blade.php" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\korisnici.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/korisnici/korisnici.blade.php" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\login.blade.php" afterPath="$PROJECT_DIR$/resources/views/log/login.blade.php" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\magacin.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/magacin/magacin.blade.php" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\magacini.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/magacin/magacini.blade.php" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\master.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin-master.blade.php" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\narudzba.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/fakture/narudzba.blade.php" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\pretraga.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/proizvodi/pretraga.blade.php" />
+      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\administracija\proizvodi.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/proizvodi/proizvodi.blade.php" />
     </list>
     <ignored path="APLIKACIJA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,7 +40,7 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="proizvodi.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/administracija/proizvodi.blade.php">
+        <entry file="file://$PROJECT_DIR$/resources/views/app-admin/proizvodi/proizvodi.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="4760">
               <caret line="10" column="99" selection-start-line="10" selection-start-column="99" selection-end-line="10" selection-end-column="99" />
@@ -50,64 +57,38 @@
       <file leaf-file-name="Administracija.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Administracija.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-35.307693" vertical-offset="0" max-vertical-offset="1139">
-              <caret line="56" column="77" selection-start-line="56" selection-start-column="77" selection-end-line="56" selection-end-column="77" />
+            <state vertical-scroll-proportion="-11.769231" vertical-offset="612" max-vertical-offset="1139">
+              <caret line="56" column="44" selection-start-line="56" selection-start-column="44" selection-end-line="56" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="1_konfiguracioni_podaci.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php">
+      <file leaf-file-name="magacin.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/app-admin/magacin/magacin.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.854546" vertical-offset="125" max-vertical-offset="935">
-              <caret line="36" column="34" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
-              <folding>
-                <element signature="e#6#37#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="2_testni_podaci.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/database/seeds/2_testni_podaci.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="12.241848" vertical-offset="0" max-vertical-offset="4930">
-              <caret line="273" column="52" selection-start-line="273" selection-start-column="52" selection-end-line="273" selection-end-column="52" />
+            <state vertical-scroll-proportion="0.3313253" vertical-offset="366" max-vertical-offset="1445">
+              <caret line="28" column="135" selection-start-line="28" selection-start-column="135" selection-end-line="28" selection-end-column="135" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="30_03_2015_0107_kreiranje_baze.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php">
+      <file leaf-file-name="KorisniciKontroler.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="3485">
-              <caret line="3" column="45" selection-start-line="3" selection-start-column="45" selection-end-line="3" selection-end-column="45" />
-              <folding>
-                <element signature="e#7#48#0#PHP" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-2.6538463" vertical-offset="33" max-vertical-offset="1428">
+              <caret line="15" column="27" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="27" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fileinput.min.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/dragdrop/js/fileinput.min.js">
+      <file leaf-file-name="korisnici.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/app-admin/korisnici/korisnici.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.965517" vertical-offset="0" max-vertical-offset="391">
-              <caret line="17" column="9785" selection-start-line="17" selection-start-column="9785" selection-end-line="17" selection-end-column="9785" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AppContent.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/AppContent.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="357" max-vertical-offset="1190">
-              <caret line="26" column="47" selection-start-line="13" selection-start-column="8" selection-end-line="26" selection-end-column="47" />
+            <state vertical-scroll-proportion="-5.8545456" vertical-offset="1310" max-vertical-offset="2924">
+              <caret line="96" column="34" selection-start-line="96" selection-start-column="34" selection-end-line="96" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -153,8 +134,6 @@
         <option value="$PROJECT_DIR$/resources/views/administracija/magacini.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/master.blade.php" />
         <option value="$PROJECT_DIR$/public/js/funkcije.js" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php" />
-        <option value="$PROJECT_DIR$/resources/views/administracija/korisnici.blade.php" />
         <option value="$PROJECT_DIR$/app/Korisnici.php" />
         <option value="$PROJECT_DIR$/resources/views/administracija/login.blade.php" />
         <option value="$PROJECT_DIR$/app/MagaciniID.php" />
@@ -168,10 +147,12 @@
         <option value="$PROJECT_DIR$/app/AppContent.php" />
         <option value="$PROJECT_DIR$/public/dragdrop/js/fileinput.min.js" />
         <option value="$PROJECT_DIR$/resources/views/administracija/proizvodi.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" />
-        <option value="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" />
         <option value="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" />
         <option value="$PROJECT_DIR$/database/seeds/2_testni_podaci.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php" />
+        <option value="$PROJECT_DIR$/resources/views/administracija/korisnici.blade.php" />
+        <option value="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" />
       </list>
     </option>
   </component>
@@ -262,7 +243,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="administracija" />
+              <option name="myItemId" value="app-admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -460,7 +441,10 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views" />
-      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\stranice" />
+      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\app-admin\proizvodi" />
+      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\app-admin\fakture" />
+      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\app-admin\magacin" />
+      <recent name="E:\PROJEKTI\MAGACIN\APLIKACIJA\resources\views\app-admin\korisnici" />
     </key>
   </component>
   <component name="RunManager">
@@ -550,7 +534,13 @@
       <option name="project" value="LOCAL" />
       <updated>1442040177035</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="А 1.4.1">
+      <created>1442045304320</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1442045304320</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -575,11 +565,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1364" height="726" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32828283" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24074075" sideWeight="0.8335855" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24074075" sideWeight="0.8335855" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -645,7 +635,9 @@
     <MESSAGE value="А 1.2" />
     <MESSAGE value="А 1.3" />
     <MESSAGE value="А 1.4" />
-    <option name="LAST_COMMIT_MESSAGE" value="А 1.4" />
+    <MESSAGE value="А 1.4.1" />
+    <MESSAGE value="А 1.4.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="А 1.4.2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -661,7 +653,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/proizvodi.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/app-admin/proizvodi/proizvodi.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2856">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -758,28 +750,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/index.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/app-admin/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="511">
           <caret line="0" column="31" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/magacin.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1445">
-          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/narudzba.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/app-admin/fakture/narudzba.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4624">
           <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/pretraga.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/app-admin/proizvodi/pretraga.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
           <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
@@ -800,7 +785,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/magacini.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/app-admin/magacin/magacini.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="527" max-vertical-offset="1139">
           <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
@@ -822,7 +807,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/login.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/log/login.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.37431192" vertical-offset="255" max-vertical-offset="884">
           <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
@@ -847,13 +832,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="521">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6852207" vertical-offset="0" max-vertical-offset="527">
-          <caret line="28" column="50" selection-start-line="28" selection-start-column="50" selection-end-line="28" selection-end-column="50" />
         </state>
       </provider>
     </entry>
@@ -926,7 +904,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/master.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/admin-master.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5265823" vertical-offset="2053" max-vertical-offset="2448">
           <caret line="133" column="65" selection-start-line="133" selection-start-column="65" selection-end-line="133" selection-end-column="65" />
@@ -937,13 +915,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2635659" vertical-offset="0" max-vertical-offset="3434">
           <caret line="20" column="89" selection-start-line="20" selection-start-column="89" selection-end-line="20" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/korisnici.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21834862" vertical-offset="0" max-vertical-offset="3111">
-          <caret line="7" column="13" selection-start-line="3" selection-start-column="4" selection-end-line="10" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -973,16 +944,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/dragdrop/js/fileinput.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.965517" vertical-offset="0" max-vertical-offset="391">
-          <caret line="17" column="9785" selection-start-line="17" selection-start-column="9785" selection-end-line="17" selection-end-column="9785" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/AppContent.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1190">
@@ -991,15 +952,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Administracija.php">
+    <entry file="file://$PROJECT_DIR$/database/seeds/2_testni_podaci.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-35.307693" vertical-offset="0" max-vertical-offset="1139">
-          <caret line="56" column="77" selection-start-line="56" selection-start-column="77" selection-end-line="56" selection-end-column="77" />
+        <state vertical-scroll-proportion="-173.26923" vertical-offset="0" max-vertical-offset="4930">
+          <caret line="273" column="52" selection-start-line="273" selection-start-column="52" selection-end-line="273" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/administracija/proizvodi.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/app-admin/proizvodi/proizvodi.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="4760">
           <caret line="10" column="99" selection-start-line="10" selection-start-column="99" selection-end-line="10" selection-end-column="99" />
@@ -1014,28 +975,62 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="3485">
-          <caret line="3" column="45" selection-start-line="3" selection-start-column="45" selection-end-line="3" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.7472826" vertical-offset="2581" max-vertical-offset="3502">
+          <caret line="168" column="55" selection-start-line="168" selection-start-column="55" selection-end-line="168" selection-end-column="55" />
           <folding>
             <element signature="e#7#48#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/dragdrop/js/fileinput.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7585302" vertical-offset="0" max-vertical-offset="391">
+          <caret line="17" column="9785" selection-start-line="17" selection-start-column="9785" selection-end-line="17" selection-end-column="9785" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/app-admin/korisnici/korisnici.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.8545456" vertical-offset="1310" max-vertical-offset="2924">
+          <caret line="96" column="34" selection-start-line="96" selection-start-column="34" selection-end-line="96" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/KorisniciKontroler.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.6538463" vertical-offset="33" max-vertical-offset="1428">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.854546" vertical-offset="125" max-vertical-offset="935">
-          <caret line="36" column="34" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.5655577" vertical-offset="0" max-vertical-offset="935">
+          <caret line="17" column="45" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
           <folding>
             <element signature="e#6#37#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/seeds/2_testni_podaci.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Administracija.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="12.241848" vertical-offset="0" max-vertical-offset="4930">
-          <caret line="273" column="52" selection-start-line="273" selection-start-column="52" selection-end-line="273" selection-end-column="52" />
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="612" max-vertical-offset="1139">
+          <caret line="56" column="44" selection-start-line="56" selection-start-column="44" selection-end-line="56" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/app-admin/magacin/magacin.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3313253" vertical-offset="366" max-vertical-offset="1445">
+          <caret line="28" column="135" selection-start-line="28" selection-start-column="135" selection-end-line="28" selection-end-column="135" />
           <folding />
         </state>
       </provider>
