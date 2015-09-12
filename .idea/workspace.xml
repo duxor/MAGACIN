@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d44f3585-50b9-42ab-8d66-8c024de21595" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" afterPath="$PROJECT_DIR$/database/seeds/1_konfiguracioni_podaci.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" afterPath="$PROJECT_DIR$/database/migrations/30_03_2015_0107_kreiranje_baze.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Administracija.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Proizvod.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Proizvod.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin-master.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin-master.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/funkcije.js" afterPath="$PROJECT_DIR$/public/js/funkcije.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/app-admin/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/app-admin/proizvodi/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/app-admin/proizvodi/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/log/login.blade.php" afterPath="$PROJECT_DIR$/resources/views/log/login.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="E:\PROJEKTI\MAGACIN\APLIKACIJA\app\ProizvodMagacin" afterPath="$PROJECT_DIR$/app/ProizvodMagacin.php" />
     </list>
     <ignored path="APLIKACIJA.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,7 +49,7 @@
       <file leaf-file-name="Proizvod.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Proizvod.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.498062" vertical-offset="134" max-vertical-offset="4114">
+            <state vertical-scroll-proportion="2.2743363" vertical-offset="134" max-vertical-offset="4114">
               <caret line="36" column="49" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
               <folding />
             </state>
@@ -560,7 +550,13 @@
       <option name="project" value="LOCAL" />
       <updated>1442054665877</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="А 1.5">
+      <created>1442075846725</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1442075846725</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -585,9 +581,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32828283" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.65849674" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24019608" sideWeight="0.8335855" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -603,7 +600,6 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32828283" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -659,7 +655,8 @@
     <MESSAGE value="А 1.4.2" />
     <MESSAGE value="А 1.4.3" />
     <MESSAGE value="А 1.4.4" />
-    <option name="LAST_COMMIT_MESSAGE" value="А 1.4.4" />
+    <MESSAGE value="А 1.5" />
+    <option name="LAST_COMMIT_MESSAGE" value="А 1.5" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1065,7 +1062,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Proizvod.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.498062" vertical-offset="134" max-vertical-offset="4114">
+        <state vertical-scroll-proportion="2.2743363" vertical-offset="134" max-vertical-offset="4114">
           <caret line="36" column="49" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
           <folding />
         </state>
