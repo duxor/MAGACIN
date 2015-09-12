@@ -1,4 +1,4 @@
-@extends('administracija.master')
+@extends('admin-master')
 
 @section('content')
     <h2 style="text-align: left" id="korisnici"><i class="glyphicon glyphicon-user"></i> Korisnici

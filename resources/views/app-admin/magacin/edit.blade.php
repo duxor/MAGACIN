@@ -1,4 +1,4 @@
-@extends('administracija.master')
+@extends('admin-master')
 @section('content')
 
     <h1 style="text-align: left">
@@ -25,16 +25,33 @@
                     <td>{{$proizvod['kolicina_stanje']}}</td>
                     <td>{{$proizvod['kolicina_min']}}</td>
                     <td>
-                        <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-lg btn-success _tooltip" onclick="magacinid({{$proizvod['id']}},'+')" title="Dodaj na stanje"><span class="glyphicon glyphicon-plus"></span></a>
-                        <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-lg btn-danger _tooltip" onclick="magacinid({{$proizvod['id']}},'-')" title="Skini sa stanja"><span class="glyphicon glyphicon-minus"></span></a>
-                        <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-lg btn-primary _tooltip" onclick="magacinid({{$proizvod['id']}},'min')" title="Ažuriraj minimum"><span class="glyphicon glyphicon-indent-left"></span></a>
-                        <a href="/administracija/magacin/proizvod-ukloni/{{$proizvod['id']}}" class="btn btn-lg btn-danger" data-toggle="tooltip" title="Ukloni proizvod iz magacina"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-sm btn-success _tooltip" onclick="magacinid({{$proizvod['id']}},'+')" title="Dodaj na stanje"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-sm btn-danger _tooltip" onclick="magacinid({{$proizvod['id']}},'-')" title="Skini sa stanja"><span class="glyphicon glyphicon-minus"></span></a>
+                        <a href="#" data-toggle="modal" data-target="#modal" class="btn btn-sm btn-primary _tooltip" onclick="magacinid({{$proizvod['id']}},'min')" title="Ažuriraj minimum"><span class="glyphicon glyphicon-indent-left"></span></a>
+                        <a href="#" data-href="/administracija/magacin/proizvod-ukloni/{{$proizvod['id']}}" onclick="ukloniProizvod(this)" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Ukloni proizvod iz magacina"><span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+        <div class="modal fade" id="daNeModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Da li ste sigurni da želite da uklonite navedeni proizvod? Proizvod će biti trajno uklonjen iz magacina.</h3>
+                    </div>
+                    <div class="modal-body">
+                        <a href="#" class="btn btn-danger" id="removeLink"><i class="glyphicon glyphicon-trash"></i> Ukloni</a>
+                        <button class="btn btn-primary" data-dismiss="modal"><i class="glyphicon glyphicon-off"></i> Otkaži</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
+            function ukloniProizvod(el){
+                $('#removeLink').attr('href',$(el).data('href'));
+                $('#daNeModal').modal();
+            }
             $(function(){$('._tooltip').tooltip();$('[data-toggle="tooltip"]').tooltip()})
             function magacinid(id,znak){
                 $('#magacin_id').val(id);

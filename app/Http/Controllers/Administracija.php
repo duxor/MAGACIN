@@ -57,7 +57,7 @@ class Administracija extends Controller {
 					0 Pregled narudžbi sa statusom, servisima koji su rađeni, komantarom vlasnika [između ostalog treba da sadrži i garanciju na realizovani proizvod, koju ažurira AplikativniAdministrator]
 				]
 		*/
-		return Security::autentifikacija('administracija.index',null);
+		return Security::autentifikacija('app-admin.index',null);
 	}
 
 }

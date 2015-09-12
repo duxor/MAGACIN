@@ -21,7 +21,7 @@ class KorisniciKontroler extends Controller {
 					'banka_2','registracija', 'broj_upisa','telefon'])
 			->toArray();
 		$pravaPristupa=PravaPristupa::where('id','<',4)->get(['id','naziv'])->lists('naziv','id');
-		return Security::autentifikacija('administracija.korisnici',compact('korisnici','vrstaKorisnika','pravaPristupa'));
+		return Security::autentifikacija('app-admin.korisnici.index',compact('korisnici','vrstaKorisnika','pravaPristupa'));
 	}
 
 	public function postIndex(){

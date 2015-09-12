@@ -1,4 +1,4 @@
-@extends('administracija.master')
+@extends('admin-master')
 @section('content')
 
     @if(isset($magacini))

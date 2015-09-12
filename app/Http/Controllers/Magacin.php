@@ -12,10 +12,10 @@ class Magacin extends Controller {
 
 	public function getIndex(){
 		$magacini = MagaciniID::get(['id','naziv','opis'])->toArray();
-		return Security::autentifikacija('administracija.magacini',compact('magacini'));
+		return Security::autentifikacija('app-admin.magacin.index',compact('magacini'));
 	}
 	public function getNovi(){
-		return Security::autentifikacija('administracija.magacini',['novi'=>true]);
+		return Security::autentifikacija('app-admin.magacin.index',['novi'=>true]);
 	}
 	public function postMagacin(){
 		if(Security::autentifikacijaTest()){
@@ -29,7 +29,7 @@ class Magacin extends Controller {
 	}
 	public function getAzuriraj($id){
 		$magacin = MagaciniID::where('id','=',$id)->get(['id','naziv','opis'])->first()->toArray();
-		return Security::autentifikacija('administracija.magacini',compact('magacin'));
+		return Security::autentifikacija('app-admin.magacin.index',compact('magacin'));
 	}
 	public function getUkloni($id){
 		if(Security::autentifikacijaTest()){
@@ -41,9 +41,9 @@ class Magacin extends Controller {
 	public function getPregled($id){
 		$magacin = MagaciniID::where('id','=',$id)->get(['id','naziv'])->first()->toArray();
 		$umagacinu = Skladiste::join('proizvod','proizvod.id','=','magacin.proizvod_id')
-			->where('magacinid_id','=',$id)
-			->get(['magacin.id','magacinid_id','proizvod.sifra','proizvod.naziv','kolicina_stanje','kolicina_min','pozicija_id'])->toArray();
-		return Security::autentifikacija('administracija.magacin',compact('magacin','umagacinu'));
+			->where('magacin_id_id','=',$id)
+			->get(['magacin.id','magacin_id_id','proizvod.sifra','proizvod.naziv','kolicina_stanje','kolicina_min','pozicija_id'])->toArray();
+		return Security::autentifikacija('app-admin.magacin.edit',compact('magacin','umagacinu'));
 	}
 	public function postProizvod(){
 		if(Security::autentifikacijaTest()){
