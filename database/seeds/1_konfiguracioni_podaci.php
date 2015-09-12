@@ -3,7 +3,6 @@ use Illuminate\Database\Seeder;
 use App\Security;
 use App\PravaPristupa;
 use App\Korisnici;
-use App\VrstaKorisnika;
 
 class KonfiguracioniPodaci extends Seeder{
     public function run(){
@@ -11,14 +10,8 @@ class KonfiguracioniPodaci extends Seeder{
             ['naziv' => 'Zabranjen pristup'],//1
             ['naziv' => 'Kupac'],//2
             ['naziv' => 'Dobavljač'],//3
-            ['naziv' => 'Administrator']//4
-        ]);
-        VrstaKorisnika::insert([
-            ['naziv' => 'Kupac - fizičko lice'],//1
-            ['naziv' => 'Kupac - pravno lice'],//2
-            ['naziv' => 'Dobavljač'],//3
-            ['naziv' => 'Vlasnik'],//4
-            ['naziv' => 'Administrator']//5
+            ['naziv' => 'AplikativniAdministrator'],//4
+            ['naziv' => 'SuperAdministrator']//5
         ]);
         Korisnici::insert([
             [//1
@@ -27,8 +20,7 @@ class KonfiguracioniPodaci extends Seeder{
                 'email' => 'admin@admin.com',
                 'username' => 'admin',
                 'password' => Security::generateHashPass('admin'),
-                'prava_pristupa_id' => 4,
-                'vrsta_korisnika_id' => 5
+                'prava_pristupa_id' => 4
             ]
         ]);
         Korisnici::insert([
@@ -39,7 +31,6 @@ class KonfiguracioniPodaci extends Seeder{
                 'username' => 'kula',
                 'password' => Security::generateHashPass('kula'),
                 'prava_pristupa_id' => 4,
-                'vrsta_korisnika_id' => 4,
                 'naziv' => 'SZTR "KULA" FOČA',
                 'adresa' => 'Ul. Svetosavska bb',
                 'grad' => '73300 Foča',

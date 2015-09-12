@@ -2,19 +2,11 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use DB;
 class KreiranjeBaze extends Migration {
 
 	public function up()
 	{
 		Schema::create('prava_pristupa', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
-			$table->string('naziv', 45)->unique();
-			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->timestamp('updated_at')->nullable();
-		});
-		Schema::create('vrsta_korisnika', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
 			$table->string('naziv', 45)->unique();
@@ -32,8 +24,6 @@ class KreiranjeBaze extends Migration {
 			$table->string('token', 250)->nullable();
 			$table->unsignedBigInteger('prava_pristupa_id');
 			$table->foreign('prava_pristupa_id')->references('id')->on('prava_pristupa');
-			$table->unsignedBigInteger('vrsta_korisnika_id');
-			$table->foreign('vrsta_korisnika_id')->references('id')->on('vrsta_korisnika');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
 			$table->string('naziv',250)->nullable();
@@ -203,7 +193,6 @@ class KreiranjeBaze extends Migration {
 		Schema::drop('aplikacija');
 		Schema::drop('log');
 		Schema::drop('korisnici');
-		Schema::drop('vrsta_korisnika');	
 		Schema::drop('prava_pristupa');
 	}
 

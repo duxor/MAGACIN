@@ -251,7 +251,6 @@ class TestPodaci extends Seeder{
                 'username' => 'petar',
                 'password' => Security::generateHashPass('petar'),
                 'prava_pristupa_id' => 3,//dobavljac
-                'vrsta_korisnika_id' => 3,//dobavljac
                 'naziv' => 'Servis Petrovo',
                 'adresa' => 'Ul. Miloša Obilića bb',
                 'grad' => '73300 Foča',
@@ -273,7 +272,6 @@ class TestPodaci extends Seeder{
                 'username' => 'marko',
                 'password' => Security::generateHashPass('marko'),
                 'prava_pristupa_id' => 1,//zabranjen
-                'vrsta_korisnika_id' => 1,//kupac - fizicko lice
                 'naziv' => null,
                 'adresa' => 'Ul. Cara Dusana bb',
                 'grad' => '73300 Foča',
