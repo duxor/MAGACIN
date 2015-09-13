@@ -41,6 +41,9 @@ class KreiranjeBaze extends Migration {
 			$table->string('telefon',45)->nullable();
 			$table->text('opis');
 			$table->tinyInteger('aktivan')->default(1);
+			$table->string('jmbg',45)->nullable();
+			$table->string('broj_licne_karte',45)->nullable();
+			$table->string('foto',250)->nullable();
 		});
 		Schema::create('log', function(Blueprint $table)
 		{
@@ -167,7 +170,7 @@ class KreiranjeBaze extends Migration {
 			$table->foreign('korisnici_id')->references('id')->on('korisnici');
 			$table->unsignedBigInteger('aplikacija_id');
 			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
-			$table->tinyInteger('aktivan')->default(0);
+			$table->tinyInteger('aktivan')->default(1);
 		});
 		Schema::create('proizvod_iz_magacina',function(Blueprint $table){
 			$table->bigIncrements('id');

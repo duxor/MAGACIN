@@ -85,7 +85,7 @@
                     <a class="navbar-brand" href="{!! url('/') !!}"><span class="glyphicon glyphicon-home"></span> Magacin</a>
                 </div>
                 <div id="dMenija" class="collapse navbar-collapse">
-                    @if(\App\Security::autentifikacijaTest())
+                    @if(\App\Security::autentifikacijaTest(2,'min'))
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/administracija/korisnici"><span class="glyphicon glyphicon-user"></span> Korisnici</a></li>
                         <li class="dropdown">

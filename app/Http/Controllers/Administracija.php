@@ -4,12 +4,13 @@ use App\OsnovneMetode;
 use App\Security;
 use Illuminate\Support\Facades\Input;
 use App\Korisnici;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Aplikacija;
 class Administracija extends Controller {
 //LOG[in,out]
 	public function getLogin(){
-		if(Security::autentifikacijaTest()){
+		if(Security::autentifikacijaTest(2,'min')){
 			return redirect('/administracija');
 		}
 		return view('log.login');
@@ -17,9 +18,9 @@ class Administracija extends Controller {
 	public function postLogin(){
 		$redirect=Security::login(Input::get('username'),Input::get('password'));
 
-		if(Security::autentifikacijaTest()){
-			Session::put('prava',Korisnici::find(Session::get('id'),['prava_pristupa_id'])->prava_pristupa_id);
-			if(Session::get('prava')==4) {
+		if(Security::autentifikacijaTest(2,'min')){
+			//Session::put('prava_pristupa',Korisnici::find(Session::get('id'),['prava_pristupa_id'])->prava_pristupa_id);
+			if(Session::get('prava_pristupa')==4) {
 				$app=Aplikacija::where('korisnici_id',Session::get('id'))->get(['slug'])->first();
 				if($app) Session::put('aplikacija', $app->slug);
 			}
@@ -70,13 +71,13 @@ class Administracija extends Controller {
 					0 Pregled narudžbi sa statusom, servisima koji su rađeni, komantarom vlasnika [između ostalog treba da sadrži i garanciju na realizovani proizvod, koju ažurira AplikativniAdministrator]
 				]
 		*/
-		switch(Session::get('prava')){
+		switch(Session::get('prava_pristupa')){
 			case 2: return 'Kupac';
 			case 3: return 'Dobavljac';
-			case 4: return Security::autentifikacija('app-admin.index',null);
-			case 5: return 'Administrator';
+			case 4: return Security::autentifikacija('app-admin.index',null,4);
+			case 5: return Security::autentifikacija('super-admin.index',null,5);
 		}
-		return '/login'.Session::get('prava');
+		return redirect('/administracija/login');
 	}
 
 }

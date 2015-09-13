@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Aplikacija;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -10,20 +11,110 @@ use App\PravaPristupa;
 use App\VrstaKorisnika;
 use Illuminate\Http\Request;
 use App\Security;
-
+use Illuminate\Support\Facades\Session;
+use App\KorisniciAplikacije;
 class KorisniciKontroler extends Controller {
-
 	public function getIndex(){
-		$korisnici=Korisnici::join('prava_pristupa as pp','pp.id','=','korisnici.prava_pristupa_id')
-			->whereBetween('pp.id',[1,3])
-			->get(['korisnici.id','prezime','ime','email','prava_pristupa_id','pp.naziv as prava_pristupa_naziv',
-					'korisnici.naziv','adresa','grad', 'jib','pib','pdv','ziro_racun_1','banka_1','ziro_racun_2',
-					'banka_2','registracija', 'broj_upisa','telefon'])
-			->toArray();
-		$pravaPristupa=PravaPristupa::where('id','<',4)->get(['id','naziv'])->lists('naziv','id');
-		return Security::autentifikacija('app-admin.korisnici.index',compact('korisnici','vrstaKorisnika','pravaPristupa'));
-	}
+		switch(Session::get('prava_pristupa')){
+			case 4:
+				$korisnici=Korisnici::join('prava_pristupa as pp','pp.id','=','korisnici.prava_pristupa_id')
+					->whereBetween('pp.id',[1,3])
+					->get(['korisnici.id','prezime','ime','email','prava_pristupa_id','pp.naziv as prava_pristupa_naziv',
+							'korisnici.naziv','adresa','grad', 'jib','pib','pdv','ziro_racun_1','banka_1','ziro_racun_2',
+							'banka_2','registracija', 'broj_upisa','telefon'])
+					->toArray();
+				$pravaPristupa=PravaPristupa::whereBetween('id',[2,3])->get(['id','naziv'])->lists('naziv','id');
+				$pravaPristupa[0]='Vrsta korisnika';
+				return Security::autentifikacija('app-admin.korisnici.index',compact('korisnici','vrstaKorisnika','pravaPristupa'),4);
+			break;
 
+			case 5:
+				return Security::autentifikacija('super-admin.korisnici.index',null,5);
+			break;
+		}
+	}
+	public function postUcitaj(){
+		switch(Session::get('prava_pristupa')){
+			case 5:
+				return json_encode(Korisnici::where('prava_pristupa_id',4)
+					->where(function($query){
+					$query->where('korisnici.prezime','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%')
+						->orWhere('korisnici.ime','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%')
+						->orWhere('korisnici.naziv','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%');
+					})
+					->get(['korisnici.id','prezime','ime','jmbg','adresa','grad','korisnici.naziv','pib','korisnici.opis','korisnici.aktivan'])
+					->toArray());
+			break;
+			default:
+				return json_encode(Korisnici::join('korisnici_aplikacije as ka','korisnici.id','=','ka.korisnici_id')
+					->join('aplikacija as a','ka.aplikacija_id','=','a.id')
+					->join('prava_pristupa as pp','pp.id','=','korisnici.prava_pristupa_id')
+					->where('a.slug','=',Session::get('aplikacija'))
+					->where('prava_pristupa_id',(isset($_POST['vrsta'])?$_POST['vrsta']>0?'=':'<':'<'),(isset($_POST['vrsta'])?$_POST['vrsta']>0?$_POST['vrsta']:4:4))
+					->where(function($query){
+						$query->where('korisnici.prezime','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%')
+							->orWhere('korisnici.ime','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%')
+							->orWhere('korisnici.naziv','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%');
+					})
+					->get(['korisnici.id','prezime','ime','jmbg','adresa','grad','korisnici.naziv','pib',
+						'korisnici.opis','korisnici.aktivan','pp.naziv as vrsta'])
+					->toArray());
+				break;
+		}
+
+	}
+	public function postEditUcitaj(){
+		return json_encode(Korisnici::find($_POST['id']));
+	}
+	public function postDeaktiviraj(){
+		$aktivan=$_POST['aktivan']?0:1;
+		Korisnici::find($_POST['id'],['id','aktivan'])->update(['aktivan'=>$aktivan]);
+		return $aktivan;
+	}
+	public function postAzuriraj(){
+		$podaci=json_decode(Input::get('podaci'));
+		//UNOS PODATAKA U BAZU
+		//..
+		//..FALI [jmbg,broj_licne_karte,pristup_platformi(default=1)]
+		$korisnik=isset($podaci->id)? Korisnici::find($podaci->id) : new Korisnici();
+
+		$korisnik->prava_pristupa_id = $podaci->prava_pristupa_id;
+		$korisnik->foto = $podaci->imgSrc;
+		$korisnik->prezime = $podaci->prezime;
+		$korisnik->ime = $podaci->ime;
+		$korisnik->username = $podaci->username;
+		if($podaci->password) $korisnik->password = Security::generateHashPass($podaci->password);
+		$korisnik->email = $podaci->email;
+		$korisnik->adresa = $podaci->adresa;
+		$korisnik->grad = $podaci->grad;
+		$korisnik->telefon = $podaci->telefon;
+		$korisnik->jmbg = $podaci->jmbg;
+		$korisnik->broj_licne_karte = $podaci->broj_licne_karte;
+
+		$korisnik->naziv = $podaci->naziv;
+		$korisnik->opis = $podaci->opis;
+		$korisnik->registracija = $podaci->registracija;
+		$korisnik->broj_upisa = $podaci->broj_upisa;
+		$korisnik->banka_1 = $podaci->banka_1;
+		$korisnik->ziro_racun_1 = $podaci->ziro_racun_1;
+		$korisnik->banka_2 = $podaci->banka_2;
+		$korisnik->ziro_racun_2 = $podaci->ziro_racun_2;
+		$korisnik->pdv = $podaci->pdv;
+		$korisnik->pib = $podaci->pib;
+		$korisnik->jib = $podaci->jib;
+
+		$korisnik->save();
+
+		if(Session::has('aplikacija')){
+			KorisniciAplikacije::insert([
+				[
+					'korisnici_id'=>$korisnik->id,
+					'aplikacija_id'=>Aplikacija::where('slug',Session::get('aplikacija'))->get(['id'])->first()->id
+				]
+			]);
+		}
+		return json_encode(['msg'=>'Uspješan unos.','check'=>1]);
+	}
 	public function postIndex(){
 		$podaci=json_decode(Input::get('podaci'));
 		 $validator=Validator::make([
@@ -81,7 +172,35 @@ class KorisniciKontroler extends Controller {
 		$novi->opis=$podaci->opis;
 		$novi->save();
 		return json_encode(['msg'=>'Uspješno ste dodali novog korisnika.','check'=>1]);
-
-
+	}
+	public function postUploadFoto(){
+		/*if(!Security::autentifikacijaTest(2,'min')){
+			echo json_encode(['error'=>'Niste prijavljeni na platformu.']);
+			return;
+		}*/
+		if (empty($_FILES['foto'])) {
+			echo json_encode(['error'=>'Nisu pronađeni fajlovi za upload.']);
+			return;
+		}
+		$folder = 'img/'.(Session::has('aplikacija')?'aplikacije/'.Session::get('aplikacija').'/':'').'korisnici/'.((isset($_POST['id'])and($_POST['id']!='undefined'))?$_POST['id']:(Korisnici::max('id')+1)).'.'.explode('.', $_FILES['foto']['name'])[1];
+		$success = null;
+		$paths=null;
+		if(file_exists($folder)) unlink($folder);
+		if(move_uploaded_file($_FILES['foto']['tmp_name'], $folder)){
+			$success = true;
+			$paths = $folder.$_FILES['foto']['name'];
+		} else {
+			$success = false;
+		}
+		if ($success === true) {
+			$output = $folder;
+		} elseif ($success === false) {
+			$output = ['error'=>'Greška prilikom upload-a. Kontaktirajte tehničku podršku platforme.'];
+			unlink($paths);
+		} else {
+			$output = ['error'=>'Fajlovi nisu procesuirani.'];
+		}
+		echo json_encode($output);
+		return;
 	}
 }

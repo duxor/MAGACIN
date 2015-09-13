@@ -1,15 +1,13 @@
 @extends('admin-master')
 @section('content')
 
-    @if(isset($proizvodi))
-    @if($proizvodi)
         <h2 style="text-align: left" id="proizvodi"><i class="glyphicon glyphicon-qrcode"></i> Proizvodi
             <button id="dugmeNovi" class="btn btn-primary" onClick="noviProizvod()" data-toggle="tooltip" title="Dodaj novi proizvod"><i class="glyphicon glyphicon-plus"></i></button>
-            <button id="dugmeUcitaj" class="btn btn-primary" onClick="ucitajProizvode()" data-toggle="tooltip" title="Prikaži proizvode" style="dislay:none"><i class="glyphicon glyphicon-qrcode"></i></button>
+            <button id="dugmeUcitaj" class="btn btn-primary" onClick="ucitajProizvode()" data-toggle="tooltip" title="Prikaži proizvode" style="display:none"><i class="glyphicon glyphicon-qrcode"></i></button>
             <div class="form-inline" style="float: right">
-                <button class="btn btn-sm btn-default" data-toggle="tooltip" title="Pronađi proizvod"><i class="glyphicon glyphicon-search"></i></button>
-                <div class="form-group">{!!Form::text('pretraga_proizvod',null,['class'=>'form-control'])!!}</div>
-                <div class="form-group">{!!Form::select('pretraga_vrsta_proizvoda',array_merge([0=>'Svi proizvodi'],$vrstaProizvoda),0,['class'=>'form-control'])!!}</div>
+                <button class="btn btn-sm btn-default" data-toggle="tooltip" title="Pronađi proizvod" onclick="pretrazi()"><i class="glyphicon glyphicon-search"></i></button>
+                <div class="form-group">{!!Form::text('pretraga_proizvod',null,['class'=>'form-control','id'=>'pretraga_proizvod'])!!}</div>
+                <div class="form-group">{!!Form::select('pretraga_vrsta_proizvoda',array_merge([0=>'Svi proizvodi'],$vrstaProizvoda),0,['class'=>'form-control','id'=>'dirak'])!!}</div>
             </div>
         </h2>
 
@@ -17,14 +15,20 @@
         {!! HTML::script('/dragdrop/js/fileinput.min.js') !!}
         <script>
             $(function(){ucitajProizvode()})
-            function ucitajProizvode(){
+            function pretrazi(){
+                var pretraga = $('#pretraga_proizvod').val();
+                var vrsta = $('#dirak').val();
+                alert(pretraga,+'vr='+vrsta);
+            }
+            function ucitajProizvode(pretraga,vrsta){
                 $('#dugmeUcitaj').hide();
                 $('#dugmeNovi').fadeIn();
                 $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%;margin-top:80px"></i></center>');
                 $.post('/administracija/proizvod',
                         {
                             _token:'{{csrf_token()}}',
-                            slug:'{{Session::get('slug')}}'
+                            pretraga:pretraga,
+                            vrsta:vrsta
                         },
                 function(data){
                     var proizvodi=JSON.parse(data);
@@ -182,12 +186,8 @@
         <div id="work-place">
 
         </div>
-    @else
-        <p>Ni jedan proizvod nije dodat u evidenciju.</p>
-    @endif
-    @endif
 
-    @if(isset($novi) or isset($proizvod))
+    {{--@if(isset($novi) or isset($proizvod))
         {!! Form::open(['url'=>'/administracija/proizvod/proizvod','class'=>'form-horizontal','id'=>'forma']) !!}
         @if(!isset($proizvod)) {!!$proizvod = null!!} @else {!!Form::hidden('id',$proizvod['id'])!!} @endif
         <style>.fontResize *{font-size: 12px}</style>
@@ -242,7 +242,7 @@
             </div>
         </div>
         {!! Form::close() !!}
-    @endif
+    @endif--}}
 
     @if(isset($umagacin))
         {!! Form::open(['url'=>'/administracija/proizvod/magacin','class'=>'form-horizontal','id'=>'forma']) !!}

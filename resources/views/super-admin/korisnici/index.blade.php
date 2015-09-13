@@ -1,12 +1,12 @@
-@extends('admin-master')
+@extends('super-admin.master')
 @section('content')
     <h2 style="text-align: left" id="proizvodi"><i class="glyphicon glyphicon-user"></i> Korisnici
         <button id="dugmeNovi" class="btn btn-primary" onClick="noviKorisnik()" data-toggle="tooltip" title="Dodaj novog korisnika"><i class="glyphicon glyphicon-plus"></i></button>
         <button id="dugmeUcitaj" class="btn btn-primary" onClick="ucitajKorisnike()" data-toggle="tooltip" title="Prikaži korisnike" style="display:none"><i class="glyphicon glyphicon-user"></i></button>
         <div class="form-inline" style="float: right">
-            <button class="btn btn-sm btn-default" data-toggle="tooltip" title="Pronađi proizvod" onclick="pretrazi()"><i class="glyphicon glyphicon-search"></i></button>
+            <button class="btn btn-sm btn-default" style="padding: 1.5px 10px" data-toggle="tooltip" title="Prikaži sve korisnike" onclick="ucitajKorisnike()"><i class="icon-users-1"></i></button>
             <div class="form-group">{!!Form::text('pretraga_proizvod',null,['class'=>'form-control','id'=>'pretraga_proizvod'])!!}</div>
-            <div class="form-group">{!!Form::select('pretraga_prava_pristupa',$pravaPristupa,0,['class'=>'form-control','id'=>'pretraga_prava_pristupa'])!!}</div>
+            <button class="btn btn-sm btn-default" style="padding: 3px 10px" data-toggle="tooltip" title="Pronađi korisnika" onclick="pretrazi()"><i class="glyphicon glyphicon-search"></i></button>
         </div>
     </h2>
 
@@ -25,14 +25,9 @@
                 '<div class="col-sm-5">'+
                     '<img id="imgKorisnik" style="width: 100%;margin-bottom:20px;cursor: pointer" onClick="uploadFoto()" src="'+(korisnik?korisnik['foto']?korisnik['foto']:'/img/default/slika-korisnika.jpg':'/img/default/slika-korisnika.jpg')+'">' +
                     '<input type="text" name="imgSrc" id="imgSrc" value="'+(korisnik?korisnik['foto']:'')+'" hidden="hidden">'+
+                    '<input type="text" name="prava_pristupa_id" value="4" hidden="hidden">'+
                     '{!!Form::hidden("_token",csrf_token())!!}' +
                     (korisnik?'<input id="id_korisnika" name="id" value="'+korisnik['id']+'" hidden="hidden">':'')+
-                    '<div class="form-group">' +
-                        '<label class="col-sm-4">Vrsta korisnika</label>' +
-                        '<div class="col-sm-8">' +
-                            '{!!Form::select("prava_pristupa_id",$pravaPristupa,0,["class"=>"form-control"])!!}' +
-                        '</div>' +
-                    '</div>' +
                     '<div id="dprezime" class="form-group has-feedback">' +
                         '<label class="col-sm-4">Prezime</label>' +
                         '<div class="col-sm-8">' +
@@ -156,15 +151,14 @@
             '<div id="poruka" style="display: none"></div>');
             $('#work-place').fadeIn();
         }
-        function ucitajKorisnike(pretraga,vrsta){
+        function ucitajKorisnike(pretraga){
             $('#dugmeUcitaj').hide();
             $('#dugmeNovi').fadeIn();
             $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%;margin-top:80px"></i></center>');
             $.post('/administracija/korisnici/ucitaj',
                     {
                         _token:'{{csrf_token()}}',
-                        pretraga:pretraga,
-                        vrsta:vrsta
+                        pretraga:pretraga
                     },
                     function(data){
                         var korisnici=JSON.parse(data);
@@ -175,12 +169,11 @@
                         var ispis='' +
                                 '<table class="table table-striped">' +
                                 '<thead>' +
-                                '<tr><th></th><th>Prezime i Ime</th><th>JMBG</th><th>Adresa</th><th>Grad</th><th>Naziv</th><th>PIB</th><th>Napomena</th><th>Aktivan</th><th></th></tr>' +
+                                '<tr><th>Prezime i Ime</th><th>JMBG</th><th>Adresa</th><th>Grad</th><th>Naziv</th><th>PIB</th><th>Napomena</th><th>Aktivan</th><th></th></tr>' +
                                 '</thead>' +
                                 '<tbody>';
                         for(var i=0;i<korisnici.length;i++){
                             ispis+='<tr>' +
-                            '<td>'+korisnici[i]['vrsta']+'</td>' +
                             '<td>'+korisnici[i]['prezime']+' '+korisnici[i]['ime']+'</td>' +
                             '<td>'+korisnici[i]['jmbg']+'</td>' +
                             '<td>'+korisnici[i]['adresa']+'</td>' +
@@ -225,7 +218,7 @@
                     });
         }
         function pretrazi(){
-            ucitajKorisnike($('#pretraga_proizvod').val(),$('#pretraga_prava_pristupa').val());
+            ucitajKorisnike($('#pretraga_proizvod').val());
         }
         function sacuvajPodatke(){
             if(SubmitForm.check('hide'))
