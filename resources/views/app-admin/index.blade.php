@@ -1,82 +1,67 @@
 @extends('admin-master')
 
 @section('content')
-    Magacin v1.0
+    <p class="col-sm-12">Magacin v1.0</p>
+    <br><hr>
 
-<style>
-#leftmenu {
-	width: 235px;
-	background-color: #65BC7D;
-	border-radius: 10px;
-	padding: 20px 20px 0 20px;
-	position: absolute;
-	left: -100px;
-	z-index: 100;
-}
-#dashboard img {
-	margin-bottom: 20px;
-	border: 1px solid rgb(0,0,0);
-}
-</style>
-
-<script src="js/_js/jquery.easing.1.3.js"></script>
-<script src="js/_js/jquery.color.js"></script>
-<script>
-$(document).ready(function() {
-  $('#leftmenu').hover(
-     function() {
-		$(this).stop().animate(
-		{
-			left: '0',
-			backgroundColor: 'rgb(255,255,255)'
-		},
-		500, 'easeInSine'
-		);
-	 }, 
-	 function() {
-		 $(this).stop().animate(
-		{
-			left: '-100px',
-			backgroundColor: '#65BC7D'
-		},
-		1500,
-		'easeOutBounce'
-		);
-	 }
-  );
-});
-</script>     
-
-
-<div id="leftmenu">
-<ul class="nav navbar-nav navbar-left">
-    <li><a href="/administracija/korisnici"><span class="glyphicon glyphicon-user"></span> Korisnici</a></li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-folder-open"></span>  Magacini <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="/administracija/magacin"><span class="glyphicon glyphicon-eye-open"></span> Pregled</a></li>
-            <li><a href="/administracija/magacin/novi"><span class="glyphicon glyphicon-plus"></span> Dodaj novi</a></li>
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-lamp"></span> Proizvodi <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="/administracija/proizvod"><span class="glyphicon glyphicon-eye-open"></span> Pregled i ažuriranje</a></li>
-            <li><a href="/administracija/proizvod/novi"><span class="glyphicon glyphicon-plus"></span> Dodavanje novog</a></li>
-            <li><a href="#search"><span class="glyphicon glyphicon-search"></span> Pretraga</a></li>
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>@if(\App\OsnovneMetode::nestanakProizvoda()>0)<span class="badge">{{\App\OsnovneMetode::nestanakProizvoda()}}</span>@endif Za narudžbu <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="/administracija/proizvod/za-narudzbu"><span class="glyphicon glyphicon-eye-open"></span> Aktuelno</a></li>
-            <li><a href="/administracija/proizvod/narudzbe"><span class="glyphicon glyphicon-briefcase"></span> Arhiva</a></li>
-        </ul>
-    </li>
-    <li><a href="/administracija/logout"><span class="glyphicon glyphicon-off"></span> Odjava</a></li>
-</ul>
-</div>
-
-
-
-    @stop
+    <div class="col-sm-3 form-inline">
+        <h3>Pretraga proizvoda</h3>
+        <input class="form-control" name="pretraga" id="pretraga">
+        <button class="btn btn-sm btn-default" style="margin-left: 3px;padding:3px 10px" onclick="pretraga()"><i class="glyphicon glyphicon-search"></i></button>
+    </div>
+    <div class="col-sm-9" id="work-place"></div>
+    <script>
+        function pretraga(){
+            $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%"></i></center>');
+            $.post('/administracija/proizvod/pretraga',{
+                _token:'{{csrf_token()}}',
+                pretraga:$('#pretraga').val()
+            },function(data){
+                var rezultat=JSON.parse(data);
+                if(rezultat.length<1){
+                    $('#work-place').hide();
+                    $('#work-place').html('Nema podataka za navedenu pretragu. Pokušajte sa drugim unosom.');
+                    $('#work-place').fadeIn();
+                    return;
+                }
+                var ispis='<style>#tab *{text-align: center}</style>' +
+                        '<table id="tab" class="table table-striped table-hover table-condensed">' +
+                            '<thead>' +
+                                '<tr>' +
+                                    '<th>Naziv magacina</th>' +
+                                    '<th>Šifra</th>' +
+                                    '<th>Proizvod</th>' +
+                                    '<th></th>'+
+                                    '<th><i class="glyphicon glyphicon-stats" data-toggle="tooltip" title="Količina na stanju"></i></th>' +
+                                    '<th><i class="glyphicon glyphicon-resize-horizontal" data-toggle="tooltip" title="Stolaža"></i></th>' +
+                                    '<th><i class="glyphicon glyphicon-resize-vertical" data-toggle="tooltip" title="Polica"></i></th>' +
+                                    '<th><i class="glyphicon glyphicon-indent-left" data-toggle="tooltip" title="Pozicija"></i></th>' +
+                                '</tr>' +
+                            '</thead>' +
+                        '<tbody>';
+                var warning=0;
+                for(var i=0; i<rezultat.length; i++) {
+                    warning=rezultat[i]['kolicina_stanje']<rezultat[i]['kolicina_min']?'danger':rezultat[i]['kolicina_stanje']==rezultat[i]['kolicina_min']?'warning':null;
+                    ispis += '' +
+                    '<tr class="'+warning+'">' +
+                    '<td><a href="#">' + rezultat[i]['nazivmagacina'] + '</a></td>' +
+                    '<td>' + rezultat[i]['sifra'] + '</td>' +
+                    '<td>' + rezultat[i]['nazivproizvoda'] + '</td>' +
+                    '<td><a class="btn btn-xs btn-primary" data-toggle="tooltip" title="Dodaj u fakturu"><i class="glyphicon glyphicon-check"></i></a>'+
+                    '<td>' + rezultat[i]['kolicina_stanje'] + ( warning ? ( '<i class="badge">' + (rezultat[i]['kolicina_stanje']-rezultat[i]['kolicina_min']) + '</i>' ) : '' ) +'</td>' +
+                    '<td>' + rezultat[i]['stolaza'] + '</td>' +
+                    '<td>' + rezultat[i]['polica'] + '</td>' +
+                    '<td>' + rezultat[i]['pozicija'] + '</td>' +
+                    '</tr>';
+                }
+                ispis+='</tbody></table>';
+                $('#work-place').hide();
+                $('#work-place').html(ispis);
+                $('#work-place').fadeIn();
+                $('[data-toggle=tooltip]').tooltip();
+            });
+        }
+        $(document).keypress(function(e){ if(e.which == 13) pretraga();})
+    </script>
+    <i class="icon-spin6 animate-spin" style="font-size: 1px;color:rgba(0,0,0,0)"></i>
+@endsection

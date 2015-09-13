@@ -28,51 +28,9 @@
         {!! HTML::script('js/jquery-3.0.js') !!}
         {!! HTML::script('js/funkcije.js') !!}
         {!! HTML::script('tinymce/tinymce.min.js') !!}
-        <style>h1,h2,p{text-align: center}</style>
         <!-- stilovi END::-->
-        <style>
-#dashboard {
-    width: 70px;
-    background-color: rgb(110,138,195);
-    padding: 20px 20px 0 20px;
-    position: absolute;
-    left: -92px;
-    z-index: 100;
-}
-#dashboard img {
-    margin-bottom: 20px;
-    border: 1px solid rgb(0,0,0);
-}
-</style> <script>
-        $(document).ready(function() {
-            $('#dashboard').hover(
-            function() {
-            $(this).stop().animate(
-            {
-            left: '0',
-            backgroundColor: 'rgb(27,45,94)'
-            },
-            500,
-            'easeInSine'
-            ); // end animate
-            },
-            function() {
-            $(this).stop().animate(
-            {
-            left: '-92px',
-            backgroundColor: 'rgb(255,211,224)'
-            },
-            1500,
-            'easeOutBounce'
-            ); // end animate
-            }
-            ); // end hover
-        }); // end ready
-    </script>
-
     </head>
     <body>
-
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -82,19 +40,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{!! url('/') !!}"><span class="glyphicon glyphicon-home"></span> Magacin</a>
+                    <a class="navbar-brand" href="{!! url('/administracija') !!}"><span class="glyphicon glyphicon-home"></span> Magacin</a>
                 </div>
                 <div id="dMenija" class="collapse navbar-collapse">
                     @if(\App\Security::autentifikacijaTest(2,'min'))
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/administracija/korisnici"><span class="glyphicon glyphicon-user"></span> Korisnici</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-folder-open"></span> Magacini <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/administracija/magacin"><span class="glyphicon glyphicon-eye-open"></span> Pregled</a></li>
-                                <li><a href="/administracija/magacin/novi"><span class="glyphicon glyphicon-plus"></span> Dodaj novi</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="/administracija/magacin"><span class="glyphicon glyphicon-folder-open"></span> Magacini</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-lamp"></span> Proizvodi <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -132,6 +84,5 @@
         @yield('body')
         <script>$(function(){$('[data-toggle=tooltip]').tooltip()})</script>
         {!! HTML::script('js/bootstrap.min.js') !!}
-
     </body>
 </html>

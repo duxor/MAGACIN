@@ -17,8 +17,9 @@ use Illuminate\Support\Facades\Session;
 class Proizvod extends Controller {
 
 	public function getIndex(){
-		$proizvodi = Proizvodi::get(['id','sifra','naziv','opis'])->toArray();
-		$vrstaProizvoda=VrstaProizvoda::lists('naziv','id');
+		//$proizvodi = Proizvodi::get(['id','sifra','naziv','opis'])->toArray();
+		$vrstaProizvoda=VrstaProizvoda::join('aplikacija as a','vrsta_proizvoda.aplikacija_id','=','a.id')
+			->where('a.slug',Session::get('aplikacija'))->get(['vrsta_proizvoda.naziv','vrsta_proizvoda.id'])->lists('naziv','id');
 		return Security::autentifikacija('app-admin.proizvodi.index',compact('proizvodi','vrstaProizvoda'));
 	}
 
@@ -175,13 +176,15 @@ class Proizvod extends Controller {
 	}
 	public function postPretraga(){
 		$rezultati = Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
-			->join('magacinid','magacinid.id','=','magacin.magacinid_id')
+			->join('magacin_id','magacin_id.id','=','magacin.magacin_id_id')
 			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
-			->where('sifra','Like','%'.Input::get('sifra').'%')
-			->orWhere('proizvod.naziv','Like','%'.Input::get('sifra').'%')
+			->where('sifra','Like','%'.$_POST['pretraga'].'%')
+			->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%')
 			->orderBy('magacin.id')
-		->get(['magacinid.id','magacinid.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra','kolicina_stanje','stolaza','polica','pozicija'])->toArray();
-		return Security::autentifikacija('app-admin.proizvodi.pretraga',compact('rezultati'));
+		->get(['magacin_id.id','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra',
+			'kolicina_stanje','stolaza','polica','pozicija','kolicina_min'])->toArray();
+		return json_encode($rezultati);
+		//return Security::autentifikacija('app-admin.proizvodi.pretraga',compact('rezultati'));
 	}
 	public function getNarudzbaUredi($id){
 		$pristiglo = ZaNarudzbu::join('narudzbenice','narudzbenice.id','=','za_narudzbu.narudzbenice_id')
@@ -217,17 +220,15 @@ class Proizvod extends Controller {
 		return Security::rediectToLogin();
 	}
 	public function postUploadFoto(){
-		/*if(!Security::autentifikacijaTest(2,'min')){
+		if(!Security::autentifikacijaTest(4) or !Session::has('aplikacija')){
 			echo json_encode(['error'=>'Niste prijavljeni na platformu.']);
 			return;
-		}*/
+		}
 		if (empty($_FILES['foto'])) {
 			echo json_encode(['error'=>'Nisu pronađeni fajlovi za upload.']);
 			return;
 		}
-
-		if(!isset($_POST['folder'])) die();
-		$folder = 'img/aplikacije/'.$_POST['folder'].'/proizvodi/'.(isset($_POST['id'])?$_POST['id']:(Proizvodi::max('id')+1)).'.'.explode('.', $_FILES['foto']['name'])[1];
+		$folder = 'img/aplikacije/'.Session::get('aplikacija').'/proizvodi/'.(isset($_POST['id'])?$_POST['id']:(Proizvodi::max('id')+1)).'.'.explode('.', $_FILES['foto']['name'])[1];
 		$success = null;
 		$paths=null;
 		if(file_exists($folder)) unlink($folder);

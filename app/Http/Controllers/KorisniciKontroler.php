@@ -17,12 +17,12 @@ class KorisniciKontroler extends Controller {
 	public function getIndex(){
 		switch(Session::get('prava_pristupa')){
 			case 4:
-				$korisnici=Korisnici::join('prava_pristupa as pp','pp.id','=','korisnici.prava_pristupa_id')
+				/*$korisnici=Korisnici::join('prava_pristupa as pp','pp.id','=','korisnici.prava_pristupa_id')
 					->whereBetween('pp.id',[1,3])
 					->get(['korisnici.id','prezime','ime','email','prava_pristupa_id','pp.naziv as prava_pristupa_naziv',
 							'korisnici.naziv','adresa','grad', 'jib','pib','pdv','ziro_racun_1','banka_1','ziro_racun_2',
 							'banka_2','registracija', 'broj_upisa','telefon'])
-					->toArray();
+					->toArray();*/
 				$pravaPristupa=PravaPristupa::whereBetween('id',[2,3])->get(['id','naziv'])->lists('naziv','id');
 				$pravaPristupa[0]='Vrsta korisnika';
 				return Security::autentifikacija('app-admin.korisnici.index',compact('korisnici','vrstaKorisnika','pravaPristupa'),4);

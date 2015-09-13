@@ -37,7 +37,7 @@
                         return;
                     }
                     var ispis='' +
-                    '<table class="table table-striped">' +
+                    '<table class="table table-striped table-hover table-condensed">' +
                         '<thead>' +
                             '<tr><th>Šifra</th><th>Naziv</th><th>Opis</th><th></th><th></th><th></th></tr>' +
                         '</thead>' +
@@ -162,8 +162,8 @@
                         '<div class="form-group">' +
                             '<div class="col-sm-3"></div>' +
                             '<div class="col-sm-9">' +
-                                '<button class="btn btn-lg btn-primary" onClick="SubmitForm.submit(\'forma\')" type="button"><span class="glyphicon glyphicon-play-circle"></span> Sačuvaj</button>' +
-                                '<button class="btn btn-lg btn-warning" type="reset"><span class="glyphicon glyphicon-refresh"></span> Resetuj unos</button>' +
+                                '<button class="btn btn-lg btn-primary" onClick="SubmitForm.submit(\'forma\')" type="button" style="margin-right: 10px"><span class="glyphicon glyphicon-floppy-disk"></span> Sačuvaj</button>' +
+                                '<button class="btn btn-lg btn-danger" onclick="ucitajProizvode()"><span class="glyphicon glyphicon-trash"></span> Otkaži</button>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
