@@ -175,16 +175,46 @@ class Proizvod extends Controller {
 		return Security::rediectToLogin();
 	}
 	public function postPretraga(){
-		$rezultati = Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
+		$rezultati = !isset($_POST['zalihe']) ?
+		Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
 			->join('magacin_id','magacin_id.id','=','magacin.magacin_id_id')
+			->join('aplikacija as a','a.id','=','magacin_id.aplikacija_id')
 			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
+			->where('a.slug',Session::get('aplikacija'))
 			->where('sifra','Like','%'.$_POST['pretraga'].'%')
 			->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%')
 			->orderBy('magacin.id')
-		->get(['magacin_id.id','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra',
-			'kolicina_stanje','stolaza','polica','pozicija','kolicina_min'])->toArray();
+		->get(['proizvod.id as pid','magacin_id.id','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra',
+			'kolicina_stanje','stolaza','polica','pozicija','kolicina_min'])->toArray()
+		:
+		Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
+			->join('magacin_id','magacin_id.id','=','magacin.magacin_id_id')
+			->join('aplikacija as a','a.id','=','magacin_id.aplikacija_id')
+			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
+			->where('a.slug',Session::get('aplikacija'))
+			->whereRaw('magacin_magacin.kolicina_stanje < magacin_magacin.kolicina_min')
+			->orderBy('magacin.id')
+			->get(['proizvod.id as pid','magacin_id.id','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra',
+				'kolicina_stanje','stolaza','polica','pozicija','kolicina_min'])->toArray();
 		return json_encode($rezultati);
 		//return Security::autentifikacija('app-admin.proizvodi.pretraga',compact('rezultati'));
+	}
+	public function postDodajUKorpu(){
+		$niz=Session::get('korpa');
+		foreach($niz as $v){
+			if($v['id']==$_POST['id']) return 0;
+		}
+		Session::push('korpa',Proizvodi::find($_POST['id'],['id','naziv','sifra'])->toArray());
+		return 1;
+	}
+	public function anyUcitajKorpu(){
+		return json_encode(Session::get('korpa'));
+	}
+
+	public function postUkloniIzKorpe(){
+		if($_POST['i']=='all') Session::forget('korpa');
+		else Session::forget('korpa.'.$_POST['i']);
+		return 1;
 	}
 	public function getNarudzbaUredi($id){
 		$pristiglo = ZaNarudzbu::join('narudzbenice','narudzbenice.id','=','za_narudzbu.narudzbenice_id')

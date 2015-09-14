@@ -29,6 +29,7 @@
         {!! HTML::script('js/funkcije.js') !!}
         {!! HTML::script('tinymce/tinymce.min.js') !!}
         <!-- stilovi END::-->
+        <style>h1,h2,p{text-align: center}</style>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -45,39 +46,33 @@
                 <div id="dMenija" class="collapse navbar-collapse">
                     @if(\App\Security::autentifikacijaTest(2,'min'))
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/administracija/korisnici"><span class="glyphicon glyphicon-user"></span> Korisnici</a></li>
-                        <li><a href="/administracija/magacin"><span class="glyphicon glyphicon-folder-open"></span> Magacini</a></li>
+                        <li><a href="/administracija/korisnici"><i class="glyphicon glyphicon-user"></i> Korisnici</a></li>
+                        <li><a href="/administracija/magacin"><i class="glyphicon glyphicon-folder-open"></i> Magacini</a></li>
+                        <li><a href="/administracija/proizvod"><i class="glyphicon glyphicon-lamp"></i> Proizvodi</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-lamp"></span> Proizvodi <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-shopping-cart"></i>@if(\App\OsnovneMetode::nestanakProizvoda()>0)<i class="badge">{{\App\OsnovneMetode::nestanakProizvoda()}}</i>@endif Za narudžbu <i class="caret"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/administracija/proizvod"><span class="glyphicon glyphicon-eye-open"></span> Pregled i ažuriranje</a></li>
-                                <li><a href="#search"><span class="glyphicon glyphicon-search"></span> Pretraga</a></li>
+                                <li><a href="/administracija/proizvod/za-narudzbu"><i class="glyphicon glyphicon-eye-open"></i> Aktuelno</a></li>
+                                <li><a href="/administracija/proizvod/narudzbe"><i class="glyphicon glyphicon-briefcase"></i> Arhiva</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span>@if(\App\OsnovneMetode::nestanakProizvoda()>0)<span class="badge">{{\App\OsnovneMetode::nestanakProizvoda()}}</span>@endif Za narudžbu <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/administracija/proizvod/za-narudzbu"><span class="glyphicon glyphicon-eye-open"></span> Aktuelno</a></li>
-                                <li><a href="/administracija/proizvod/narudzbe"><span class="glyphicon glyphicon-briefcase"></span> Arhiva</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/administracija/logout"><span class="glyphicon glyphicon-off"></span> Odjava</a></li>
+                        <li><a href="/administracija/logout"><i class="glyphicon glyphicon-off"></i> Odjava</a></li>
                     </ul>
                     <!--pretraga START::-->
-                    <div id="search">
-                        <button type="button" class="close">×</button>
-                            {!!Form::open(['url'=>'/administracija/proizvod/pretraga'])!!}
-                                {!!Form::input('search','sifra', null, ['placeholder'=>'Unesite šifru proizvoda ili naziv'])!!}
-                                {!!Form::submit('Pretraga',['class'=>'btn btn-lg btn-primary'])!!}
-                            {!!Form::close()!!}
-                    </div>
+                    {{--<div id="search">--}}
+                        {{--<button type="button" class="close">×</button>--}}
+                            {{--{!!Form::open(['url'=>'/administracija/proizvod/pretraga'])!!}--}}
+                                {{--{!!Form::input('search','sifra', null, ['placeholder'=>'Unesite šifru proizvoda ili naziv'])!!}--}}
+                                {{--{!!Form::submit('Pretraga',['class'=>'btn btn-lg btn-primary'])!!}--}}
+                            {{--{!!Form::close()!!}--}}
+                    {{--</div>--}}
                     <!--pretraga END::-->
                     @endif
                 </div>
             </div>
         </nav>
         
-        <div class="container">
+        <div class="container" style="width: 98%">
             @yield('content')
         </div>
 
