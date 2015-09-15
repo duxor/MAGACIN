@@ -42,7 +42,7 @@ class KorisniciKontroler extends Controller {
 						->orWhere('korisnici.ime','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%')
 						->orWhere('korisnici.naziv','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%');
 					})
-					->get(['korisnici.id','prezime','ime','jmbg','adresa','grad','korisnici.naziv','pib','korisnici.opis','korisnici.aktivan'])
+					->get(['korisnici.id','prezime','ime','jmbg','korisnici.adresa','korisnici.grad','korisnici.naziv','korisnici.pib','korisnici.opis','korisnici.aktivan'])
 					->toArray());
 			break;
 			default:
@@ -56,7 +56,7 @@ class KorisniciKontroler extends Controller {
 							->orWhere('korisnici.ime','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%')
 							->orWhere('korisnici.naziv','Like','%'.(isset($_POST['pretraga'])?$_POST['pretraga']:'').'%');
 					})
-					->get(['korisnici.id','prezime','ime','jmbg','adresa','grad','korisnici.naziv','pib',
+					->get(['korisnici.id','prezime','ime','jmbg','korisnici.adresa','korisnici.grad','korisnici.naziv','korisnici.pib',
 						'korisnici.opis','korisnici.aktivan','pp.naziv as vrsta'])
 					->toArray());
 				break;
@@ -202,5 +202,28 @@ class KorisniciKontroler extends Controller {
 		}
 		echo json_encode($output);
 		return;
+	}
+	public function postUcitajKorisnike(){
+		return json_encode(Korisnici::join('korisnici_aplikacije as ka','ka.korisnici_id','=','korisnici.id')
+			->join('aplikacija as a','a.id','=','ka.aplikacija_id')
+			->where('a.slug',Session::get('aplikacija'))
+			->where('korisnici.prava_pristupa_id',$_POST['vrsta_korisnika'])
+			->where(function($query){
+				$query->where('korisnici.prezime','Like','%'.$_POST['pretraga'].'%')
+					->orWhere('korisnici.ime','Like','%'.$_POST['pretraga'].'%')
+					->orWhere('korisnici.naziv','Like','%'.$_POST['pretraga'].'%')
+					->orWhere('korisnici.jmbg','Like','%'.$_POST['pretraga'].'%');
+			})
+			->get(['korisnici.id','korisnici.prezime','korisnici.ime','korisnici.jmbg',
+				'korisnici.naziv','korisnici.adresa','korisnici.grad','korisnici.telefon'])
+			->toArray());
+	}
+
+	public function postIzaberiKorisnika(){
+		return json_encode(Korisnici::find($_POST['id'],['korisnici.id','korisnici.prezime','korisnici.ime',
+				'korisnici.naziv','korisnici.adresa','korisnici.grad','korisnici.jib','korisnici.pib','korisnici.pdv',
+				'korisnici.ziro_racun_1','korisnici.banka_1','korisnici.ziro_racun_2','korisnici.banka_2',
+				'korisnici.registracija','korisnici.broj_upisa','korisnici.telefon','korisnici.jmbg','korisnici.broj_licne_karte'])
+			->toArray());
 	}
 }

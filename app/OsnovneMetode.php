@@ -52,7 +52,7 @@ class OsnovneMetode {
         //dd(K_PATH_IMAGES);
         Pdf::setHeaderFont(['freeserif','B',14],['freeserif','B',11]);
         Pdf::setHeaderMargin(10);
-        Pdf::setHeaderData('img/kula-logo.jpg', 40, 'SZTR "KULA" FOČA', "Ul. Svetosavska bb\n73300 Foča");
+        Pdf::setHeaderData('img/aplikacije/eskulaf/logo.jpg', 40, 'SZTR "KULA" FOČA', "Ul. Svetosavska bb\n73300 Foča");
         //GLAVNI DIO
         Pdf::SetFont('freeserif','',10);
         Pdf::AddPage();

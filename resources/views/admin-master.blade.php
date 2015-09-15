@@ -22,12 +22,14 @@
         {!! HTML::style('css/bootstrap.min.css') !!}
         {!! HTML::style('css/fontello.css') !!}
         {!! HTML::style('css/animation.css') !!}
+        {!! HTML::style('css/datepicker.css') !!}
         <!-- stilovi END::-->
 
         <!-- skripte START::-->
         {!! HTML::script('js/jquery-3.0.js') !!}
         {!! HTML::script('js/funkcije.js') !!}
         {!! HTML::script('tinymce/tinymce.min.js') !!}
+        {!! HTML::script('js/datepicker.js') !!}
         <!-- stilovi END::-->
         <style>h1,h2,p{text-align: center}</style>
     </head>

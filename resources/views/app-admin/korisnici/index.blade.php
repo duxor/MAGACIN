@@ -172,7 +172,7 @@
                             $('#work-place').html('<h3>Ne postoji ni jedan korisnik u evidenciji.');
                             return;
                         }
-                        var ispis='' +
+                        var ispis='<style>table *{font-size:14px}</style>' +
                                 '<table class="table table-striped table-hover table-condensed">' +
                                 '<thead>' +
                                 '<tr><th></th><th>Prezime i Ime</th><th>JMBG</th><th>Adresa</th><th>Grad</th><th>Naziv</th><th>PIB</th><th>Napomena</th><th>Aktivan</th><th></th><th></th></tr>' +
@@ -190,7 +190,7 @@
                             '<td>'+korisnici[i]['opis']+'</td>' +
                             '<td class="aktiv-'+korisnici[i]['id']+'" data-aktivan="'+korisnici[i]['aktivan']+'">'+(korisnici[i]['aktivan']?'<i class="glyphicon glyphicon-ok"></i>':'<i class="glyphicon glyphicon-remove"></i>')+'</td>' +
                             '<td>' +
-                                '<a href="#" class="btn btn-xs btn-info" data-toggle="tooltip" title="Ažuriraj" onclick="editKorisnika('+korisnici[i]['id']+')"><span class="glyphicon glyphicon-pencil"></span></a>' +
+                                '<a href="#" class="btn btn-xs btn-info" data-toggle="tooltip" title="Ažuriraj" onclick="editKorisnika('+korisnici[i]['id']+')" style="margin-right:5px"><span class="glyphicon glyphicon-pencil"></span></a>' +
                                 '<a href="#" class="btn btn-xs btn-warning" data-toggle="tooltip" title="Promjena statusa (ne)aktivan" onclick="ststusKorisnika('+korisnici[i]['id']+')"><span class="glyphicon glyphicon-lock"></span></a>' +
                             '</td>' +
                             '</tr>';

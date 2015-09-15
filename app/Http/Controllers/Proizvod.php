@@ -201,9 +201,10 @@ class Proizvod extends Controller {
 	}
 	public function postDodajUKorpu(){
 		$niz=Session::get('korpa');
-		foreach($niz as $v){
-			if($v['id']==$_POST['id']) return 0;
-		}
+		if($niz)
+			foreach($niz as $v){
+				if($v['id']==$_POST['id']) return 0;
+			}
 		Session::push('korpa',Proizvodi::find($_POST['id'],['id','naziv','sifra'])->toArray());
 		return 1;
 	}

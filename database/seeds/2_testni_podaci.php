@@ -9,17 +9,30 @@ use App\Korisnici;
 use App\Security;
 use App\Aplikacija;
 use App\VrstaProizvoda;
+use App\KorisniciAplikacije;
 class TestPodaci extends Seeder{
 
     public function run(){
         Aplikacija::insert([
             [//1
-                'naziv'=>'Elektroservis Kula Foča',
+                'naziv' => 'SZTR "KULA" FOČA',
                 'slug'=>'eskulaf',
                 'korisnici_id'=>2,
                 'opis'=>'',
                 'napomena'=>'',
-                'logo'=>''
+                'logo'=>'',
+                'adresa' => 'Ul. Svetosavska bb',
+                'grad' => '73300 Foča',
+                'jib' => '4503782250007',
+                'pib' => '',
+                'pdv' => '503782250007',
+                'ziro_racun_1' => '551-404-11288935-39',
+                'banka_1' => 'Uni Credit Bank',
+                'ziro_racun_2' => '562-006-00002081-69',
+                'banka_2' => 'Razvojna banka Foča',
+                'registracija' => 'Opština Foča',
+                'broj_upisa' => '05-350-47',
+                'telefon' => ''
             ]
         ]);
         VrstaProizvoda::insert([
@@ -244,7 +257,7 @@ class TestPodaci extends Seeder{
             ],
         ]);
         Korisnici::insert([
-            [//dobavljac
+            [//dobavljac ##3
                 'prezime' => 'Petrović',
                 'ime' => 'Petar',
                 'email' => 'petrovic.petar@petrovo.com',
@@ -265,13 +278,13 @@ class TestPodaci extends Seeder{
                 'broj_upisa' => '5443323',
                 'telefon' => '058/211-999'
             ],
-            [//kupac - fizicko lice
+            [//kupac - fizicko lice ##4
                 'prezime' => 'Marković',
                 'ime' => 'Marko',
                 'email' => 'markovicc@gmail.com',
                 'username' => 'marko',
                 'password' => Security::generateHashPass('marko'),
-                'prava_pristupa_id' => 1,//zabranjen
+                'prava_pristupa_id' => 2,//kupac
                 'naziv' => null,
                 'adresa' => 'Ul. Cara Dusana bb',
                 'grad' => '73300 Foča',
@@ -285,6 +298,44 @@ class TestPodaci extends Seeder{
                 'registracija' => null,
                 'broj_upisa' => null,
                 'telefon' => '065/290-331'
+            ],
+            [//5
+                'prezime' => 'Dušan',
+                'ime' => 'Perišić',
+                'email' => 'kontakt@dusanperisic.com',
+                'username' => 'duxor',
+                'password' => Security::generateHashPass('duxor'),
+                'prava_pristupa_id' => 3,//dobavljac
+                'naziv' => 'PERSHING',
+                'adresa' => 'Miloša Obilića 69',
+                'grad' => '73300 Foča',
+                'jib' => '434234242-jib',
+                'pib' => '34324243234-pib',
+                'pdv' => '3443243243-pdv',
+                'ziro_racun_1' => '34-2342-324',
+                'banka_1' => 'Komercijalna Banka a.d.',
+                'ziro_racun_2' => null,
+                'banka_2' => null,
+                'registracija' => 'Foča Reg',
+                'broj_upisa' => '34332/12',
+                'telefon' => '065/290-346'
+            ]
+        ]);
+        KorisniciAplikacije::insert([
+            [
+                'napomena'=>'',
+                'korisnici_id'=>3,
+                'aplikacija_id'=>1
+            ],
+            [
+                'napomena'=>'',
+                'korisnici_id'=>4,
+                'aplikacija_id'=>1
+            ],
+            [
+                'napomena'=>'',
+                'korisnici_id'=>5,
+                'aplikacija_id'=>1
             ]
         ]);
 

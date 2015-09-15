@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Magacin as MMagacin;
 use App\OsnovneMetode;
+use App\Proizvodi;
 use App\Security;
 use Illuminate\Support\Facades\Input;
 use App\Korisnici;
@@ -21,8 +23,9 @@ class Administracija extends Controller {
 		if(Security::autentifikacijaTest(2,'min')){
 			//Session::put('prava_pristupa',Korisnici::find(Session::get('id'),['prava_pristupa_id'])->prava_pristupa_id);
 			if(Session::get('prava_pristupa')==4) {
-				$app=Aplikacija::where('korisnici_id',Session::get('id'))->get(['slug'])->first();
+				$app=Aplikacija::where('korisnici_id',Session::get('id'))->get(['id','slug'])->first();
 				if($app) Session::put('aplikacija', $app->slug);
+				if($app) Session::put('aplikacija_id', $app->id);
 			}
 		}
 		return $redirect;
@@ -78,6 +81,51 @@ class Administracija extends Controller {
 			case 5: return Security::autentifikacija('super-admin.index',null,5);
 		}
 		return redirect('/administracija/login');
+	}
+	public function postUcitajPodatkeZaFakturu(){
+		$ispis['podaci']=Aplikacija::where('slug',Session::get('aplikacija'))
+			->get(['naziv','adresa','grad','jib','pib','pdv','ziro_racun_1','banka_1','ziro_racun_2','banka_2','registracija',
+				'broj_upisa','telefon'])->first()->toArray();
+		if(Session::has('podaci')) Session::forget('podaci');
+		Session::put('podaci',$ispis['podaci']);
+		$ispis['dobavljaci']=Korisnici::join('korisnici_aplikacije as ka','ka.korisnici_id','=','korisnici.id')
+			->join('aplikacija as a','ka.aplikacija_id','=','a.id')
+			->where('a.slug',Session::get('aplikacija'))
+			->where('korisnici.prava_pristupa_id',3)
+			->get(['korisnici.prezime','korisnici.ime','korisnici.jmbg','korisnici.naziv','korisnici.pib'])->toArray();
+		return json_encode($ispis);
+	}
+
+	public function anyUcitajTabeluProizvoda(){
+		$proizvodi=[];
+		switch($_POST['vrstaKorisnika']){
+		//Ukoliko KUPAC kupuje proizvod
+			case 2:
+				foreach(Session::get('korpa') as $k=>$proizvod){
+					$proizvodi[$k]=Proizvodi::join('magacin as m','m.proizvod_id','=','proizvod.id')
+						->where('proizvod.id',$proizvod['id'])
+						->get(['proizvod.id','proizvod.sifra','proizvod.naziv','proizvod.jedinica_mjere','m.cijena as maloprodajna_cijena'])
+						->first()
+						->toArray();
+					//$proizvodi[$k]['cijena_bez_pdv']=$proizvodi[$k]['maloprodajna_cijena']*0.83;
+					//$proizvodi[$k]['cijena_pdv']=$proizvodi[$k]['maloprodajna_cijena']*0.17;
+					//$proizvodi[$k]['cijena_sa_pdv']=$proizvodi[$k]['maloprodajna_cijena'];
+
+					$proizvodi[$k]['ukupno_na_stanju']=MMagacin::join('magacin_id as m','m.id','=','magacin.magacin_id_id')
+						->where('m.aplikacija_id',Session::get('aplikacija_id'))
+						->where('magacin.proizvod_id',$proizvod['id'])
+						->groupBy('magacin.proizvod_id')
+						->sum('magacin.kolicina_stanje');
+				}
+			break;
+		//Ukoliko se vrsi narudzba od dobavljaca
+			case 3:
+				foreach(Session::get('korpa') as $k=>$proizvod){
+					$proizvodi[$k]=Proizvodi::find($proizvod['id'],['id','sifra','naziv','jedinica_mjere'])->toArray();
+				}
+			break;
+		}
+		return json_encode($proizvodi);
 	}
 
 }

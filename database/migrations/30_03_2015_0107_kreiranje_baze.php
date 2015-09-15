@@ -63,7 +63,20 @@ class KreiranjeBaze extends Migration {
 			$table->text('opis')->nullable();
 			$table->text('napomena')->nullable();
 			$table->string('logo', 250)->nullable();
-			$table->tinyInteger('aktivan')->default(1);					
+			$table->tinyInteger('aktivan')->default(1);
+
+			$table->string('adresa',250)->nullable();
+			$table->string('grad',250)->nullable();
+			$table->string('jib',250)->nullable();
+			$table->string('pib',250)->nullable();
+			$table->string('pdv',250)->nullable();
+			$table->string('ziro_racun_1',250)->nullable();
+			$table->string('banka_1',250)->nullable();
+			$table->string('ziro_racun_2',250)->nullable();
+			$table->string('banka_2',250)->nullable();
+			$table->string('registracija',250)->nullable();
+			$table->string('broj_upisa',250)->nullable();
+			$table->string('telefon',45)->nullable();
 		});
 		Schema::create('vrsta_proizvoda',function(Blueprint $table){
 			$table->bigIncrements('id');
