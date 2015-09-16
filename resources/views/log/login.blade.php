@@ -7,6 +7,7 @@
         <div class="alert alert-success" role="alert">
             <h2>Demo verzija</h2>
             <p>Prstupni podaci: <b>admin / admin</b></p>
+            <p>Prstupni podaci: <b>eskula / eskula</b></p>
         </div>
         <h1>Prijava</h1>
         <hr/>

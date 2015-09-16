@@ -176,17 +176,24 @@ class Proizvod extends Controller {
 	}
 	public function postPretraga(){
 		$rezultati = !isset($_POST['zalihe']) ?
-		Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
-			->join('magacin_id','magacin_id.id','=','magacin.magacin_id_id')
-			->join('aplikacija as a','a.id','=','magacin_id.aplikacija_id')
-			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
-			->where('a.slug',Session::get('aplikacija'))
-			->where('sifra','Like','%'.$_POST['pretraga'].'%')
-			->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%')
-			->orderBy('magacin.id')
-		->get(['proizvod.id as pid','magacin_id.id','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra',
-			'kolicina_stanje','stolaza','polica','pozicija','kolicina_min'])->toArray()
-		:
+			$_POST['samoMagacin']=='true'?
+			Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
+				->join('magacin_id','magacin_id.id','=','magacin.magacin_id_id')
+				->join('aplikacija as a','a.id','=','magacin_id.aplikacija_id')
+				->join('pozicija','pozicija.id','=','magacin.pozicija_id')
+				->where('a.slug',Session::get('aplikacija'))
+				->where('sifra','Like','%'.$_POST['pretraga'].'%')
+				->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%')
+				->orderBy('magacin.id')
+				->get(['proizvod.id as pid','magacin_id.id','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra',
+					'kolicina_stanje','stolaza','polica','pozicija','kolicina_min'])->toArray()
+			:
+			Proizvodi::join('aplikacija as a','a.id','=','proizvod.aplikacija_id')
+				->where('a.slug',Session::get('aplikacija'))
+				->where('sifra','Like','%'.$_POST['pretraga'].'%')
+				->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%')
+				->get(['proizvod.id as pid','proizvod.naziv as nazivproizvoda','sifra'])->toArray()
+			:
 		Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
 			->join('magacin_id','magacin_id.id','=','magacin.magacin_id_id')
 			->join('aplikacija as a','a.id','=','magacin_id.aplikacija_id')

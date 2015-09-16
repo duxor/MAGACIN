@@ -161,6 +161,9 @@ class KreiranjeBaze extends Migration {
 			$table->timestamp('updated_at')->nullable();
 			$table->unsignedBigInteger('vrsta_fakture_id');
 			$table->foreign('vrsta_fakture_id')->references('id')->on('vrsta_fakture');
+			$table->unsignedBigInteger('aplikacija_id');
+			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
+			$table->bigInteger('broj_fakture')->nullable();
 		});
 		Schema::create('za_narudzbu',function(Blueprint $table){
 			$table->bigIncrements('id');
@@ -185,20 +188,9 @@ class KreiranjeBaze extends Migration {
 			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
 			$table->tinyInteger('aktivan')->default(1);
 		});
-		Schema::create('proizvod_iz_magacina',function(Blueprint $table){
-			$table->bigIncrements('id');
-			$table->text('napomena')->nullable();
-			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->timestamp('updated_at')->nullable();
-			$table->unsignedBigInteger('za_narudzbu_id');
-			$table->foreign('za_narudzbu_id')->references('id')->on('za_narudzbu');
-			$table->unsignedBigInteger('magacin_id');
-			$table->foreign('magacin_id')->references('id')->on('magacin');
-		});
 	}
 	public function down()
 	{
-		Schema::drop('proizvod_iz_magacina');
 		Schema::drop('za_narudzbu');
 		Schema::drop('fakture');
 		Schema::drop('vrsta_fakture');

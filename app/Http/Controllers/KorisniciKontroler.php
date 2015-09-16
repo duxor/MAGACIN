@@ -204,6 +204,7 @@ class KorisniciKontroler extends Controller {
 		return;
 	}
 	public function postUcitajKorisnike(){
+		Session::put('faktura.vrsta_korisnika',(int)$_POST['vrsta_korisnika']);
 		return json_encode(Korisnici::join('korisnici_aplikacije as ka','ka.korisnici_id','=','korisnici.id')
 			->join('aplikacija as a','a.id','=','ka.aplikacija_id')
 			->where('a.slug',Session::get('aplikacija'))
@@ -218,12 +219,14 @@ class KorisniciKontroler extends Controller {
 				'korisnici.naziv','korisnici.adresa','korisnici.grad','korisnici.telefon'])
 			->toArray());
 	}
-
 	public function postIzaberiKorisnika(){
-		return json_encode(Korisnici::find($_POST['id'],['korisnici.id','korisnici.prezime','korisnici.ime',
-				'korisnici.naziv','korisnici.adresa','korisnici.grad','korisnici.jib','korisnici.pib','korisnici.pdv',
-				'korisnici.ziro_racun_1','korisnici.banka_1','korisnici.ziro_racun_2','korisnici.banka_2',
-				'korisnici.registracija','korisnici.broj_upisa','korisnici.telefon','korisnici.jmbg','korisnici.broj_licne_karte'])
-			->toArray());
+		$korisnik=Korisnici::find($_POST['id'],['korisnici.id','korisnici.prezime','korisnici.ime',
+			'korisnici.naziv','korisnici.adresa','korisnici.grad','korisnici.jib','korisnici.pib','korisnici.pdv',
+			'korisnici.ziro_racun_1','korisnici.banka_1','korisnici.ziro_racun_2','korisnici.banka_2',
+			'korisnici.registracija','korisnici.broj_upisa','korisnici.telefon','korisnici.jmbg','korisnici.broj_licne_karte'])
+			->toArray();
+		if(Session::has('faktura.korisnik')) Session::forget('faktura.korisnik');
+		Session::put('faktura.korisnik',$korisnik);
+		return json_encode($korisnik);
 	}
 }

@@ -3,6 +3,7 @@ use Illuminate\Database\Seeder;
 use App\Security;
 use App\PravaPristupa;
 use App\Korisnici;
+use App\VrstaFakture;
 
 class KonfiguracioniPodaci extends Seeder{
     public function run(){
@@ -45,6 +46,11 @@ class KonfiguracioniPodaci extends Seeder{
                 'broj_upisa' => '05-350-47',
                 'telefon' => ''
             ]
+        ]);
+        VrstaFakture::insert([
+            ['naziv'=>'Faktura'],
+            ['naziv'=>'Narudžbenica'],
+            ['naziv'=>'Predračun'],
         ]);
     }
 }
