@@ -227,6 +227,8 @@ class KorisniciKontroler extends Controller {
 			->toArray();
 		if(Session::has('faktura.korisnik')) Session::forget('faktura.korisnik');
 		Session::put('faktura.korisnik',$korisnik);
+		Session::put('faktura.korisnik.ka_id',KorisniciAplikacije::where('aplikacija_id',Session::get('aplikacija_id'))
+			->where('korisnici_id',$korisnik['id'])->get(['id'])->first()->id);
 		return json_encode($korisnik);
 	}
 }

@@ -2,16 +2,15 @@
 
 use App\Fakture;
 use App\Magacin as MMagacin;
-use App\OsnovneMetode;
 use App\Proizvodi;
 use App\Security;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-use App\Korisnici;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Aplikacija;
 use PDF;
+use App\Fakture as FFakture;
+use App\ZaNarudzbu;
 class Administracija extends Controller {
 //LOG[in,out]
 	public function getLogin(){
@@ -91,20 +90,15 @@ class Administracija extends Controller {
 				'broj_upisa','telefon'])->first()->toArray();
 		if(Session::has('faktura')) Session::forget('faktura');
 		Session::put('faktura.mojiPodaci',$ispis['podaci']);
-		$ispis['broj_fakture']=$this->postKreirajBrojFakture();
 		return json_encode($ispis);
 	}
-	public function postKreirajBrojFakture(){
-		$broj_fakture=Fakture::where('aplikacija_id',Session::get('aplikacija_id'))
-			->where(DB::raw('YEAR(datum_narudzbe)'),'=',isset($_POST['datum'])?$_POST['datum']:date('y'))
-			->max('broj_fakture');
-		$broj_fakture=$broj_fakture?$broj_fakture+1:1;
-		if(Session::has('faktura.broj_fakture')) Session::forget('faktura.broj_fakture');
-		Session::put('faktura.broj_fakture',$broj_fakture);
-		return $broj_fakture;
-	}
 	public function postUcitajTabeluProizvoda(){
-		$proizvodi=[];$_POST['vrstaKorisnika']=isset($_POST['vrstaKorisnika'])?$_POST['vrstaKorisnika']:2;
+		$proizvodi=[];
+		if($_POST['vrstaKorisnika']=='NaN'){
+			Session::put('faktura.vrsta_korisnika','predracun');
+			Session::put('faktura.vrsta_fakture',3);//fakture.vrsta_fakture_id=3->>Predracun
+			$_POST['vrstaKorisnika']=2;
+		} else Session::put('faktura.vrsta_fakture',1);//fakture.vrsta_fakture_id=1->>Faktura
 		switch($_POST['vrstaKorisnika']){
 		//Ukoliko KUPAC kupuje proizvod
 			case 2:
@@ -130,6 +124,7 @@ class Administracija extends Controller {
 			break;
 		//Ukoliko se vrsi narudzba od dobavljaca
 			case 3:
+				Session::put('faktura.vrsta_fakture',2);//fakture.vrsta_fakture_id=2->>Narudzbenica
 				foreach(Session::get('korpa') as $k=>$proizvod){
 					$proizvodi[$k]=Proizvodi::find($proizvod['id'],['id','sifra','naziv','jedinica_mjere'])->toArray();
 				}
@@ -137,11 +132,11 @@ class Administracija extends Controller {
 		}
 		if(Session::has('faktura.proizvodi')) Session::forget('faktura.proizvodi');
 		Session::put('faktura.proizvodi',$proizvodi);
-		return json_encode($proizvodi);
+		return json_encode(['proizvodi'=>$proizvodi,'vrsta_fakture'=>Session::get('faktura.vrsta_fakture')]);
 	}
 	public function postPripremiFakturu(){
 		$podaci=json_decode($_POST['faktura']);
-		if(Session::get('faktura.vrsta_korisnika')==2){
+		if(Session::get('faktura.vrsta_korisnika')==2 or Session::get('faktura.vrsta_korisnika')=='predracun'){
 			foreach($podaci->proizvodi as $k=>$v){
 				Session::put('faktura.proizvodi.'.$k.'.kolicina',$v->kolicina);
 				Session::put('faktura.proizvodi.'.$k.'.cijena_sa_pdv',$v->cijena_sa_pdv);
@@ -156,15 +151,43 @@ class Administracija extends Controller {
 				Session::put('faktura.proizvodi.'.$k.'.kolicina',$v->kolicina);
 		}
 		Session::put('faktura.datum',$podaci->datum);
-		Session::put('faktura.na_osnovu',$podaci->na_osnovu);
-		Session::put('faktura.placanje',$podaci->placanje);
-		Session::put('faktura.napomena',$podaci->napomena);
-		return 1;
+		if(Session::get('faktura.vrsta_korisnika')!='predracun') {
+			Session::put('faktura.na_osnovu', $podaci->na_osnovu);
+			Session::put('faktura.placanje', $podaci->placanje);
+		}
+		Session::put('faktura.napomena', $podaci->napomena);
+		return json_encode(['broj_fakture'=>$this->postKreirajBrojFakture()]);
+	}
+	public function postKreirajBrojFakture(){
+		$broj_fakture=Fakture::where('aplikacija_id',Session::get('aplikacija_id'))
+			->where('vrsta_fakture_id',Session::get('faktura.vrsta_fakture'))
+			->where(DB::raw('YEAR(datum_narudzbe)'),'=',date('Y',strtotime(Session::get('faktura.datum'))))
+			->max('broj_fakture');
+		$broj_fakture=$broj_fakture+1;//?$broj_fakture+1:1;
+		if(Session::has('faktura.broj_fakture')) Session::forget('faktura.broj_fakture');
+		Session::put('faktura.broj_fakture',$broj_fakture);
+		return $broj_fakture;
 	}
 	public function getSessions(){dd(Session::all());}
 	public function postFaktura(){
-		Session::put('faktura.vrsta_fakture','fakture');
-		return $this->ispisiFakturu()?'OK':'GRESKA';
+		$link=$this->ispisiFakturu();
+		$faktura=new FFakture();
+			$faktura->datum_narudzbe=Session::get('faktura.datum');
+			$faktura->vrsta_fakture_id=Session::get('faktura.vrsta_fakture');
+			$faktura->broj_fakture=Session::get('faktura.broj_fakture');
+			$faktura->aplikacija_id=Session::get('aplikacija_id');
+			$faktura->korisnici_aplikacije_id=Session::get('faktura.korisnik.ka_id');
+			$faktura->pdf_link=$link;
+		$faktura->save();
+		foreach(Session::get('faktura.proizvodi') as $proizvod){
+			ZaNarudzbu::insert([
+				'kolicina_porucena'=>$proizvod['kolicina'],
+				'fakture_id'=>$faktura->id,
+				'proizvod_id'=>$proizvod['id']
+			]);
+		}
+		Session::forget('faktura');
+		return json_encode(['link'=>$link]);
 	}
 	private function ispisiFakturu(){
 		//osnovne
@@ -179,7 +202,7 @@ class Administracija extends Controller {
 		//HEADER
 		Pdf::setHeaderFont(['freeserif','B',14],['freeserif','B',11]);
 		Pdf::setHeaderMargin(10);
-		Pdf::setHeaderData('img/aplikacije/'. Session::get('aplikacija') .'/logo.jpg', 40, Session::get('faktura.mojiPodaci.naziv'), Session::get('faktura.mojiPodaci.adresa')."\n".Session::get('faktura.mojiPodaci.grad'));
+		Pdf::setHeaderData('/img/aplikacije/'. Session::get('aplikacija') .'/logo.jpg', 40, Session::get('faktura.mojiPodaci.naziv'), Session::get('faktura.mojiPodaci.adresa')."\n".Session::get('faktura.mojiPodaci.grad'));
 		//GLAVNI DIO
 		Pdf::SetFont('freeserif','',10);
 		Pdf::AddPage();
@@ -205,9 +228,10 @@ class Administracija extends Controller {
 						(Session::has('faktura.mojiPodaci.registracija')?'<tr><td class="d1">Registracija:</td><td class="d2">'.Session::get('faktura.mojiPodaci.registracija').'</td></tr>':'').
 						(Session::has('faktura.mojiPodaci.broj_upisa')?'<tr><td class="d1">Broj upisa:</td><td class="d2">'.Session::get('faktura.mojiPodaci.broj_upisa').'</td></tr>':'').
                     '</table>
-                </td>
-                <td>
-                    <b style="font-size: 130%">'.(Session::get('faktura.vrsta_korisnika')==2?'Kupac':'Dobavljač').':</b>
+                </td>'.
+				(Session::get('faktura.vrsta_fakture')!=3?
+                	'<td>
+					<b style="font-size: 130%">'.(Session::get('faktura.vrsta_fakture')==1?'Kupac':'Dobavljač').':</b>
                     <br>
                     <table>'.
 						(Session::has('faktura.korisnik.prezime')?'<tr><td class="d1">Prezime i Ime</td><td class="d2">'.Session::get('faktura.korisnik.prezime').' '.Session::get('faktura.korisnik.ime').'</td></tr>':'').
@@ -224,24 +248,24 @@ class Administracija extends Controller {
 						(Session::has('faktura.korisnik.registracija')?'<tr><td class="d1">Registracija:</td><td class="d2">'.Session::get('faktura.korisnik.registracija').'</td></tr>':'').
 						(Session::has('faktura.korisnik.broj_upisa')?'<tr><td class="d1">Broj upisa:</td><td class="d2">'.Session::get('faktura.korisnik.broj_upisa').'</td></tr>':'').
 					'</table>
-                </td>
-                </tr>
+                </td>':'').
+                '</tr>
             </table>
             <br>
 
             <p><b>Datum: <u>'.date('d.m.Y',strtotime(Session::get('faktura.datum'))).'</u></b></p>
-            <h2>Faktura br. <u> '. Session::get('faktura.broj_fakture') .'/'. date('Y',strtotime(Session::get('faktura.datum'))) .'</u></h2>
-            <p>Na osnovu: <u> '.Session::get('faktura.na_osnovu').' </u><br>Plaćanje: <u> '.Session::get('faktura.placanje').' </u></p>
-
+            <h2>'.(Session::get('faktura.vrsta_fakture')==1?'Faktura':Session::get('faktura.vrsta_fakture')==2?'Narudžbenica':'Predračun').' broj <u>'. Session::get('faktura.broj_fakture') .'/'. date('Y',strtotime(Session::get('faktura.datum'))) .'</u></h2>
+            <p>'.(Session::get('faktura.na_osnovu')?'Na osnovu: <u> '.Session::get('faktura.na_osnovu').' </u>':'').'
+            	'.(Session::get('faktura.placanje')?'<br>Plaćanje: <u> '.Session::get('faktura.placanje').' </u>':'').'</p>
             <table class="proizvodi" align="center">
                 <thead>
                     <tr>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'25px':'60px').';border-left: 2.5px solid black">Redni broj</td>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'50px':'100px').'">Šifra proizvoda</td>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'195px':'250px').'">Naziv</td>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'30px':'60px').'">Kol.</td>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'30px':'60px;border-right: 2.5px solid black').'">Jed. mjere</td>'.
-					(Session::get('faktura.vrsta_korisnika')==2?
+                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'25px':'60px').';border-left: 2.5px solid black">Redni broj</td>
+                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'50px':'100px').'">Šifra proizvoda</td>
+                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'195px':'250px').'">Naziv</td>
+                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'30px':'60px').'">Kol.</td>
+                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'30px':'60px;border-right: 2.5px solid black').'">Jed. mjere</td>'.
+					(Session::get('faktura.vrsta_fakture')!=2?
 							'<td class="header" style="width:50px">Maloprod. cijena</td>
                         	<td class="header" style="width:50px">Iznos bez PDV-a</td>
                         	<td class="header" style="width:50px">PDV</td>
@@ -251,12 +275,12 @@ class Administracija extends Controller {
                 <tbody>';
 		foreach(Session::get('faktura.proizvodi') as $i=>$proizvod)
         	$ispis.='<tr>
-                        <td style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'25px':'60px').';border-left: 2.5px solid black">'.($i+1).'</td>
-                        <td style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'50px':'100px').'">'.$proizvod['sifra'].'</td>
-                        <td style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'195px':'250px').'">'.$proizvod['naziv'].'</td>
-                        <td style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'30px':'60px').'">'.$proizvod['kolicina'].'</td>
-                        <td style="width:'.(Session::get('faktura.vrsta_korisnika')==2?'30px':'60px;border-right: 2.5px solid black;').'">'.$proizvod['jedinica_mjere'].'</td>'.
-				(Session::get('faktura.vrsta_korisnika')==2?
+                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'25px':'60px').';border-left: 2.5px solid black">'.($i+1).'</td>
+                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'50px':'100px').'">'.$proizvod['sifra'].'</td>
+                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'195px':'250px').'">'.$proizvod['naziv'].'</td>
+                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'30px':'60px').'">'.$proizvod['kolicina'].'</td>
+                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'30px':'60px;border-right: 2.5px solid black;').'">'.$proizvod['jedinica_mjere'].'</td>'.
+				(Session::get('faktura.vrsta_fakture')!=2?
                         '<td style="width:50px">'.$proizvod['maloprodajna_cijena'].'</td>
 							<td style="width:50px">'.$proizvod['cijena_bez_pdv'].'</td>
 							<td style="width:50px">'.$proizvod['cijena_pdv'].'</td>
@@ -266,10 +290,12 @@ class Administracija extends Controller {
         $ispis.='</tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="'.(Session::get('faktura.vrsta_korisnika')==2?'4':'5').'" rowspan="10" style="border-top: 2.5px solid black;border-bottom: none;border-right: none;text-align:left"><b>Napomena:</b>
+                        <td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'4':'5').'" rowspan="10" style="border-top: 2.5px solid black;border-bottom: none;border-right: none;text-align:left">
+                        '.(Session::get('faktura.napomena')?'<b>Napomena:</b>
                             <br>'.Session::get('faktura.napomena').'
-                        </td>'.
-						(Session::get('faktura.vrsta_korisnika')==2?
+                        ':'').
+                        '</td>'.
+						(Session::get('faktura.vrsta_fakture')!=2?
 								'<td colspan="3" style="border-left: 2.5px solid black;border-top: 1.5px solid black;border-bottom:none">Ukupan iznos bez PDV-а</td>
 								<td colspan="2" style="border-right: 2.5px solid black;border-top: 1.5px solid black;border-bottom:none">'.Session::get('faktura.ukupno.ukupno_bez_pdv').'</td>
 							</tr>
@@ -287,21 +313,23 @@ class Administracija extends Controller {
 							</tr>':'</tr>').
                     '<tr><td colspan="5" style="border-bottom:none;border-right:none"></td></tr>
                     <tr><td colspan="5" style="border-bottom:none;border-right:none"><b>Potpis i pečat</b></td></tr>
-                    <tr><td style="border-bottom:none;border-right:none"></td><td colspan="'.(Session::get('faktura.vrsta_korisnika')==2?'3':'2').'" style="border-bottom:0.1px solid black;border-right:none"></td><td style="border-bottom:none;border-right:none"></td></tr>
+                    <tr><td style="border-bottom:none;border-right:none"></td><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'3':'2').'" style="border-bottom:0.1px solid black;border-right:none"></td><td style="border-bottom:none;border-right:none"></td></tr>
                     <tr><td colspan="5" style="border-bottom:none;border-right:none"></td></tr>
                     <tr><td colspan="5" style="border-bottom:none;border-right:none"></td></tr>
                     <tr><td colspan="5" style="border-bottom:none;border-right:none"></td></tr>
 
-                    <tr><td colspan="'.(Session::get('faktura.vrsta_korisnika')==2?'9':'5').'" style="border-bottom:none;border-right:none"></td></tr>
-                    <tr><td colspan="'.(Session::get('faktura.vrsta_korisnika')==2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:left">Reklamacije se uvažavaju u roku od 8 dana po prijemu robe i usluge</td></tr>
-                    <tr><td colspan="'.(Session::get('faktura.vrsta_korisnika')==2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:left">Za sve sporove nadležan je Osnovni sud u Foči</td></tr>
-                    <tr><td colspan="'.(Session::get('faktura.vrsta_korisnika')==2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:right">Hvala na povjerenju!</td></tr>
+                    <tr><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'9':'5').'" style="border-bottom:none;border-right:none"></td></tr>
+                    <tr><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:left">Reklamacije se uvažavaju u roku od 8 dana po prijemu robe i usluge</td></tr>
+                    <tr><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:left">Za sve sporove nadležan je Osnovni sud u Foči</td></tr>
+                    <tr><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:right">Hvala na povjerenju!</td></tr>
                 </tfoot>
             </table>';
 		Pdf::writeHTMLCell(0, 0, '', '', $ispis, 0, 1, 0, true, '', true);
-		Pdf::Output($_SERVER['DOCUMENT_ROOT'].'/img/aplikacije/'.Session::get('aplikacija').'/'.Session::get('faktura.vrsta_fakture').'/faktura-'.Session::get('faktura.broj_fakture').'.pdf','F');
+		$str=Session::get('faktura.vrsta_fakture')==1?'fakture':(Session::get('faktura.vrsta_fakture')==2?'narudzbenice':'predracuni');
+		$link='/img/aplikacije/'.Session::get('aplikacija').'/'.$str.'/'.Session::get('faktura.datum').'-'.$str.'-'.Session::get('faktura.broj_fakture').'.pdf';
+		Pdf::Output($_SERVER['DOCUMENT_ROOT'].$link,'F');
 		Pdf::Close();//exit;
-		return true;
+		return $link;
 	}
 
 }

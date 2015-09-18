@@ -16,6 +16,7 @@
             <h3>
                 <i class="glyphicon glyphicon-shopping-cart"></i> Korpa
                 <button class="btn btn-xs btn-primary" data-toggle="tooltip" title="Učitaj korpu" onclick="ucitajKorpu()"><i class="glyphicon glyphicon-refresh"></i></button>
+                <button id="korpaPRED" style="display: none" class="btn btn-xs btn-success" data-toggle="tooltip" title="Štampaj predračun" onclick="kreirajFakturu(true)"><i class="glyphicon glyphicon-barcode"></i></button>
                 <button id="korpaNAR" style="display: none" class="btn btn-xs btn-success" data-toggle="tooltip" title="Izvrši narudžbu (kupovinu)" onclick="kreirajFakturu()"><i class="glyphicon glyphicon-file"></i></button>
                 <button id="korpaDEL" style="display: none" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Isprazni korpu" onclick="ukloniIzKorpe('all')"><i class="glyphicon glyphicon-trash"></i></button>
             </h3>
@@ -80,7 +81,7 @@
                 $('[data-toggle=tooltip]').tooltip();
             });
         }
-        $(document).keypress(function(e){ if(e.which == 13) pretraga();})
+        $(document).keypress(function(e){ if(e.which == 13) pretraga()})
         function dodajUKorpu(dugme,id){
             $(dugme).html('<i class="icon-spin6 animate-spin"></i>');
             $.post('/administracija/proizvod/dodaj-u-korpu',{
@@ -97,9 +98,10 @@
                 _token:'{{csrf_token()}}'
             },function(data){
                 var rezultat=JSON.parse(data), i = 1, ispis='';
-                if(rezultat){
+                if(rezultat?rezultat.length:false){
                     $('#korpaNAR').show();
                     $('#korpaDEL').show();
+                    $('#korpaPRED').show();
                     ispis+='<table class="table table-condensed" style="font-size: 80%">';
                     $.each(rezultat, function(index, value) {
                         ispis+='<tr><td>'+i+'</td><td>'+value['sifra']+'</td><td>'+value['naziv']+'</td><td><button class="btn btn-xs btn-danger" data-toggle="tooltip" title="Ukloni iz korpe" onclick="ukloniIzKorpe('+index+')"><i class="glyphicon glyphicon-trash"></i></button></td></tr>';
@@ -110,6 +112,7 @@
                 else{
                     $('#korpaNAR').hide();
                     $('#korpaDEL').hide();
+                    $('#korpaPRED').hide();
                     ispis='Nema proizvoda u korpi.';
                 }
                 $('#uKorpi').hide();
@@ -127,10 +130,12 @@
                 ucitajKorpu();
             })
         }
-        function kreirajFakturu(){
+        //#fakturisanje
+        function kreirajFakturu(predracun){
             $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%"></i></center>');
             $.post('/administracija/ucitaj-podatke-za-fakturu',{
-                _token:'{{csrf_token()}}'
+                _token:'{{csrf_token()}}',
+                predracun:predracun
             },function(data){
                 var rezultat=JSON.parse(data),ispis='';
                 ispis+='<style>#forma *{font-size: 13px}</style>' +
@@ -152,6 +157,7 @@
                             '<tr><td>Broj upisa</td><td><b>' + rezultat.podaci['broj_upisa'] + '</b></td></tr>' +
                         '</table>' +
                     '</div>' +
+                    (predracun===undefined?
                     '<div class="col-sm-6">' +
                         '<h3><b><u id="vrsta_korisnika">Kupac</u></b> <b><u><button id="promijeniVrstuKorisnika" class="btn btn-xs btn-primary" onclick="promijeniVrstuKorisnika()"><i class="glyphicon glyphicon-transfer"></i></button></u></b></h3>' +
                         '<input id="vrstaKorisnika" name="vrstaKorisnika" value="2" hidden="hidden">'+
@@ -159,16 +165,17 @@
                             '<input name="pretrazi_korisnika" class="form-control" onkeyup="nadjiKorisnika()" placeholder="naziv, prezime, ime, jmbg">' +
                             '<div id="pretraga_div"></div>' +
                         '</div>' +
-                    '</div>' +
+                    '</div>':'') +
                     '<div class="col-sm-12 form-horizontal" style="margin-top:30px">' +
                         '<div class="form-group">' +
                             '<label class="col-sm-3">Datum:</label>' +
-                            '<div class="col-sm-8"><input type="date" id="datum" name="datum" class="form-control" onchange="noviBrojFakture()" disabled></div><button id="datePicker" class="btn btn-primary"><i class="glyphicon glyphicon-calendar"></i></button>' +
+                            '<div class="col-sm-8"><input type="date" id="datum" name="datum" class="form-control" disabled></div>'+(predracun===undefined?'<button id="datePicker" class="btn btn-primary"><i class="glyphicon glyphicon-calendar"></i></button>':'') +
                         '</div>' +
-                        '<div class="form-group">' +
-                            '<label class="col-sm-3">Broj fakture: </label>' +
-                            '<div class="col-sm-8"><input name="broj_fakture" class="form-control" value="' + rezultat.broj_fakture + '/' + ((new Date()).getFullYear()) + '" data-broj_fakture="' + rezultat.broj_fakture + '" disabled></div>' +
+                        '<div class="form-group" id="broj_fakture" style="display: none">' +
+                            '<label class="col-sm-3" id="label_broj_fakture">Broj fakture: </label>' +
+                            '<div class="col-sm-8"><input name="broj_fakture" class="form-control" value="" data-broj_fakture="" disabled></div>' +
                         '</div>' +
+                        (predracun===undefined?'' +
                         '<div class="form-group">' +
                             '<label class="col-sm-3">Na osnovu: </label>' +
                             '<div class="col-sm-8"><input name="na_osnovu" class="form-control"></div>' +
@@ -177,15 +184,15 @@
                             '<label class="col-sm-3">Plaćanje: </label>' +
                             '<div class="col-sm-8"><input name="placanje" class="form-control"></div>' +
                         '</div>' +
-                    '</div>' +
+                    '</div>':'') +
                     '<div id="tabelaProizvoda" class="col-sm-12"></div>' +
-                    '<div class="col-sm-12">' +
+                    '<div class="form-group">' +
                         '<label class="col-sm-3">Napomena: </label>' +
-                        '<div class="col-sm-8"><textarea name="napomena" class="form-control" placeholder="Unesite napomenu koja će da bude upisana u fakturu."></textarea></div>' +
+                        '<div class="col-sm-8"><textarea name="napomena" class="form-control" placeholder="Unesite napomenu koja će da bude upisana u dokument."></textarea></div>' +
                     '</div>' +
                     '<div id="poruka" class="col-sm-12"></div>'+
                     '<div class="col-sm-offset-3 col-sm-8">' +
-                        '<button id="izvrsiFakturu" style="display:none;margin-top:30px" class="btn btn-primary" onclick="pripremiFakturu()"><i class="glyphicon glyphicon-floppy-disk"></i> Pripremi fakturu</button>' +
+                        '<button id="izvrsiFakturu" style="display:none;margin-top:30px" class="btn btn-primary" onclick="pripremiFakturu()"><i class="glyphicon glyphicon-floppy-disk"></i> Pripremi za izvršenje</button>' +
                         '<button id="fakturisi" style="display:none;margin-top:30px" class="btn btn-warning" onclick="zavrsiFakturisanje()"><i class="glyphicon glyphicon-floppy-disk"></i> Izvrši</button>' +
                         '<button id="otkazi" style="display:none;margin:30px 0 0 5px" class="btn btn-danger" onclick="kreirajFakturu()"><i class="glyphicon glyphicon-off"></i> Otkaži</button>' +
                     '</div>' +
@@ -196,15 +203,10 @@
                 $('#datum').datepicker({orientation: "top auto",weekStart: 1,startDate: "current",todayBtn: "linked",toggleActive: true,format: "yyyy-mm-dd",autoclose: true});
                 $('#datum').datepicker('setDate',new Date());
                 $('#datePicker').click(function(){$('#datum').datepicker('show')})
+                if(predracun) ucitajTabeluProizvoda();
             })
         }
-        function noviBrojFakture(){
-            $.post('/administracija/kreiraj-broj-fakture',{
-                _token:'{{csrf_token()}}',
-                datum:(new Date($('#datum').val())).getFullYear()
-            },function(data){ $('[name=broj_fakture]').val(data+'/'+(new Date($('#datum').val())).getFullYear()); $('[name=broj_fakture]').data('broj_fakture',data) })
-        }
-        function nadjiKorisnika(){
+            function nadjiKorisnika(){
             $('#pretraga_div').html('<center><i class="icon-spin6 animate-spin" style="font-size:350%"></i></center>');
             $.post('/administracija/korisnici/ucitaj-korisnike',{
                 _token:'{{csrf_token()}}',
@@ -212,7 +214,7 @@
                 pretraga:$('[name=pretrazi_korisnika]').val()
             },function(data){
                 var ispis='', rezultat=JSON.parse(data);
-                if(rezultat){
+                if(rezultat.length){
                     ispis+='<div class="list-group">';
                     $.each(rezultat, function(index, value) {
                         ispis += '' +
@@ -225,11 +227,11 @@
                         '</a>';
                     });
                     ispis+='</div>';
-                }else ispis+='Nema dobavljača u evidenciji. Izvršite dodavanje u podkategoriji korisnika.';
+                }else ispis+='<div class="alert alert-danger">Nema rezultata za navedenu pretragu. Izvršite dodavanje u korisnika u evidenciju.</div>';
                 $('#pretraga_div').html(ispis);
             })
         }
-        function izaberiKorisnika(idKorisnika){
+            function izaberiKorisnika(idKorisnika){
             $('#promijeniVrstuKorisnika').hide();
             $('#dobavljac_div').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%"></i></center>');
             $.post('/administracija/korisnici/izaberi-korisnika',{
@@ -260,11 +262,6 @@
                 ucitajTabeluProizvoda();
             })
         }
-        function promijeniVrstuKorisnika(){
-            var vrk = $('#vrstaKorisnika').val();
-            $('#vrstaKorisnika').val(vrk==3?2:3);
-            $('#vrsta_korisnika').html(vrk==3?'Kupac':'Dobavljač');
-        }
         function ucitajTabeluProizvoda(){
             $('#tabelaProizvoda').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%"></i></center>');
             $.post('/administracija/ucitaj-tabelu-proizvoda',{
@@ -275,19 +272,19 @@
                 ispis='<h3 style="font-size: 130%">Proizvodi</h3><style>#tabelaSaProizvodima *{text-align:center}</style><table id="tabelaSaProizvodima" class="table table-striped table-condensed table-hover"><thead>' +
                 '<tr>' +
                     '<th>Redni broj</th><th>Šifra proizvoda</th><th>Naziv artikla</th><th>Količina</th><th>Jedinica mjere</th>' +
-                    ($('#vrstaKorisnika').val()==2?'<th>Maloprodajna cijena</th><th>Iznos bez PDV-a</th><th>PDV</th><th>Iznos sa PDV-om</th>':'') +
+                    (rezultat.vrsta_fakture!=2?'<th>Maloprodajna cijena</th><th>Iznos bez PDV-a</th><th>PDV</th><th>Iznos sa PDV-om</th>':'') +
                 '</tr><thead><tbody>';
-                $.each(rezultat, function(index,value){
+                $.each(rezultat.proizvodi, function(index,value){
                     ispis+='<tr><td>' + (index+1) + '</td><td>' + value['sifra'] + '</td><td>' + value['naziv'] + '</td><td><input class="form-control" name="kolicina-' + index + '" style="width:50px" value="1" onkeyup="racunajCijenu(' + index + ',this)"></td><td>' + value['jedinica_mjere'] + '</td>' +
-                    ($('#vrstaKorisnika').val()==2?'<td id="maloprodajna_cijena-' + index + '">' + (value['maloprodajna_cijena']).toFixed(2) + '</td>':'') +
-                    ($('#vrstaKorisnika').val()==2?'<td id="cijena_bez_pdv-' + index + '">' + (value['maloprodajna_cijena']*0.83).toFixed(2) + '</td>':'') +
-                    ($('#vrstaKorisnika').val()==2?'<td id="cijena_pdv-' + index + '">' + (value['maloprodajna_cijena']*0.17).toFixed(2) + '</td>':'') +
-                    ($('#vrstaKorisnika').val()==2?'<td id="cijena_sa_pdv-' + index + '">' + (value['maloprodajna_cijena']).toFixed(2) + '</td>':'') +
+                    (rezultat.vrsta_fakture!=2?'<td id="maloprodajna_cijena-' + index + '">' + (value['maloprodajna_cijena']).toFixed(2) + '</td>' +
+                        '<td id="cijena_bez_pdv-' + index + '">' + (value['maloprodajna_cijena']*0.83).toFixed(2) + '</td>' +
+                        '<td id="cijena_pdv-' + index + '">' + (value['maloprodajna_cijena']*0.17).toFixed(2) + '</td>' +
+                        '<td id="cijena_sa_pdv-' + index + '">' + (value['maloprodajna_cijena']).toFixed(2) + '</td>':'') +
                     '</tr>';
                     i=index;
                 });
                 ispis+='</tbody>'+
-                    ($('#vrstaKorisnika').val()==2?
+                    (rezultat.vrsta_fakture!=2?
                         '<tfoot>' +
                         '<tr><td colspan="7" style="text-align: right;">Ukupno bez PDV-a</td><td colspan="2" id="ukupno_bez_pdv"></td></tr>' +
                         '<tr><td colspan="7" style="text-align: right;">PDV 17%</td><td colspan="2" id="ukupno_pdv"></td></tr>' +
@@ -299,18 +296,19 @@
                 $('#tabelaProizvoda').html(ispis);
                 $('#tabelaProizvoda').fadeIn();
                 $('#tabelaSaProizvodima').data('ukupno',i);
-                racunajUkupnuCijenu();
+                if(rezultat.vrsta_fakture!=2) racunajUkupnuCijenu();
+                $('#label_broj_fakture').html((rezultat.vrsta_fakture==1?'Faktura':rezultat.vrsta_fakture==2?'Narudžbenica':'Predračun')+' broj:');
                 $('#izvrsiFakturu').fadeIn();
             })
         }
-        function racunajCijenu(index,kolicina){
+            function racunajCijenu(index,kolicina){
             var ukupnaCijena=parseFloat($('#maloprodajna_cijena-'+index).text())*$(kolicina).val();
             $('#cijena_sa_pdv-'+index).html((ukupnaCijena).toFixed(2));
             $('#cijena_bez_pdv-'+index).html((ukupnaCijena*0.83).toFixed(2));
             $('#cijena_pdv-'+index).html((ukupnaCijena*0.17).toFixed(2));
             racunajUkupnuCijenu();
         }
-        function racunajUkupnuCijenu(){
+            function racunajUkupnuCijenu(){
             var ukupno=0;
             for(var i=0; i<$('#tabelaSaProizvodima').data('ukupno')+1; i++)
                 ukupno=(parseFloat(ukupno)+parseFloat($('#cijena_sa_pdv-' + i).text())).toFixed(2);
@@ -322,9 +320,9 @@
         function pripremiFakturu(){
             $('#poruka').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%"></i></center>');
             $('#izvrsiFakturu').remove();
-            var faktura={}; faktura.proizvodi=[];
+            var faktura={}; faktura.proizvodi=[], vrsta_korisnika = $('#vrstaKorisnika').val()===undefined?'predracun':$('#vrstaKorisnika').val();
             for(var i=0; i<$('#tabelaSaProizvodima').data('ukupno')+1; i++){
-                if($('#vrstaKorisnika').val()==2)
+                if(vrsta_korisnika==2||vrsta_korisnika=='predracun')
                     faktura.proizvodi[i]={
                         kolicina:parseInt($('[name=kolicina-'+i+']').val()),
                         cijena_sa_pdv:parseFloat($('#cijena_sa_pdv-'+i).text()),
@@ -334,23 +332,34 @@
                 else faktura.proizvodi[i]={ kolicina:parseInt($('[name=kolicina-'+i+']').val()) }
                 $('[name=kolicina-'+i+']').closest('td').text(faktura.proizvodi[i].kolicina);
             }
-            if($('#vrstaKorisnika').val()==2)
+            if(vrsta_korisnika==2||vrsta_korisnika=='predracun')
                 faktura.ukupno={
                     ukupno_sa_pdv:parseFloat($('#ukupno_sa_pdv').text()),
                     ukupno_bez_pdv:parseFloat($('#ukupno_bez_pdv').text()),
                     ukupno_pdv:parseFloat($('#ukupno_pdv').text())
                 }
-            faktura.datum=$('#datum').val(); var d=new Date(faktura.datum); $('#datum').closest('div').html(d.getDate()+'.'+ d.getMonth()+'.'+ d.getFullYear()+'.'); $('#datePicker').remove();
-            $('[name=broj_fakture]').closest('div').html($('[name=broj_fakture]').val());
-            faktura.na_osnovu=$('[name=na_osnovu]').val(); $('[name=na_osnovu]').closest('div').html(faktura.na_osnovu);
-            faktura.placanje=$('[name=placanje]').val(); $('[name=placanje]').closest('div').html(faktura.placanje);
-            faktura.napomena=$('[name=napomena]').val(); $('[name=napomena]').closest('div').html(faktura.napomena);
+            faktura.datum=$('#datum').val(); var d=new Date(faktura.datum); $('#datum').closest('div').html(d.getDate()+'.'+(d.getMonth()+1)+'.'+ d.getFullYear()+'.'); $('#datePicker').remove();
+            if(vrsta_korisnika!='predracun') {
+                faktura.na_osnovu = $('[name=na_osnovu]').val();
+                if(faktura.na_osnovu) $('[name=na_osnovu]').closest('div').html(faktura.na_osnovu);
+                else $('[name=na_osnovu]').closest('div').closest('.form-group').remove();
+                faktura.placanje = $('[name=placanje]').val();
+                if(faktura.placanje) $('[name=placanje]').closest('div').html(faktura.placanje);
+                else $('[name=placanje]').closest('div').closest('.form-group').remove();
+            }
+            faktura.napomena = $('[name=napomena]').val();
+            $('[name=napomena]').closest('div').html(faktura.napomena);
             $.post('/administracija/pripremi-fakturu',{
                 _token:'{{csrf_token()}}',
                 faktura:JSON.stringify(faktura)
-            },function(data){console.log(data);
+            },function(data){
+                var rezultat=JSON.parse(data);
+                $('[name=broj_fakture]').closest('div').html(rezultat.broj_fakture+'/'+(new Date(faktura.datum)).getFullYear());
+                faktura=null;
+                $('[name=broj_fakture]').val();
+                $('#broj_fakture').fadeIn();
                 $('#poruka').hide();
-                $('#poruka').html('<div class="alert alert-warning" style="font-size:18px">Faktura je spremna za izvršenje.' + ($('#vrstaKorisnika').val()==2?' Sa ovom akcijom biće ažurirano stanje proizvoda u magacinu.':'') + ' Provjerite podatke i pristupite izvršenju.</div>');
+                $('#poruka').html('<div class="alert alert-warning" style="font-size:18px">Akcija je spremna za izvršenje.' + ($('#vrstaKorisnika').val()==2?' Sa ovom akcijom biće ažurirano stanje proizvoda u magacinu.':'') + ' Provjerite podatke i pristupite izvršenju.</div>');
                 $('#poruka').fadeIn();
                 $('#fakturisi').fadeIn();
                 $('#otkazi').fadeIn();
@@ -359,10 +368,23 @@
         function zavrsiFakturisanje(){
             $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%"></i></center>');
             $.post('/administracija/faktura',{_token:'{{csrf_token()}}'},function(data){
+                var rezultat=JSON.parse(data);
                 $('#work-place').hide();
-                $('#work-place').html('<div class="alert alert-success">Faktura je uspješno kreirana</div>');
+                $('#work-place').html('<div class="alert alert-success">Akcija je uspješno izvršena. <a href="'+rezultat.link+'" target="_blank" class="btn btn-primary">PDF</div></div>');
                 $('#work-place').fadeIn();
             })
+        }
+        //--
+        function promijeniVrstuKorisnika(){
+            var vrk = $('#vrstaKorisnika').val();
+            $('#vrstaKorisnika').val(vrk==3?2:3);
+            $('#vrsta_korisnika').html(vrk==3?'Kupac':'Dobavljač');
+        }
+        function noviBrojFakture(){
+            $.post('/administracija/kreiraj-broj-fakture',{
+                _token:'{{csrf_token()}}',
+                datum:(new Date($('#datum').val())).getFullYear()
+            },function(data){ $('[name=broj_fakture]').val(data+'/'+(new Date($('#datum').val())).getFullYear()); $('[name=broj_fakture]').data('broj_fakture',data) })
         }
     </script>
     <i class="icon-spin6 animate-spin" style="font-size: 1px;color:rgba(0,0,0,0)"></i>

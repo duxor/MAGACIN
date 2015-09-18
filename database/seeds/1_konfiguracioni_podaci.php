@@ -48,9 +48,9 @@ class KonfiguracioniPodaci extends Seeder{
             ]
         ]);
         VrstaFakture::insert([
-            ['naziv'=>'Faktura'],
-            ['naziv'=>'Narudžbenica'],
-            ['naziv'=>'Predračun'],
+            ['naziv'=>'Faktura'],//1
+            ['naziv'=>'Narudžbenica'],//2
+            ['naziv'=>'Predračun'],//3
         ]);
     }
 }

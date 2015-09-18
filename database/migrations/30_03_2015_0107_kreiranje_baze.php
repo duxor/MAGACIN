@@ -78,6 +78,17 @@ class KreiranjeBaze extends Migration {
 			$table->string('broj_upisa',250)->nullable();
 			$table->string('telefon',45)->nullable();
 		});
+		Schema::create('korisnici_aplikacije',function(Blueprint $table){
+			$table->bigIncrements('id');
+			$table->string('napomena', 45);
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->nullable();
+			$table->unsignedBigInteger('korisnici_id');
+			$table->foreign('korisnici_id')->references('id')->on('korisnici');
+			$table->unsignedBigInteger('aplikacija_id');
+			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
+			$table->tinyInteger('aktivan')->default(1);
+		});
 		Schema::create('vrsta_proizvoda',function(Blueprint $table){
 			$table->bigIncrements('id');
 			$table->string('naziv', 45);
@@ -163,7 +174,10 @@ class KreiranjeBaze extends Migration {
 			$table->foreign('vrsta_fakture_id')->references('id')->on('vrsta_fakture');
 			$table->unsignedBigInteger('aplikacija_id');
 			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
+			$table->unsignedBigInteger('korisnici_aplikacije_id')->nullable();
+			$table->foreign('korisnici_aplikacije_id')->references('id')->on('korisnici_aplikacije');
 			$table->bigInteger('broj_fakture')->nullable();
+			$table->string('pdf_link',250)->nullable();
 		});
 		Schema::create('za_narudzbu',function(Blueprint $table){
 			$table->bigIncrements('id');
@@ -172,21 +186,10 @@ class KreiranjeBaze extends Migration {
 			$table->integer('kolicina_pristigla')->default(0);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->nullable();
-			$table->unsignedBigInteger('narudzbenice_id');
+			$table->unsignedBigInteger('fakture_id');
 			$table->unsignedBigInteger('proizvod_id')->nullable();
-			$table->foreign('narudzbenice_id')->references('id')->on('fakture');
+			$table->foreign('fakture_id')->references('id')->on('fakture');
 			$table->foreign('proizvod_id')->references('id')->on('proizvod');	
-		});
-		Schema::create('korisnici_aplikacije',function(Blueprint $table){
-			$table->bigIncrements('id');
-			$table->string('napomena', 45);
-			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->timestamp('updated_at')->nullable();
-			$table->unsignedBigInteger('korisnici_id');
-			$table->foreign('korisnici_id')->references('id')->on('korisnici');
-			$table->unsignedBigInteger('aplikacija_id');
-			$table->foreign('aplikacija_id')->references('id')->on('aplikacija');
-			$table->tinyInteger('aktivan')->default(1);
 		});
 	}
 	public function down()
