@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Korisnici;
+use App\Log;
 use Illuminate\Support\Facades\DB;
 class Security {
     private $id;
@@ -142,7 +143,14 @@ class Security {
                 $sec->generateToken();
                 Korisnici::where('id', $sec->id)->update(['token' => $sec->token]);
                 $sec->setSessions();
-                Log::insert(['korisnici_id'=>$korisnik->id]);
+				if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+					$ip = $_SERVER['HTTP_CLIENT_IP'];
+				} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+					$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+				} else {
+					$ip = $_SERVER['REMOTE_ADDR'];
+				}
+                Log::insert(['korisnici_id'=>$korisnik->id,'ip'=>$ip]);
             }else Korisnici::where('id', $sec->id)->update(['token' => null]);
         }
         if($mobile) return $test ? true : false;

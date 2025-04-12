@@ -1,4 +1,4 @@
-@extends('app-admin.master.osnovni')
+@extends('radnik.master.osnovni')
 @section('content')
 
         <h2 style="text-align: left" id="proizvodi"><i class="glyphicon glyphicon-qrcode"></i> Proizvodi
@@ -7,7 +7,7 @@
             <div class="form-inline" style="float: right">
                 <button class="btn btn-sm btn-default" data-toggle="tooltip" title="Pronađi proizvod" onclick="proizvod.pretrazi()"><i class="glyphicon glyphicon-search"></i></button>
                 <div class="form-group">{!!Form::text('pretraga_proizvod',null,['class'=>'form-control','id'=>'pretraga_proizvod'])!!}</div>
-                <div class="form-group">{!!Form::select('pretraga_vrsta_proizvoda',array_merge([0=>'Svi proizvodi'],$vrstaProizvoda),0,['class'=>'form-control','onchange'=>'proizvod.pretrazi()'])!!}</div>
+                <div class="form-group">{!!Form::select('pretraga_vrsta_proizvoda',array_merge([0=>'Svi proizvodi'],$vrstaProizvoda),0,['class'=>'form-control'])!!}</div>
             </div>
         </h2>
         <div id="modalUniverzalni" class="modal fade">
@@ -51,7 +51,7 @@
                             for(var i=0;i<proizvodi.length;i++){
                                 ispis+='<tr>' +
                                     '<td><button class="btn btn-xs btn-info" data-toggle="tooltip" data-template=\'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="background-color:rgba(0,0,0,0)"></div></div>\' data-placement="bottom" data-html="true" title="<img style=\'width:100%\' src=\''+proizvodi[i]['foto']+'\'>"><i class="glyphicon glyphicon-picture"></i></button></td>'+
-                                    '<td>'+proizvodi[i]['sifra']+'</td>' +
+                                    '<td><a href="/administracija/proizvod/azuriraj/'+proizvodi[i]['id']+'">'+proizvodi[i]['sifra']+'</a></td>' +
                                     '<td>'+proizvodi[i]['naziv']+'</td>' +
                                     '<td>' +
                                         '<a href="#" class="btn btn-xs btn-info" style="margin-right:5px" data-toggle="tooltip" title="Ažuriraj" onclick="proizvod.edit('+proizvodi[i]['id']+')"><span class="glyphicon glyphicon-pencil"></span></a>' +

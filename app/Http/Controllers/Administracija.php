@@ -1,16 +1,22 @@
 <?php namespace App\Http\Controllers;
 
 use App\Fakture;
+use App\Korisnici;
+use App\Log;
 use App\Magacin as MMagacin;
 use App\Proizvodi;
 use App\Security;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use App\Aplikacija;
 use PDF;
 use App\Fakture as FFakture;
 use App\ZaNarudzbu;
+use Illuminate\Support\Facades\App;
+
 class Administracija extends Controller {
 //LOG[in,out]
 	public function getLogin(){
@@ -23,11 +29,22 @@ class Administracija extends Controller {
 		$redirect=Security::login(Input::get('username'),Input::get('password'));
 
 		if(Security::autentifikacijaTest(2,'min')){
-			//Session::put('prava_pristupa',Korisnici::find(Session::get('id'),['prava_pristupa_id'])->prava_pristupa_id);
-			if(Session::get('prava_pristupa')==4) {
-				$app=Aplikacija::where('korisnici_id',Session::get('id'))->get(['id','slug'])->first();
-				if($app) Session::put('aplikacija', $app->slug);
-				if($app) Session::put('aplikacija_id', $app->id);
+            switch(Session::get('prava_pristupa')){
+                case 2:break;
+                case 3:break;
+                case 4:Session::put('slug','radnik');break;
+                case 5:Session::put('slug','app-admin');break;
+                case 6:Session::put('slug','super-admin');break;
+            }
+			if(in_array(Session::get('prava_pristupa'),[4,5])){
+				$app=Session::get('prava_pristupa')==5? Aplikacija::where('korisnici_id',Session::get('id'))->get(['id','slug','jezik'])->first()
+                    : Aplikacija::join('korisnici_aplikacije as ka','ka.aplikacija_id','=','aplikacija.id')->join('korisnici as k','k.id','=','ka.korisnici_id')
+                        ->where('k.prava_pristupa_id',4)->where('k.id',Session::get('id'))->get(['aplikacija.id','slug','jezik'])->first();
+				if($app){
+                    Session::put('aplikacija', $app->slug);
+                    Session::put('aplikacija_id', $app->id);
+                    Session::put('jezik', $app->jezik);
+                }
 			}
 		}
 		return $redirect;
@@ -76,260 +93,176 @@ class Administracija extends Controller {
 					0 Pregled narudžbi sa statusom, servisima koji su rađeni, komantarom vlasnika [između ostalog treba da sadrži i garanciju na realizovani proizvod, koju ažurira AplikativniAdministrator]
 				]
 		*/
-		switch(Session::get('prava_pristupa')){
+        App::setLocale(Session::get('jezik'));
+        switch(Session::get('prava_pristupa')){
 			case 2: return 'Kupac';
 			case 3: return 'Dobavljac';
-			case 4: return Security::autentifikacija('app-admin.index',null,4);
-			case 5: return Security::autentifikacija('super-admin.index',null,5);
+            case 4: return Security::autentifikacija('radnik.index',null,4);
+            case 5: return Security::autentifikacija('app-admin.index',null,5);
+			case 6: return Security::autentifikacija('super-admin.index',null,6);
 		}
 		return redirect('/administracija/login');
 	}
-	public function postUcitajPodatkeZaFakturu(){
-		$ispis['podaci']=Aplikacija::where('slug',Session::get('aplikacija'))
-			->get(['naziv','adresa','grad','jib','pib','pdv','ziro_racun_1','banka_1','ziro_racun_2','banka_2','registracija',
-				'broj_upisa','telefon'])->first()->toArray();
-		if(Session::has('faktura')) Session::forget('faktura');
-		Session::put('faktura.mojiPodaci',$ispis['podaci']);
-		return json_encode($ispis);
-	}
-	public function postUcitajTabeluProizvoda(){
-		$proizvodi=[];
-		if($_POST['vrstaKorisnika']=='NaN'){
-			Session::put('faktura.vrsta_korisnika','predracun');
-			Session::put('faktura.vrsta_fakture',3);//fakture.vrsta_fakture_id=3->>Predracun
-			$_POST['vrstaKorisnika']=2;
-		} else Session::put('faktura.vrsta_fakture',1);//fakture.vrsta_fakture_id=1->>Faktura
-		switch($_POST['vrstaKorisnika']){
-		//Ukoliko KUPAC kupuje proizvod
-			case 2:
-				$ukupno=0;
-				foreach(Session::get('korpa') as $k=>$proizvod){
-					$proizvodi[$k]=Proizvodi::join('magacin as m','m.proizvod_id','=','proizvod.id')
-						->where('proizvod.id',$proizvod['id'])
-						->get(['proizvod.id','proizvod.sifra','proizvod.naziv','proizvod.jedinica_mjere','m.cijena as maloprodajna_cijena'])
-						->first()
-						->toArray();
-					$proizvodi[$k]['cijena_bez_pdv']=$proizvodi[$k]['maloprodajna_cijena']*0.83;
-					$proizvodi[$k]['cijena_pdv']=$proizvodi[$k]['maloprodajna_cijena']*0.17;
-					$proizvodi[$k]['cijena_sa_pdv']=$proizvodi[$k]['maloprodajna_cijena'];
-
-					$ukupno+=$proizvodi[$k]['cijena_sa_pdv'];
-
-					$proizvodi[$k]['ukupno_na_stanju']=MMagacin::join('magacin_id as m','m.id','=','magacin.magacin_id_id')
-						->where('m.aplikacija_id',Session::get('aplikacija_id'))
-						->where('magacin.proizvod_id',$proizvod['id'])
-						->groupBy('magacin.proizvod_id')
-						->sum('magacin.kolicina_stanje');
-				}
-			break;
-		//Ukoliko se vrsi narudzba od dobavljaca
-			case 3:
-				Session::put('faktura.vrsta_fakture',2);//fakture.vrsta_fakture_id=2->>Narudzbenica
-				foreach(Session::get('korpa') as $k=>$proizvod){
-					$proizvodi[$k]=Proizvodi::find($proizvod['id'],['id','sifra','naziv','jedinica_mjere'])->toArray();
-				}
-			break;
-		}
-		if(Session::has('faktura.proizvodi')) Session::forget('faktura.proizvodi');
-		Session::put('faktura.proizvodi',$proizvodi);
-		return json_encode(['proizvodi'=>$proizvodi,'vrsta_fakture'=>Session::get('faktura.vrsta_fakture')]);
-	}
-	public function postPripremiFakturu(){
-		$podaci=json_decode($_POST['faktura']);
-		if(Session::get('faktura.vrsta_korisnika')==2 or Session::get('faktura.vrsta_korisnika')=='predracun'){
-			foreach($podaci->proizvodi as $k=>$v){
-				Session::put('faktura.proizvodi.'.$k.'.kolicina',$v->kolicina);
-				Session::put('faktura.proizvodi.'.$k.'.cijena_sa_pdv',$v->cijena_sa_pdv);
-				Session::put('faktura.proizvodi.'.$k.'.cijena_bez_pdv',$v->cijena_bez_pdv);
-				Session::put('faktura.proizvodi.'.$k.'.cijena_pdv',$v->cijena_pdv);
-			}
-			Session::put('faktura.ukupno.ukupno_sa_pdv',$podaci->ukupno->ukupno_sa_pdv);
-			Session::put('faktura.ukupno.ukupno_bez_pdv',$podaci->ukupno->ukupno_bez_pdv);
-			Session::put('faktura.ukupno.ukupno_pdv',$podaci->ukupno->ukupno_pdv);
-		}else{
-			foreach($podaci->proizvodi as $k=>$v)
-				Session::put('faktura.proizvodi.'.$k.'.kolicina',$v->kolicina);
-		}
-		Session::put('faktura.datum',$podaci->datum);
-		if(Session::get('faktura.vrsta_korisnika')!='predracun') {
-			Session::put('faktura.na_osnovu', $podaci->na_osnovu);
-			Session::put('faktura.placanje', $podaci->placanje);
-		}
-		Session::put('faktura.napomena', $podaci->napomena);
-		return json_encode(['broj_fakture'=>$this->postKreirajBrojFakture()]);
-	}
-	public function postKreirajBrojFakture(){
-		$broj_fakture=Fakture::where('aplikacija_id',Session::get('aplikacija_id'))
-			->where('vrsta_fakture_id',Session::get('faktura.vrsta_fakture'))
-			->where(DB::raw('YEAR(datum_narudzbe)'),'=',date('Y',strtotime(Session::get('faktura.datum'))))
-			->max('broj_fakture');
-		$broj_fakture=$broj_fakture+1;//?$broj_fakture+1:1;
-		if(Session::has('faktura.broj_fakture')) Session::forget('faktura.broj_fakture');
-		Session::put('faktura.broj_fakture',$broj_fakture);
-		return $broj_fakture;
-	}
 	public function getSessions(){dd(Session::all());}
-	public function postFaktura(){
-		$link=$this->ispisiFakturu();
-		$faktura=new FFakture();
-			$faktura->datum_narudzbe=Session::get('faktura.datum');
-			$faktura->vrsta_fakture_id=Session::get('faktura.vrsta_fakture');
-			$faktura->broj_fakture=Session::get('faktura.broj_fakture');
-			$faktura->aplikacija_id=Session::get('aplikacija_id');
-			$faktura->korisnici_aplikacije_id=Session::get('faktura.korisnik.ka_id');
-			$faktura->pdf_link=$link;
-		$faktura->save();
-		foreach(Session::get('faktura.proizvodi') as $proizvod){
-			ZaNarudzbu::insert([
-				'kolicina_porucena'=>$proizvod['kolicina'],
-				'fakture_id'=>$faktura->id,
-				'proizvod_id'=>$proizvod['id']
-			]);
-		}
-		Session::forget('faktura');
-		return json_encode(['link'=>$link]);
-	}
-	private function ispisiFakturu(){
-		//osnovne
-		Pdf::setMargins(10,35,10,true);
-		Pdf::SetAutoPageBreak(true, 20);
-		//informacije o dokumentu
-		Pdf::SetCreator('IS MAGACIN');
-		Pdf::SetAuthor('Dušan Perišić');
-		Pdf::SetTitle('Test verzija Foča');
-		Pdf::SetSubject('Naslov Subject Foča');
-		Pdf::SetKeywords('Ključne riječi');
-		//HEADER
-		Pdf::setHeaderFont(['freeserif','B',14],['freeserif','B',11]);
-		Pdf::setHeaderMargin(10);
-		Pdf::setHeaderData('/img/aplikacije/'. Session::get('aplikacija') .'/logo.jpg', 40, Session::get('faktura.mojiPodaci.naziv'), Session::get('faktura.mojiPodaci.adresa')."\n".Session::get('faktura.mojiPodaci.grad'));
-		//GLAVNI DIO
-		Pdf::SetFont('freeserif','',10);
-		Pdf::AddPage();
 
-        $ispis='<style>
-                table .prodavackupac{width: 40%}
-                table tr .d1{width:32%}
-                table tr .d2{width:60%}
-                .proizvodi{border-top: 2.5px solid black}
-                .proizvodi tr td{border-bottom: 0.1px dashed black;border-right: 1.5px solid black}
-                .proizvodi .header{border-bottom: 1.5px solid black}
-                .proizvodi .topborder{border-top: 1.5px solid black}
-            </style>
-            <table class="prodavackupac">
-                <tr><td>
-                    <table>'.
-						(Session::has('faktura.mojiPodaci.jib')?'<tr><td class="d1">JIB:</td><td class="d2">'.Session::get('faktura.mojiPodaci.jib').'</td></tr>':'').
-						(Session::has('faktura.mojiPodaci.pdv')?'<tr><td class="d1">PDV:</td><td class="d2">'.Session::get('faktura.mojiPodaci.pdv').'</td></tr>':'').
-						(Session::has('faktura.mojiPodaci.ziro_racun_1')?'<tr><td class="d1">Žiro račun:</td><td class="d2">'.Session::get('faktura.mojiPodaci.ziro_racun_1').'</td></tr>':'').
-						(Session::has('faktura.mojiPodaci.banka_1')?'<tr><td class="d1">Banka:</td><td class="d2">'.Session::get('faktura.mojiPodaci.banka_1').'</td></tr>':'').
-						(Session::has('faktura.mojiPodaci.ziro_racun_2')?'<tr><td class="d1">Žiro račun:</td><td class="d2">'.Session::get('faktura.mojiPodaci.ziro_racun_2').'</td></tr>':'').
-						(Session::has('faktura.mojiPodaci.banka_2')?'<tr><td class="d1">Banka:</td><td class="d2">'.Session::get('faktura.mojiPodaci.banka_2').'</td></tr>':'').
-						(Session::has('faktura.mojiPodaci.registracija')?'<tr><td class="d1">Registracija:</td><td class="d2">'.Session::get('faktura.mojiPodaci.registracija').'</td></tr>':'').
-						(Session::has('faktura.mojiPodaci.broj_upisa')?'<tr><td class="d1">Broj upisa:</td><td class="d2">'.Session::get('faktura.mojiPodaci.broj_upisa').'</td></tr>':'').
-                    '</table>
-                </td>'.
-				(Session::get('faktura.vrsta_fakture')!=3?
-                	'<td>
-					<b style="font-size: 130%">'.(Session::get('faktura.vrsta_fakture')==1?'Kupac':'Dobavljač').':</b>
-                    <br>
-                    <table>'.
-						(Session::has('faktura.korisnik.prezime')?'<tr><td class="d1">Prezime i Ime</td><td class="d2">'.Session::get('faktura.korisnik.prezime').' '.Session::get('faktura.korisnik.ime').'</td></tr>':'').
-						(Session::has('faktura.korisnik.jmbg')?'<tr><td class="d1">JMBG:</td><td class="d2">'.Session::get('faktura.korisnik.jmbg').'</td></tr>':'').
-						(Session::has('faktura.korisnik.broj_licne_karte')?'<tr><td class="d1">Broj licne karte:</td><td class="d2">'.Session::get('faktura.korisnik.broj_licne_karte').'</td></tr>':'').
-						(Session::has('faktura.korisnik.adresa')?'<tr><td class="d1">Adresa:</td><td class="d2">'.Session::get('faktura.korisnik.adresa').' '.Session::get('faktura.korisnik.grad').'</td></tr>':'').
-						(Session::has('faktura.korisnik.telefon')?'<tr><td class="d1">Telefon:</td><td class="d2">'.Session::get('faktura.korisnik.telefon').'</td></tr>':'').
-						(Session::has('faktura.korisnik.jib')?'<tr><td class="d1">JIB:</td><td class="d2">'.Session::get('faktura.korisnik.jib').'</td></tr>':'').
-						(Session::has('faktura.korisnik.pdv')?'<tr><td class="d1">PDV:</td><td class="d2">'.Session::get('faktura.korisnik.pdv').'</td></tr>':'').
-						(Session::has('faktura.korisnik.ziro_racun_1')?'<tr><td class="d1">Žiro račun:</td><td class="d2">'.Session::get('faktura.korisnik.ziro_racun_1').'</td></tr>':'').
-						(Session::has('faktura.korisnik.banka_1')?'<tr><td class="d1">Banka:</td><td class="d2">'.Session::get('faktura.korisnik.banka_1').'</td></tr>':'').
-						(Session::has('faktura.korisnik.ziro_racun_2')?'<tr><td class="d1">Žiro račun:</td><td class="d2">'.Session::get('faktura.korisnik.ziro_racun_2').'</td></tr>':'').
-						(Session::has('faktura.korisnik.banka_2')?'<tr><td class="d1">Banka:</td><td class="d2">'.Session::get('faktura.korisnik.banka_2').'</td></tr>':'').
-						(Session::has('faktura.korisnik.registracija')?'<tr><td class="d1">Registracija:</td><td class="d2">'.Session::get('faktura.korisnik.registracija').'</td></tr>':'').
-						(Session::has('faktura.korisnik.broj_upisa')?'<tr><td class="d1">Broj upisa:</td><td class="d2">'.Session::get('faktura.korisnik.broj_upisa').'</td></tr>':'').
-					'</table>
-                </td>':'').
-                '</tr>
-            </table>
-            <br>
+    public function getUputstvo(){
+        return Security::autentifikacija('app-admin.ostalo.uputstvo');
+    }
 
-            <p><b>Datum: <u>'.date('d.m.Y',strtotime(Session::get('faktura.datum'))).'</u></b></p>
-            <h2>'.(Session::get('faktura.vrsta_fakture')==1?'Faktura':Session::get('faktura.vrsta_fakture')==2?'Narudžbenica':'Predračun').' broj <u>'. Session::get('faktura.broj_fakture') .'/'. date('Y',strtotime(Session::get('faktura.datum'))) .'</u></h2>
-            <p>'.(Session::get('faktura.na_osnovu')?'Na osnovu: <u> '.Session::get('faktura.na_osnovu').' </u>':'').'
-            	'.(Session::get('faktura.placanje')?'<br>Plaćanje: <u> '.Session::get('faktura.placanje').' </u>':'').'</p>
-            <table class="proizvodi" align="center">
-                <thead>
-                    <tr>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'25px':'60px').';border-left: 2.5px solid black">Redni broj</td>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'50px':'100px').'">Šifra proizvoda</td>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'195px':'250px').'">Naziv</td>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'30px':'60px').'">Kol.</td>
-                        <td class="header" style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'30px':'60px;border-right: 2.5px solid black').'">Jed. mjere</td>'.
-					(Session::get('faktura.vrsta_fakture')!=2?
-							'<td class="header" style="width:50px">Maloprod. cijena</td>
-                        	<td class="header" style="width:50px">Iznos bez PDV-a</td>
-                        	<td class="header" style="width:50px">PDV</td>
-                        	<td class="header" style="width:50px;border-right: 2.5px solid black">Iznos sa PDV-om</td>':'').
-                    '</tr>
-                </thead>
-                <tbody>';
-		foreach(Session::get('faktura.proizvodi') as $i=>$proizvod)
-        	$ispis.='<tr>
-                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'25px':'60px').';border-left: 2.5px solid black">'.($i+1).'</td>
-                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'50px':'100px').'">'.$proizvod['sifra'].'</td>
-                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'195px':'250px').'">'.$proizvod['naziv'].'</td>
-                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'30px':'60px').'">'.$proizvod['kolicina'].'</td>
-                        <td style="width:'.(Session::get('faktura.vrsta_fakture')!=2?'30px':'60px;border-right: 2.5px solid black;').'">'.$proizvod['jedinica_mjere'].'</td>'.
-				(Session::get('faktura.vrsta_fakture')!=2?
-                        '<td style="width:50px">'.$proizvod['maloprodajna_cijena'].'</td>
-							<td style="width:50px">'.$proizvod['cijena_bez_pdv'].'</td>
-							<td style="width:50px">'.$proizvod['cijena_pdv'].'</td>
-							<td style="width:50px;border-right: 2.5px solid black">'.$proizvod['cijena_sa_pdv'].'</td>':'').
-                    '</tr>';
+    public function getOsnovnaPodesavanja(){
+        return Security::autentifikacija('app-admin.ostalo.osnovna-podesavanja');
+    }
 
-        $ispis.='</tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'4':'5').'" rowspan="10" style="border-top: 2.5px solid black;border-bottom: none;border-right: none;text-align:left">
-                        '.(Session::get('faktura.napomena')?'<b>Napomena:</b>
-                            <br>'.Session::get('faktura.napomena').'
-                        ':'').
-                        '</td>'.
-						(Session::get('faktura.vrsta_fakture')!=2?
-								'<td colspan="3" style="border-left: 2.5px solid black;border-top: 1.5px solid black;border-bottom:none">Ukupan iznos bez PDV-а</td>
-								<td colspan="2" style="border-right: 2.5px solid black;border-top: 1.5px solid black;border-bottom:none">'.Session::get('faktura.ukupno.ukupno_bez_pdv').'</td>
-							</tr>
-							<tr>
-								<td colspan="3" style="border-left: 2.5px solid black;border-top: 0.1px solid black;border-bottom:none">PDV 17%</td>
-								<td colspan="2" style="border-right: 2.5px solid black;border-top: 0.1px solid black;border-bottom:none">'.Session::get('faktura.ukupno.ukupno_pdv').'</td>
-							</tr>
-							<tr>
-								<td colspan="3" style="border-left: 2.5px solid black;border-top: 0.1px solid black;border-bottom:none">Ukupan iznos sa PDV-om</td>
-								<td colspan="2" style="border-right: 2.5px solid black;border-top: 0.1px solid black;border-bottom:none">'.Session::get('faktura.ukupno.ukupno_sa_pdv').'</td>
-							</tr>
-							<tr>
-								<td colspan="3" style="border-left: 2.5px solid black;border-bottom: 2.5px solid black;border-top: 0.1px solid black"><b>Ukupan iznos za uplatu (KM)</b></td>
-								<td colspan="2" style="border-right: 2.5px solid black;border-bottom: 2.5px solid black;border-top: 0.1px solid black"><b>'.Session::get('faktura.ukupno.ukupno_sa_pdv').'</b></td>
-							</tr>':'</tr>').
-                    '<tr><td colspan="5" style="border-bottom:none;border-right:none"></td></tr>
-                    <tr><td colspan="5" style="border-bottom:none;border-right:none"><b>Potpis i pečat</b></td></tr>
-                    <tr><td style="border-bottom:none;border-right:none"></td><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'3':'2').'" style="border-bottom:0.1px solid black;border-right:none"></td><td style="border-bottom:none;border-right:none"></td></tr>
-                    <tr><td colspan="5" style="border-bottom:none;border-right:none"></td></tr>
-                    <tr><td colspan="5" style="border-bottom:none;border-right:none"></td></tr>
-                    <tr><td colspan="5" style="border-bottom:none;border-right:none"></td></tr>
+    public function postOsnovnoNalog(){
+        if(!Security::autentifikacijaTest(5)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        $podaci=Aplikacija::find(Session::get('aplikacija_id'),['naziv','adresa','grad','telefon'])->toArray();
+        $podaci['logo']='/img/aplikacije/'.Session::get('aplikacija').'/logo.jpg';
+        return json_encode($podaci);
+    }
+    public function postOsnovnoPodaci(){//
+        if(!Security::autentifikacijaTest(5)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        $podaci=Aplikacija::find(Session::get('aplikacija_id'),['jib','pib','pdv','ziro_racun_1','banka_1','ziro_racun_2','banka_2','registracija','broj_upisa'])->toArray();
+        return json_encode($podaci);
+    }
+    public function postOsnovnoFakture(){
+        if(!Security::autentifikacijaTest(5)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        $podaci=Aplikacija::find(Session::get('aplikacija_id'),['faktura_futer_1','faktura_futer_2','faktura_futer_3'])->toArray();
+        return json_encode($podaci);
+    }
+    public function postOsnovnoSifarnici(){
+        if(!Security::autentifikacijaTest(5)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        $podaci=[];
+        return json_encode($podaci);
+    }
 
-                    <tr><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'9':'5').'" style="border-bottom:none;border-right:none"></td></tr>
-                    <tr><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:left">Reklamacije se uvažavaju u roku od 8 dana po prijemu robe i usluge</td></tr>
-                    <tr><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:left">Za sve sporove nadležan je Osnovni sud u Foči</td></tr>
-                    <tr><td colspan="'.(Session::get('faktura.vrsta_fakture')!=2?'9':'5').'" style="border-bottom:none;border-right:none;text-align:right">Hvala na povjerenju!</td></tr>
-                </tfoot>
-            </table>';
-		Pdf::writeHTMLCell(0, 0, '', '', $ispis, 0, 1, 0, true, '', true);
-		$str=Session::get('faktura.vrsta_fakture')==1?'fakture':(Session::get('faktura.vrsta_fakture')==2?'narudzbenice':'predracuni');
-		$link='/img/aplikacije/'.Session::get('aplikacija').'/'.$str.'/'.Session::get('faktura.datum').'-'.$str.'-'.Session::get('faktura.broj_fakture').'.pdf';
-		Pdf::Output($_SERVER['DOCUMENT_ROOT'].$link,'F');
-		Pdf::Close();//exit;
-		return $link;
-	}
+//Aplikacije
+    public function getAplikacije(){
+        if(!Security::autentifikacijaTest(6)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        return view('super-admin.aplikacije.index');
+    }
+    public function postUcitajAplikacije(){
+        if(!Security::autentifikacijaTest(6)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        return json_encode(Aplikacija::where(function($query) {
+            $query->where('naziv', 'Like', '%' . Input::get('pretraga') . '%')->orWhere('slug', 'Like', '%' . Input::get('pretraga') . '%');
+        })->get(['id','naziv','slug','korisnici_id','email','napomena','aktivan'])->toArray());
+    }
+    public function postAplikacijeUcitajKorisnike(){
+        if(!Security::autentifikacijaTest(6)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        return json_encode(Korisnici::where('prava_pristupa_id','>',4)->get(['id','prezime','ime'])->toArray());
+    }
+    public function postAplikacijaPromijeniVlasnistvo(){
+        if(!Security::autentifikacijaTest(6)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        Aplikacija::find(Input::get('id'),['id','korisnici_id'])->update(['korisnici_id'=>Input::get('vlasnik')]);
+        return json_encode(['msg'=>'Uspješno ažuriranje.','check'=>1]);
+    }
+    public function postAplikacijaSlugCheck(){
+        if(!Security::autentifikacijaTest(6)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        return Aplikacija::where('slug',Input::get('slug'))->exists()?0:1;
+    }
+    public function postAplikacijaSacuvaj(){
+        if(!Security::autentifikacijaTest(6)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        $podaci=json_decode(Input::get('podaci'));
+        $app=isset($podaci->id)?Aplikacija::find($podaci->id,['id','logo','naziv','slug','email','korisnici_id','napomena']):new Aplikacija();
+        if(isset($podaci->logo)) $app->logo=$podaci->logo;
+        $app->naziv=$podaci->naziv;
+        $app->slug=$podaci->slug;
+        $app->email=$podaci->email;
+        $app->korisnici_id=$podaci->korisnici_id;
+        $app->napomena=$podaci->napomena;
+        $app->save();
+        if(!isset($podaci->id)) {
+            mkdir($_SERVER['DOCUMENT_ROOT'] . '/img/aplikacije/' . $app->slug . '/fakture','0755',true);
+            mkdir($_SERVER['DOCUMENT_ROOT'] . '/img/aplikacije/' . $app->slug . '/narudzbenice','0755');
+            mkdir($_SERVER['DOCUMENT_ROOT'] . '/img/aplikacije/' . $app->slug . '/predracuni','0755');
+            mkdir($_SERVER['DOCUMENT_ROOT'] . '/img/aplikacije/' . $app->slug . '/ulazi','0755');
+            mkdir($_SERVER['DOCUMENT_ROOT'] . '/img/aplikacije/' . $app->slug . '/proizvodi','0755');
+            mkdir($_SERVER['DOCUMENT_ROOT'] . '/img/aplikacije/' . $app->slug . '/inicijalno','0755');
+            copy($_SERVER['DOCUMENT_ROOT'] . $podaci->logo,$_SERVER['DOCUMENT_ROOT'] . '/img/aplikacije/' . $app->slug. '/logo'.'.'.explode('.', $podaci->logo)[1]);
+            unlink($_SERVER['DOCUMENT_ROOT'] . $podaci->logo);
+        }
+        return json_encode(['msg'=>'Uspješno ste sačuvali podatke.','check'=>1]);
+    }
+    public function postAplikacijaDeaktiviraj(){
+        if(!Security::autentifikacijaTest(6)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        $aktivan=$_POST['aktivan']?0:1;
+        Aplikacija::find($_POST['id'],['id','aktivan'])->update(['aktivan'=>$aktivan]);
+        return $aktivan;
+    }
+    public function postUploadLogo(){
+        if(!Security::autentifikacijaTest(5,'min')) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        if (empty($_FILES['foto'])) {
+            echo json_encode(['error'=>'Nisu pronađeni fajlovi za upload.']);
+            return;
+        }
+        if(Input::get('id')!='undefined' || Session::has('aplikacija')) $folder = 'img/aplikacije/'.(Session::has('aplikacija')?Session::get('aplikacija'):Input::get('slug')).'/logo'.'.'.explode('.', $_FILES['foto']['name'])[1];
+        else $folder = 'img/privremeno/logo-'.Input::get('slug').'.'.explode('.', $_FILES['foto']['name'])[1];
+        $success = null;
+        $paths=null;
+        if(file_exists($folder)) unlink($folder);
+        if(move_uploaded_file($_FILES['foto']['tmp_name'], $folder)){
+            $success = true;
+            $paths = $folder.$_FILES['foto']['name'];
+        } else {
+            $success = false;
+        }
+        if ($success === true) {
+            $output = $folder;
+        } elseif ($success === false) {
+            $output = ['error'=>'Greška prilikom upload-a. Kontaktirajte tehničku podršku platforme.'];
+            unlink($paths);
+        } else {
+            $output = ['error'=>'Fajlovi nisu procesuirani.'];
+        }
+        echo json_encode($output);
+        return;
+    }
+    public function postAplikacijaOsnovnoSacuvaj(){
+        if(!Security::autentifikacijaTest(5)) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        $podaci=json_decode(Input::get('podaci'));$a=1;
+        if(isset($podaci->naziv)){
+            Aplikacija::find(Session::get('aplikacija_id'),['id','logo','naziv','adresa','grad','telefon'])
+                ->update(['logo'=>$podaci->logo,'naziv'=>$podaci->naziv,'adresa'=>$podaci->adresa,'grad'=>$podaci->grad,'telefon'=>$podaci->telefon]);
+        }else if(isset($podaci->registracija)){
+            Aplikacija::find(Session::get('aplikacija_id'),['id','jib','pib','pdv','ziro_racun_1','banka_1','ziro_racun_2','banka_2','registracija','broj_upisa'])
+                ->update(['jib'=>$podaci->jib,'pib'=>$podaci->pib,'pdv'=>$podaci->pdv,'ziro_racun_1'=>$podaci->ziro_racun_1,'banka_1'=>$podaci->banka_1,'ziro_racun_2'=>$podaci->ziro_racun_2,'banka_2'=>$podaci->banka_2,'registracija'=>$podaci->registracija,'broj_upisa'=>$podaci->broj_upisa]);
+        }else if(isset($podaci->faktura_futer_1)){$a=44;
+            $app=Aplikacija::find(Session::get('aplikacija_id'),['id','faktura_futer_1','faktura_futer_2','faktura_futer_3']);
+            $app->faktura_futer_1=$podaci->faktura_futer_1;$app->faktura_futer_2=$podaci->faktura_futer_2;$app->faktura_futer_3=$podaci->faktura_futer_3;
+            $app->save();
+        }
+        return json_encode(['msg'=>'Ažuriranje je izvršeno.','check'=>1]);
+    }
+    
+//Verzioniranje
+    public function getVerzioniranje(){
+        return Security::autentifikacija('app-admin.ostalo.verzioniranje',null,5,'min');
+    }
 
+    public function getVideo() {
+        $path = "img/uputstvo/video-uputstvo-fakturisanje.mp4";
+        $contentType='mp4';
+        $fullsize = filesize($path);
+        $size = $fullsize;
+        $stream = fopen($path, "r");
+        $response_code = 200;
+        $headers = array("Content-type" => $contentType);
+        $range = Request::header('Range');
+        if($range != null) {
+            $eqPos = strpos($range, "=");
+            $toPos = strpos($range, "-");
+            $unit = substr($range, 0, $eqPos);
+            $start = intval(substr($range, $eqPos+1, $toPos));
+            $success = fseek($stream, $start);
+            if($success == 0) {
+                $size = $fullsize - $start;
+                $response_code = 206;
+                $headers["Accept-Ranges"] = $unit;
+                $headers["Content-Range"] = $unit . " " . $start . "-" . ($fullsize-1) . "/" . $fullsize;
+            }
+        }
+        $headers["Content-Length"] = $size;
+        return Response::stream(function () use ($stream) {
+            fpassthru($stream);
+        }, $response_code, $headers);
+    }
 }

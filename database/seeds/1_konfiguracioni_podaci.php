@@ -11,8 +11,9 @@ class KonfiguracioniPodaci extends Seeder{
             ['naziv' => 'Zabranjen pristup'],//1
             ['naziv' => 'Kupac'],//2
             ['naziv' => 'Dobavljač'],//3
-            ['naziv' => 'AplikativniAdministrator'],//4
-            ['naziv' => 'SuperAdministrator']//5
+            ['naziv' => 'Radnik'],//4
+            ['naziv' => 'AplikativniAdministrator'],//5
+            ['naziv' => 'SuperAdministrator']//6
         ]);
         Korisnici::insert([
             [//1
@@ -20,8 +21,8 @@ class KonfiguracioniPodaci extends Seeder{
                 'ime' => 'Administrator',
                 'email' => 'admin@admin.com',
                 'username' => 'admin',
-                'password' => Security::generateHashPass('admin'),
-                'prava_pristupa_id' => 5
+                'password' => Security::generateHashPass('admin32324322'),
+                'prava_pristupa_id' => 6
             ]
         ]);
         Korisnici::insert([
@@ -31,26 +32,56 @@ class KonfiguracioniPodaci extends Seeder{
                 'email' => 'kula63@teol.net',
                 'username' => 'eskula',
                 'password' => Security::generateHashPass('eskula'),
-                'prava_pristupa_id' => 4,
-                'naziv' => 'SZTR "KULA" FOČA',
+                'prava_pristupa_id' => 5,
                 'adresa' => 'Ul. Svetosavska bb',
                 'grad' => '73300 Foča',
-                'jib' => '4503782250007',
-                'pib' => '',
-                'pdv' => '503782250007',
-                'ziro_racun_1' => '551-404-11288935-39',
-                'banka_1' => 'Uni Credit Bank',
-                'ziro_racun_2' => '562-006-00002081-69',
-                'banka_2' => 'Razvojna banka Foča',
-                'registracija' => 'Opština Foča',
-                'broj_upisa' => '05-350-47',
-                'telefon' => ''
+                'telefon' => '',
+                'foto'=>''
+            ],
+            [//3
+                'prezime' => 'Radnik-Kulin',
+                'ime' => 'Radnik',
+                'email' => 'petrovic.petar@domen.net',
+                'username' => 'radnik',
+                'password' => Security::generateHashPass('radnik'),
+                'prava_pristupa_id' => 4,
+                'adresa' => '',
+                'grad' => '',
+                'telefon' => '',
+                'foto'=>''
+            ],
+            [//4
+                'prezime' => 'Vlasnik',
+                'ime' => 'Tester',
+                'email' => 'vlasnik.testiranja@domen.net',
+                'username' => 'vltester',
+                'password' => Security::generateHashPass('vltester'),
+                'prava_pristupa_id' => 5,
+                'adresa' => '',
+                'grad' => '',
+                'telefon' => '',
+                'foto'=>''
+            ],
+            [//5
+                'prezime' => 'Radnik',
+                'ime' => 'Tester',
+                'email' => 'radnik.testiranja@domen.net',
+                'username' => 'radtester',
+                'password' => Security::generateHashPass('radtester'),
+                'prava_pristupa_id' => 4,
+                'adresa' => '',
+                'grad' => '',
+                'telefon' => '',
+                'foto'=>'/img/aplikacije/testiranje/korisnici/5.jpg'
             ]
         ]);
         VrstaFakture::insert([
-            ['naziv'=>'Faktura'],//1
-            ['naziv'=>'Narudžbenica'],//2
-            ['naziv'=>'Predračun'],//3
+            ['naziv'=>'Faktura','slug'=>'faktura'],//1
+            ['naziv'=>'Narudžbenica','slug'=>'narudzbenica'],//2
+            ['naziv'=>'Predračun','slug'=>'predracun'],//3
+            ['naziv'=>'Ulaz','slug'=>'ulaz'],//4
+            ['naziv'=>'Početno stanje','slug'=>'inicijalno'],//5
+            ['naziv'=>'Razmjena','slug'=>'razmjena'],//6
         ]);
     }
 }

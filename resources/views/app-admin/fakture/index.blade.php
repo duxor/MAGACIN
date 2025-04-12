@@ -1,267 +1,50 @@
-@extends('administracija.master')
+@extends('app-admin.master.prazan')
 @section('content')
+    <h2 style="text-align: left" id="proizvodi"><i class="glyphicon glyphicon-tags"></i> Fakture
+        <div class="form-inline" style="float: right">
+            <div class="form-group">{!!Form::select('pretraga_godine',$godine,0,['class'=>'form-control','onchange'=>'fakture.ucitaj()'])!!}</div>
+            <div class="form-group">{!!Form::select('pretraga_vrsta_fakture',$vrsta_fakture,0,['class'=>'form-control','onchange'=>'fakture.ucitaj()'])!!}</div>
+        </div>
+    </h2>
+    <hr>
 
-    @if(isset($zaNarudzbu))
-        @if($zaNarudzbu)
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Šifra</th>
-                        <th>Naziv</th>
-                        <th>Na stanju</th>
-                        <th>Minimum</th>
-                        <th>Magacin</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach($zaNarudzbu as $stavka)
-                    <tr>
-                        <td>{!!Form::checkbox('naruci',$stavka['id'],null,['class'=>'checknaruci'])!!}</td>
-                        <td>{{$stavka['sifra']}}</td>
-                        <td>{{$stavka['naziv_proizvoda']}}</td>
-                        <td>{{$stavka['kolicina_stanje']}}</td>
-                        <td>{{$stavka['kolicina_min']}}</td>
-                        <td><a href="/administracija/magacin/pregled/{{$stavka['magacinid_id']}}">{{$stavka['naziv_magacina']}}</a></td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-            <button class="btn btn-lg btn-default" onclick="selektujSve()"><span class="glyphicon glyphicon-check"></span> Selektuj sve</button>
-            <script>
-                function selektujSve(){
-                    var val = true;
-                    if($('.checknaruci')[0].checked) val = false;
-                    $('.checknaruci').each(function(){
-                        this.checked = val;
-                    });
-                }
-            </script>
-            <button class="btn btn-lg btn-primary" onclick="naruci()"><span class="glyphicon glyphicon-list-alt"></span> Naruči</button>
-            <script>
-                function naruci(){
-                    var i = 0, podaci = [];
-                    $('.checknaruci').each(function(){
-                        if(this.checked) podaci[i] = this.value;
-                        i++;
-                    });
-                    if(podaci.length<1) alert('Selektujte proizvode za narudžbu.');
-                    else{
-                        $('#proizvodi').val(JSON.stringify(podaci));
-                        $('#formanarudzba').submit();
+    <script>
+        $(document).ready(function(){fakture.ucitaj()})
+        var fakture={
+            token:'{{csrf_token()}}',
+            ucitaj:function(){
+                $.post('/administracija/fakture/ucitaj',{_token:fakture.token,pretraga_vrsta_fakture:$('[name=pretraga_vrsta_fakture]').val(),pretraga_godine:$('[name=pretraga_godine]').val()},function(data){
+                    data=JSON.parse(data);
+                    if(data.length<1){
+                        $('#work-place').html('<h2>Ne postoji ni jedna faktura u evidenciji.</h2>');
+                        return;
                     }
-                }
-            </script>
-            {!!Form::open(['url'=>'/administracija/proizvod/narudzbenica','id'=>'formanarudzba'])!!}
-                {!!Form::hidden('proizvodi',null,['id'=>'proizvodi'])!!}
-            {!!Form::close()!!}
-        @else
-            <p>Nema proizvoda za narudžbu.</p>
-        @endif
-    @endif
+                    var ispis='<table class="table table-striped table-hover"><tr><th>Broj fakture</th><th>Datum</th><th>Korisnik</th><th></th></tr>';
+                    for(var i=0; i<data.length; i++){
+                        ispis+='<tr><td>'+data[i]['broj_fakture']+'</td><td>'+data[i]['datum_narudzbe']+'</td><td>'+data[i]['korisnik']+'</td><td><a target="_blank" href="'+data[i]['pdf_link']+'" class="btn btn-xs btn-info" style="margin-right:5px" data-toggle="tooltip" title="Prikaži fakturu"><i class="glyphicon glyphicon-picture"></i></a><button class="btn btn-xs btn-danger" onclick="fakture.pripremiZaBrisanje('+data[i]['id']+')" data-toggle="tooltip" title="Ukloni fakturu"><i class="glyphicon glyphicon-trash"></i></button></tr>';
+                    }
+                    $('#work-place').html(ispis+'</table>');
+                    $('[data-toggle=tooltip]').tooltip();
+                })
+            },
+            pretrazi:function(){
 
-    @if(isset($proizvodi))
-        @if($proizvodi)
-            {!!Form::open(['url'=>'/administracija/proizvod/prednarudzba'])!!}
-            <div id="datum" class="col-sm-2">
-                <div class="input-group date">
-                    {!!Form::text('datum',null,['class'=>'form-control'])!!}
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                </div>
-            </div>
-                {!!HTML::style('/css/datepicker.css')!!}
-                {!!HTML::script('/js/datepicker.js')!!}
-            <script>
-                $('#datum .input-group.date').datepicker({
-                    format: "yyyy-mm-dd",
-                    weekStart: 1,
-                    todayBtn: "linked",
-                    autoclose: true,
-                    todayHighlight: true
-                });
-                $(function() {
-                    $('#datum .input-group.date').datepicker().datepicker("setDate", "0");
-                });
-            </script>
-            <table class="table table-striped" style="margin-top: 50px">
-                <thead>
-                    <tr>
-                        <th>Šifra</th>
-                        <th>Naziv</th>
-                        <th>Opis</th>
-                        <th>Na stanju</th>
-                        <th>Minimum</th>
-                        <th>Za narudžbu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach($proizvodi as $proizvod)
-                    <tr>
-                        <td>{{$proizvod['sifra']}}</td>
-                        <td>{{$proizvod['naziv']}}</td>
-                        <td>{{$proizvod['opis']}}</td>
-                        <td>{{$proizvod['kolicina_stanje']}}</td>
-                        <td>{{$proizvod['kolicina_min']}}</td>
-                        <td>
-                            {!!Form::text('kolicina_narudzba['.$proizvod['id'].']',1,['class'=>'form-control'])!!}
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td>
-                        {!!Form::button('<span class="glyphicon glyphicon-check"></span> Naruči',['class'=>'btn btn-lg btn-primary','type'=>'submit'])!!}
-                    </td>
-                    <td></td><td></td><td></td><td></td><td></td>
-                </tr>
-                </tfoot>
-            </table>
-            {!!Form::close()!!}
-        @else
-            <p>Nema proizvoda za narudžbu.</p>
-        @endif
-    @endif
+            },
+            pripremiZaBrisanje:function(id,kid){
+                if(!$('#ukloni-modal').length)
+                    $('body').append('<div id="ukloni-modal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">&times;</button><h2></h2></div><div class="modal-body"><div class="alert alert-warning">Ukoliko uklonite fakturu biće uklonjeni i svi podaci vezani za nju. Da li ste sigurni da želite da uklonite navedenu?</div><button id="ukloniDugme" class="btn btn-danger" onclick="fakture.ukloni('+id+')"><i class="glyphicon glyphicon-trash"></i> Ukloni</button><button class="btn btn-primary" data-dismiss="modal"><i class="glyphicon glyphicon-off"></i> Otkaži</button></div></div></div></div>');
+                else $('#ukloniDugme').attr('onclick','fakture.ukloni('+id+')');
+                $('#ukloni-modal').modal('show');
+            },
+            ukloni:function(id,kid){
+                $.post('/administracija/fakture/ukloni',{_token:fakture.token,id:id},function(){
+                    $('#ukloni-modal').modal('hide');
+                    fakture.ucitaj();
+                })
+            }
+        }
+    </script>
+    <div id="work-place">Pregled i pretraga faktura je u pripremi.</div>
+    <i class='icon-spin6 animate-spin' style="font-size: 1px;color:rgba(0,0,0,0)"></i>
 
-    @if(isset($prednarudzbenica))
-        @if($prednarudzbenica)
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>R.Br</th>
-                        <th>Šifra</th>
-                        <th>Naziv</th>
-                        <th>Količina</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($prednarudzbenica as $k => $proizvod)
-                        <tr>
-                            <td>{{$k}}</td>
-                            <td>{{$proizvod['sifra']}}</td>
-                            <td>{{$proizvod['naziv']}}</td>
-                            <td>{{$proizvod['kolicina_naruceno']}}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>
-                            {!!Form::open(['url'=>'/administracija/proizvod/narudzbe-potvrdi/'.$narudzba])!!}
-                            <div class="form-group">
-                                {!!Form::checkbox('naruceno')!!}
-                                {!!Form::label('lnaruceno','Ne prikazuj u notifikacijama naručene proizvode')!!}
-                            </div>
-                            {!!Form::button('<span class="glyphicon glyphicon-check"></span> Naruči',['class'=>'btn btn-lg btn-primary','type'=>'submit'])!!}
-                            <a href="/pdf/narudzba_{{$narudzba}}.pdf" target="_blank" class="btn btn-lg btn-info"><span class="glyphicon glyphicon-list-alt"></span> PDF</a>
-                            <a href="/administracija/proizvod/narudzbe-resetuj/{{$narudzba}}" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-trash"></span> Otkaži</a>
-                            {!!Form::close()!!}
-                        </td>
-                        <td></td><td></td><td></td>
-                    </tr>
-                </tfoot>
-            </table>
-        @endif
-    @endif
-
-
-    @if(isset($narudzbeArhiva))
-        @if($narudzbeArhiva['neporuceno'] or $narudzbeArhiva['isporuceno'])
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Broj narudžbe</th>
-                        <th>Datum narudžbe</th>
-                        <th>Datum isporuke</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach($narudzbeArhiva as $tabela)
-                    @foreach($tabela as $narudzba)
-                        <tr>
-                            <td>
-                                @if(!$narudzba['datum_isporuke'])
-                                    <a href="/administracija/proizvod/narudzba-uredi/{{$narudzba['id']}}" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                @endif
-                                <a href="/{{$narudzba['pdf']}}" target="_blank" class="btn btn-lg btn-info"><span class="glyphicon glyphicon-eye-open"></span></a>
-                            </td>
-                            <td>{{$narudzba['id']}}</td>
-                            <td>{{$narudzba['datum_narudzbe']}}</td>
-                            <td>
-                                @if($narudzba['datum_isporuke'])
-                                    {{$narudzba['datum_isporuke']}}
-                                @else
-                                    Neisporučeno
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                @endforeach
-                </tbody>
-            </table>
-        @else
-            <p>Ne postoji ni jedna narudžba u evidenciji.</p>
-        @endif
-    @endif
-
-    @if(isset($pristiglo))
-        <h2 style="text-align: left" class="col-sm-8">Datum narudzbe: {{$pristiglo[0]['datum_narudzbe']}}</h2>
-        <h2 class="col-sm-4">
-            {!!HTML::style('/css/datepicker.css')!!}
-            {!!HTML::script('/js/datepicker.js')!!}
-            @if($pristiglo[0]['datum_isporuke'])
-                {{$pristiglo[0]['datum_isporuke']}}
-            @else
-                {!!Form::open(['url'=>'/administracija/proizvod/narudzba-datum-isporuke/'.$pristiglo[0]['narudzbeniceid'],'class'=>'form-inline'])!!}
-                {!!Form::text('datum_isporuke',null,['class'=>'form-control','id'=>'datum'])!!}
-                {!!Form::button('<i class="glyphicon glyphicon-ok"></i>',['class'=>'btn btn-warning','type'=>'submit'])!!}
-                {!!Form::close()!!}
-                <script>
-                    $('#datum').datepicker({
-                        format: "yyyy-mm-dd",
-                        weekStart: 1,
-                        todayBtn: "linked",
-                        autoclose: true,
-                        todayHighlight: true,
-                        orientation: 'top auto'
-                    });
-                    $(function() {
-                        $('#datum').datepicker().datepicker("setDate", "0");
-                    });
-                </script>
-            @endif
-        </h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Magacin</th>
-                    <th>Šifra</th>
-                    <th>Naziv</th>
-                    <th>Poručeno</th>
-                    <th>Pristiglo</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($pristiglo as $proizvod)
-                    <tr>
-                        <td><a href="/administracija/magacin/pregled/{{$proizvod['magacin_id']}}">{{$proizvod['magacin']}}</a></td>
-                        <td>{{$proizvod['sifra']}}</td>
-                        <td>{{$proizvod['naziv']}}</td>
-                        <td>{{$proizvod['kolicina_porucena']}}</td>
-                        <th>{{$proizvod['kolicina_pristigla']}}</th>
-                        <td>
-                            {!!Form::open(['url'=>'/administracija/proizvod/narudzba-uredi/'.$proizvod['id'],'class'=>'form-inline'])!!}
-                                {!!Form::hidden('magacin_id',$proizvod['magacin_id'])!!}
-                                {!!Form::text('kolicina_pristigla',0,['class'=>'form-control'])!!}
-                                {!!Form::button('<i class="glyphicon glyphicon-plus"></i>',['class'=>'btn btn-primary','type'=>'submit'])!!}
-                            {!!Form::close()!!}
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
 @endsection

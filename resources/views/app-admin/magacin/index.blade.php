@@ -1,8 +1,8 @@
-@extends('admin-master')
+@extends('app-admin.master.osnovni')
 @section('content')
     <h2 style="text-align: left" id="proizvodi"><i class="glyphicon glyphicon-folder-open"></i> Magacini
         <button id="dugmeNovi" class="btn btn-primary" onClick="noviMagacin()" data-toggle="tooltip" title="Dodaj novi"><i class="glyphicon glyphicon-plus"></i></button>
-        <button id="dugmeUcitaj" class="btn btn-primary" onClick="ucitajMagacine()" data-toggle="tooltip" title="Prikaži magacine" style="display:none"><i class="glyphicon glyphicon-th-large"></i></button>
+        <button id="dugmeUcitaj" class="btn btn-primary" onClick="ucitajMagacine()" data-toggle="tooltip" title="Prikaži magacine"><i class="glyphicon glyphicon-th-large"></i></button>
     </h2>
 
 
@@ -10,8 +10,6 @@
     <script>
         $(function(){ucitajMagacine()})
         function ucitajMagacine(){
-            $('#dugmeNovi').fadeIn();
-            $('#dugmeUcitaj').hide();
             $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size:350%"></i></center>');
             $.post('/administracija/magacin/ucitaj',{
                 _token:'{{csrf_token()}}'
@@ -24,7 +22,7 @@
                 var ispis='<table class="table table-striped"><thead><tr><th></th><th>Naziv</th><th>Opis</th><th></th></tr></thead><tbody>';
                 for(var i=0; i<magacini.length; i++)
                     ispis+='<tr>' +
-                                '<td><a href="#" class="btn btn-lg btn-default" data-toggle="tooltip" title="Pregledaj proizvode u magacinu"><span class="glyphicon glyphicon-eye-open"></span></a></td>' +
+                                '<td><a href="#" class="btn btn-lg btn-default" data-toggle="tooltip" title="Pregledaj proizvode u magacinu" onclick="pretraga(null,null,'+magacini[i]['id']+')"><span class="glyphicon glyphicon-eye-open"></span></a></td>' +
                                 '<td>'+magacini[i]['naziv']+'</td>' +
                                 '<td>'+magacini[i]['opis']+'</td>' +
                                 '<td>' +
@@ -40,8 +38,6 @@
             });
         }
         function noviMagacin(magacin){
-            $('#dugmeNovi').hide();
-            $('#dugmeUcitaj').fadeIn();
 
             $('#work-place').hide();
             $('#work-place').html('' +
@@ -79,8 +75,6 @@
                 Komunikacija.posalji("/administracija/magacin/azuriraj","forma","poruka","wait","forma");
         }
         function editMagacin(magacin){
-            $('#dugmeNovi').hide();
-            $('#dugmeUcitaj').fadeIn();
             $('#work-place').html('<center><i class="icon-spin6 animate-spin" style="font-size: 350%;margin-top:80px"></i></center>');
             $.post('/administracija/magacin/edit-ucitaj',
                     {

@@ -12,8 +12,14 @@ class VerifyCsrfToken extends BaseVerifier {
 	 * @param  \Closure  $next
 	 * @return mixed
 	 */
+	private $openRoutes = ['/mobile-app'];
+	 
 	public function handle($request, Closure $next)
 	{
+        $rootUrl = url('/');
+        foreach($this->openRoutes as $route){
+            if(substr($request->url(),0,strlen($rootUrl.$route))==$rootUrl.$route) return $next($request);
+        }
 		return parent::handle($request, $next);
 	}
 

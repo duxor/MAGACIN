@@ -142,7 +142,7 @@ var SubmitForm = {
  ###
  */
 var Komunikacija = {
-	posalji: function(url,podaciID,poruka,wait,hide){
+	posalji: function(url,podaciID,poruka,wait,hide,funkcija){
 		var podaci=this.podaci('',null,podaciID,{});
 		$('#'+hide).css('display','none');
 		$('#'+wait).fadeToggle();
@@ -158,7 +158,8 @@ var Komunikacija = {
 				$('#'+poruka).fadeToggle('slow');
 				window.setTimeout(function(){
 					$('#'+poruka).fadeToggle('slow');
-					$('#'+hide).fadeToggle('slow')
+					$('#'+hide).fadeToggle('slow');
+                    funkcija;
 				},5000);
 			}
 		);

@@ -1,4 +1,4 @@
-@extends('app-admin.master.prazan')
+@extends('radnik.master.prazan')
 @section('content')
     <h2 style="text-align: left" id="proizvodi"><i class="glyphicon glyphicon-user"></i> Korisnici
         <button id="dugmeNovi" class="btn btn-primary" onClick="noviKorisnik()" data-toggle="tooltip" title="Dodaj novog korisnika"><i class="glyphicon glyphicon-plus"></i></button>
@@ -6,7 +6,7 @@
         <div class="form-inline" style="float: right">
             <button class="btn btn-sm btn-default" data-toggle="tooltip" title="Pronađi proizvod" onclick="pretrazi()"><i class="glyphicon glyphicon-search"></i></button>
             <div class="form-group">{!!Form::text('pretraga_proizvod',null,['class'=>'form-control','id'=>'pretraga_proizvod'])!!}</div>
-            <div class="form-group">{!!Form::select('pretraga_prava_pristupa',$pravaPristupa,0,['class'=>'form-control','id'=>'pretraga_prava_pristupa','onchange'=>'pretrazi()'])!!}</div>
+            <div class="form-group">{!!Form::select('pretraga_prava_pristupa',$pravaPristupa,0,['class'=>'form-control','id'=>'pretraga_prava_pristupa'])!!}</div>
         </div>
     </h2>
 
@@ -154,7 +154,6 @@
             '</div>' +
             '<div id="wait" style="display:none"><center><i class="icon-spin6 animate-spin" style="font-size: 350%"></i></center></div>' +
             '<div id="poruka" style="display: none"></div>');
-			if(korisnik?korisnik['id']:false) $('select[name=prava_pristupa_id] option[value='+korisnik['prava_pristupa_id']+']').prop('selected', true); 
             $('#work-place').fadeIn();
         }
         function ucitajKorisnike(pretraga,vrsta){
@@ -181,7 +180,7 @@
                                 '<tbody>';
                         for(var i=0;i<korisnici.length;i++){
                             ispis+='<tr>' +
-                            '<td><button class="btn btn-xs btn-info" data-toggle="tooltip" data-template=\'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="background-color:rgba(0,0,0,0)"></div></div>\' data-placement="bottom" data-html="true" title="<img style=\'width:100%\' src=\'/img/aplikacije/{{Session::get('aplikacija')}}/korisnici/'+korisnici[i]['id']+'.jpg\'>"><i class="glyphicon glyphicon-picture"></i></button></td>'+
+                            '<td>'+korisnici[i]['vrsta']+'</td>' +
                             '<td>'+korisnici[i]['prezime']+' '+korisnici[i]['ime']+'</td>' +
                             '<td>'+(korisnici[i]['jmbg']?korisnici[i]['jmbg']:'')+'</td>' +
                             '<td>'+(korisnici[i]['adresa']?korisnici[i]['adresa']:'')+'</td>' +
@@ -191,10 +190,8 @@
                             '<td>'+(korisnici[i]['opis']?korisnici[i]['opis']:'')+'</td>' +
                             '<td class="aktiv-'+korisnici[i]['id']+'" data-aktivan="'+korisnici[i]['aktivan']+'">'+(korisnici[i]['aktivan']?'<i class="glyphicon glyphicon-ok"></i>':'<i class="glyphicon glyphicon-remove"></i>')+'</td>' +
                             '<td>' +
-                                '<a href="#" class="btn btn-xs btn-primary" data-toggle="tooltip" title="Prikaži fakture vezane za korisnika" onclick="prikaziFakture('+korisnici[i]['kid']+')" style="margin-right:5px"><span class="glyphicon glyphicon-tag"></span></a>' +
                                 '<a href="#" class="btn btn-xs btn-info" data-toggle="tooltip" title="Ažuriraj" onclick="editKorisnika('+korisnici[i]['id']+')" style="margin-right:5px"><span class="glyphicon glyphicon-pencil"></span></a>' +
-                                '<a href="#" class="btn btn-xs btn-warning" data-toggle="tooltip" title="Promjena statusa (ne)aktivan" onclick="ststusKorisnika('+korisnici[i]['id']+')" style="margin-right:5px"><span class="glyphicon glyphicon-lock"></span></a>' +
-                                '<a href="#" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Ukloni korisnika" onclick="pripremiZaBrisanje('+korisnici[i]['id']+','+korisnici[i]['kid']+')"><span class="glyphicon glyphicon-trash"></span></a>' +
+                                '<a href="#" class="btn btn-xs btn-warning" data-toggle="tooltip" title="Promjena statusa (ne)aktivan" onclick="ststusKorisnika('+korisnici[i]['id']+')"><span class="glyphicon glyphicon-lock"></span></a>' +
                             '</td>' +
                             '</tr>';
                         }
@@ -221,7 +218,7 @@
                         _token: '{{csrf_token()}}',
                         id: korisnik,
                         aktivan:$('.aktiv-'+korisnik).data('aktivan')
-                    }, function (data) {
+                    }, function (data) {console.log(data);
                         $('.aktiv-'+korisnik).html(data==1?'<i class="glyphicon glyphicon-ok"></i>':'<i class="glyphicon glyphicon-remove"></i>');
                         $('.aktiv-'+korisnik).data('aktivan', data);
                     });
@@ -260,34 +257,6 @@
                 $('#imgSrc').val('/'+response);
                 $('#uploadSlike').modal('hide');
             });
-        }
-        function pripremiZaBrisanje(id,kid){
-            if(!$('#ukloni-modal').length)
-                $('body').append('<div id="ukloni-modal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">&times;</button><h2></h2></div><div class="modal-body"><div class="alert alert-warning">Ukoliko uklonite korisnika biće uklonjeni i svi podaci vezani za njega. Da li ste sigurni da želite da uklonite korisnika?</div><button id="ukloniDugme" class="btn btn-danger" onclick="ukloniKorisnika('+id+','+kid+')"><i class="glyphicon glyphicon-trash"></i> Ukloni</button><button class="btn btn-primary" data-dismiss="modal"><i class="glyphicon glyphicon-off"></i> Otkaži</button></div></div></div></div>');
-            else $('#ukloniDugme').attr('onclick','ukloniKorisnika('+id+','+kid+')');
-            $('#ukloni-modal').modal('show');
-        }
-        function ukloniKorisnika(id,kid){
-            $.post('/administracija/korisnici/ukloni',{_token:'{{csrf_token()}}',id:id,kid:kid},function(){
-                $('#ukloni-modal').modal('hide');
-                    ucitajKorisnike();
-                })
-            }
-        function prikaziFakture(kid){
-            $.post('/administracija/fakture/ucitaj-za-korisnika',{_token:'{{csrf_token()}}',kid:kid},function(data){
-                $('#dugmeNovi').hide();
-                $('#dugmeUcitaj').fadeIn();
-                data=JSON.parse(data);
-                if(data.length<1){
-                    $('#work-place').html('<h2>Ne postoji ni jedna faktura vezana za ovog korisnika.');
-                    return;
-                }
-                var ispis='<table class="table table-striped table-hover"><tr><th>Broj fakture</th><th>Datum</th><th></th></tr>';
-                for(var i=0; i<data.length; i++)
-                    ispis+='<tr><td>'+data[i]['broj_fakture']+'</td><td>'+data[i]['datum']+'</td><td><a href="'+data[i]['pdf_link']+'" target="_blank" class="btn btn-info" data-toggle="tooltip" title="Prikaži fakturu"><i class="glyphicon glyphicon-tag"></i></a></td></tr>';
-                $('#work-place').html(ispis+'</table>');
-                $('[data-toggle=tooltip]').tooltip();
-            })
         }
     </script>
 

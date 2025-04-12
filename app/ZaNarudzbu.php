@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Dušan
- * Date: 3/31/2015
- * Time: 6:37 PM
- */
 
 namespace App;
 

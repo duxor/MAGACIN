@@ -1,7 +1,7 @@
-@extends('app-admin.master.osnovni')
+@extends('radnik.master.osnovni')
 
 @section('content')
-    <p class="col-sm-12">Magacin v1.5.2</p>
+    <p class="col-sm-12">Magacin v1.0</p>
     <br><hr>
     <div id="work-place"></div>
     <script>

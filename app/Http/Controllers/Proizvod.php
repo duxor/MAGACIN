@@ -1,57 +1,63 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\MagaciniID;
 use App\Narudzbenice;
-use App\OsnovneMetode;
 use App\Pozicija;
 use App\Security;
 use App\Proizvodi;
-use App\Magacin as Skladiste;
-use App\ZaNarudzbu;
 use Illuminate\Support\Facades\Input;
-use Anouar\Fpdf\Facades\Fpdf;
-use Illuminate\Support\Facades\Redirect;
 use App\VrstaProizvoda;
 use Illuminate\Support\Facades\Session;
+use DB;
 class Proizvod extends Controller {
 
 	public function getIndex(){
-		//$proizvodi = Proizvodi::get(['id','sifra','naziv','opis'])->toArray();
+        if(!Security::autentifikacijaTest(4,'min')) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
 		$vrstaProizvoda=VrstaProizvoda::join('aplikacija as a','vrsta_proizvoda.aplikacija_id','=','a.id')
 			->where('a.slug',Session::get('aplikacija'))->get(['vrsta_proizvoda.naziv','vrsta_proizvoda.id'])->lists('naziv','id');
-		return Security::autentifikacija('app-admin.proizvodi.index',compact('proizvodi','vrstaProizvoda'));
+		return Security::autentifikacija(Session::get('slug').'.proizvodi.index',compact('proizvodi','vrstaProizvoda'));
+	}
+	public function postIndex(){
+        if(!Security::autentifikacijaTest(4,'min')) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+		return json_encode(Proizvodi::join('aplikacija','proizvod.aplikacija_id','=','aplikacija.id')
+			->where('aplikacija.slug',Session::get('aplikacija'))
+            ->where(function($query){
+                $query->where('proizvod.sifra','Like','%'.Input::get('pretraga').'%')->orWhere('proizvod.naziv','Like','%'.Input::get('pretraga').'%');
+            })
+            ->where('vrsta_proizvoda_id',(Input::get('vrsta')==0||!Input::has('vrsta')?'Like':'='),(Input::get('vrsta')==0||!Input::has('vrsta')?'%%':Input::get('vrsta')))
+            ->get(['proizvod.id','sifra','proizvod.naziv','foto'])->toArray());
+	}
+	/*public function getNovi(){
+		return Security::autentifikacija(Session::get('slug').'.proizvodi.index',['novi'=>true]);
+	}*/
+    public function postEditUcitaj(){
+        if(!Security::autentifikacijaTest(4,'min')) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        return json_encode(Proizvodi::find($_POST['id']));
+    }
+	public function postEditSave(){
+        if(!Security::autentifikacijaTest(4,'min')) return json_encode(['msg'=>'Greska #0001!','check'=>0]);
+        $podaci=json_decode(Input::get('podaci'));
+        $proizvod = isset($podaci->id) ? Proizvodi::find($podaci->id,['id','sifra','naziv','opis','bar_kod','proizvodjac','jedinica_mjere','pakovanje_kolicina','pakovanje_jedinica_mjere',
+            'vrsta_proizvoda_id','aplikacija_id','foto']) : new Proizvodi();
+		$proizvod->sifra = $podaci->ssifra;
+        $proizvod->naziv = $podaci->naziv;
+        $proizvod->opis = $podaci->opis;
+        $proizvod->bar_kod = $podaci->bar_kod;
+        $proizvod->proizvodjac = $podaci->proizvodjac;
+        $proizvod->jedinica_mjere = $podaci->jedinica_mjere;
+        $proizvod->pakovanje_kolicina = $podaci->pakovanje_kolicina;
+        $proizvod->pakovanje_jedinica_mjere = $podaci->pakovanje_jedinica_mjere;
+        $proizvod->vrsta_proizvoda_id = $podaci->vrsta_proizvoda_id;
+        if(!isset($podaci->id)) $proizvod->aplikacija_id = Session::get('aplikacija_id');
+        $proizvod->foto = $podaci->imgSrc;
+		$proizvod->save();
+        return json_encode(['msg'=>'Proizvod je sačuvan u evidenciji.','check'=>1]);
 	}
 
-	public function postIndex(){
-		return json_encode(Proizvodi::join('aplikacija','proizvod.aplikacija_id','=','aplikacija.id')
-			->where('aplikacija.slug',Session::get('aplikacija'))->get(['proizvod.id','sifra','proizvod.naziv','proizvod.opis'])->toArray());
-	}
-	public function getNovi(){
-		return Security::autentifikacija('app-admin.proizvodi.index',['novi'=>true]);
-	}
-	public function postEditSave(){
-		if(Security::autentifikacijaTest()){
-			$proizvod = Input::get('id') ? Proizvodi::where('id','=',Input::get('id'))->get(['id','naziv','opis'])->first() : new Proizvodi();
-			$proizvod->sifra = Input::get('ssifra');
-			$proizvod->naziv = Input::get('naziv');
-			$proizvod->opis = Input::get('opis');
-			$proizvod->bar_kod = Input::get('bar_kod');
-			$proizvod->proizvodjac = Input::get('proizvodjac');
-			$proizvod->jedinica_mjere = Input::get('jedinica_mjere');
-			$proizvod->pakovanje_kolicina = Input::get('pakovanje_kolicina');
-			$proizvod->pakovanje_jedinica_mjere = Input::get('pakovanje_jedinica_mjere');
-			$proizvod->vrsta_proizvoda_id = Input::get('vrsta_proizvoda_id');
-			$proizvod->aplikacija_id = Input::get('aplikacija_id');
-			$proizvod->foto = Input::get('imgSrc');
-			$proizvod->save();
-			return redirect('/administracija/proizvod');
-		}
-		return Security::rediectToLogin();
-	}
+    /*
 	public function getAzuriraj($id){
 		$proizvod = Proizvodi::where('id','=',$id)->get(['id','sifra','naziv','opis','cijena_nabavna','cijena_prodajna'])->first()->toArray();
-		return Security::autentifikacija('app-admin.proizvodi.index',compact('proizvod'));
+		return Security::autentifikacija(Session::get('slug').'.proizvodi.index',compact('proizvod'));
 	}
 	public function getUkloni($id){
 		if(Security::autentifikacijaTest()){
@@ -63,7 +69,7 @@ class Proizvod extends Controller {
 	public function getMagacin($id){
 		$umagacin = MagaciniID::all()->lists('naziv','id');
 		$proizvod_podaci = Proizvodi::where('id','=',$id)->get(['id','sifra','naziv'])->first()->toArray();
-		return Security::autentifikacija('app-admin.proizvodi.index',compact('umagacin','proizvod_podaci'));
+		return Security::autentifikacija(Session::get('slug').'.proizvodi.index',compact('umagacin','proizvod_podaci'));
 	}
 	public function postMagacin(){
 		if(Security::autentifikacijaTest()){
@@ -97,7 +103,7 @@ class Proizvod extends Controller {
 					'magacin.magacinid_id','magacinid.naziv as naziv_magacina',
 					'magacin.pozicija_id','stolaza','polica','pozicija.pozicija as pozicija_na_stolazi'])
 				->toArray();
-			return Security::autentifikacija('app-admin.fakture.index',compact('zaNarudzbu'));
+			return Security::autentifikacija(Session::get('slug').'.fakture.index',compact('zaNarudzbu'));
 		}
 		return Security::rediectToLogin();
 	}
@@ -110,7 +116,7 @@ class Proizvod extends Controller {
 						->where('magacin.id','=',$proizvod)->get(['magacin.id','sifra','naziv','opis','kolicina_stanje','kolicina_min','pozicija_id'])->first()->toArray();//,'cijena'
 				}else unset($proizvodi[$k]);
 			}
-			return Security::autentifikacija('app-admin.fakture.index',compact('proizvodi'));
+			return Security::autentifikacija(Session::get('slug').'.fakture.index',compact('proizvodi'));
 		}
 		return Security::rediectToLogin();
 	}
@@ -136,7 +142,7 @@ class Proizvod extends Controller {
 			$narudzba = $narudzbenica->id;
 			$header = ['R.br','Sifra','Naziv','Kolicina'];
 			OsnovneMetode::pdfTabela($header,$prednarudzbenica,'narudzba_'.$narudzba);
-			return Security::autentifikacija('app-admin.fakture.index',compact('prednarudzbenica','narudzba'));
+			return Security::autentifikacija(Session::get('slug').'.fakture.index',compact('prednarudzbenica','narudzba'));
 		}
 		return Security::rediectToLogin();
 	}
@@ -170,41 +176,67 @@ class Proizvod extends Controller {
 					$narudzbeArhiva[$ks][$k]['pdf'] = 'pdf/narudzba_'.$narudzba['id'].'.pdf';
 				}
 			}
-			return view('app-admin.fakture.index',compact('narudzbeArhiva'));
+			return view(Session::get('slug').'.fakture.index',compact('narudzbeArhiva'));
 		}
 		return Security::rediectToLogin();
-	}
+	}*/
 	public function postPretraga(){
-		$rezultati = !isset($_POST['zalihe']) ?
+        if(isset($_POST['idMagacin']))///ukoliko se traze proizvodi iz odredjenog magacina
+            $rezultati=Proizvodi::join('magacin as m','m.proizvod_id','=','proizvod.id')
+                ->join('magacin_id as mi','mi.id','=','m.magacin_id_id')
+                ->where('mi.id',$_POST['idMagacin'])
+                ->where('mi.aplikacija_id',Session::get('aplikacija_id'))
+                ->where(function($query){
+                    $query->where('sifra','Like','%'.$_POST['pretraga'].'%')->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%');
+                })
+                ->orderBy('m.id')
+                ->get(['proizvod.id as pid','mi.id','m.id as mid','mi.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra','kolicina_min','foto',
+                    DB::raw('(select sum(pm.kolicina) from magacin_pozicija_u_magacinu as pm where pm.magacin_id=magacin_m.id group by pm.magacin_id) as ukupno_na_stanju')])->toArray();
+        else
+		$rezultati = !isset($_POST['istekZaliha']) ?
+            //PROIZODI BEZ OBZIRA NA KOLICINU NA STANJU
 			$_POST['samoMagacin']=='true'?
+            //proizvodi koji se nalaze u magacinu
 			Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
 				->join('magacin_id','magacin_id.id','=','magacin.magacin_id_id')
 				->join('aplikacija as a','a.id','=','magacin_id.aplikacija_id')
-				->join('pozicija','pozicija.id','=','magacin.pozicija_id')
-				->where('a.slug',Session::get('aplikacija'))
-				->where('sifra','Like','%'.$_POST['pretraga'].'%')
-				->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%')
+                ->where('magacin_id.aplikacija_id',Session::get('aplikacija_id'))
+                ->where(function($query){
+                    $query->where('sifra','Like','%'.$_POST['pretraga'].'%')->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%');
+                })
 				->orderBy('magacin.id')
-				->get(['proizvod.id as pid','magacin_id.id','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra',
-					'kolicina_stanje','stolaza','polica','pozicija','kolicina_min'])->toArray()
+				->get(['proizvod.id as pid','magacin_id.id','magacin.id as mid','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra','kolicina_min','foto',
+                    DB::raw('(select sum(pm.kolicina) from magacin_pozicija_u_magacinu as pm where pm.magacin_id=magacin_magacin.id group by pm.magacin_id) as ukupno_na_stanju')])->toArray()
 			:
+            //proizvodi bez obzira da li se nalaze u magacinu ili ne
 			Proizvodi::join('aplikacija as a','a.id','=','proizvod.aplikacija_id')
 				->where('a.slug',Session::get('aplikacija'))
-				->where('sifra','Like','%'.$_POST['pretraga'].'%')
-				->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%')
-				->get(['proizvod.id as pid','proizvod.naziv as nazivproizvoda','sifra'])->toArray()
+                ->where(function($query){
+                    $query->where('sifra','Like','%'.$_POST['pretraga'].'%')->orWhere('proizvod.naziv','Like','%'.$_POST['pretraga'].'%');
+                })
+				->get(['proizvod.id as pid','proizvod.naziv as nazivproizvoda','sifra','foto'])->toArray()
 			:
+        //PROIZVODI SA ISTEKOM ZALIHA
 		Proizvodi::join('magacin','magacin.proizvod_id','=','proizvod.id')
 			->join('magacin_id','magacin_id.id','=','magacin.magacin_id_id')
 			->join('aplikacija as a','a.id','=','magacin_id.aplikacija_id')
-			->join('pozicija','pozicija.id','=','magacin.pozicija_id')
 			->where('a.slug',Session::get('aplikacija'))
-			->whereRaw('magacin_magacin.kolicina_stanje < magacin_magacin.kolicina_min')
+            ->whereRaw('magacin_magacin.kolicina_min>=(select sum(pm.kolicina) as kolicina_stanje from magacin_pozicija_u_magacinu as pm where pm.magacin_id=magacin_magacin.id group by pm.magacin_id)')
 			->orderBy('magacin.id')
-			->get(['proizvod.id as pid','magacin_id.id','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra',
-				'kolicina_stanje','stolaza','polica','pozicija','kolicina_min'])->toArray();
+			->select('proizvod.id as pid','magacin_id.id','magacin.id as mid','magacin_id.naziv as nazivmagacina','proizvod.naziv as nazivproizvoda','sifra','kolicina_min','foto',
+                DB::raw('(select sum(pm.kolicina) from magacin_pozicija_u_magacinu as pm where pm.magacin_id=magacin_magacin.id group by pm.magacin_id) as ukupno_na_stanju')
+            )->get()->toArray();
+
+        if(isset($_POST['istekZaliha']) || (!isset($_POST['istekZaliha'])&&$_POST['samoMagacin']=='true')){
+            foreach($rezultati as $k=>$v){
+                $rezultati[$k]['pozicije']=Pozicija::join('pozicija_u_magacinu as pm','pm.pozicija_id','=','pozicija.id')
+                    ->groupBy('pm.magacin_id')
+                    ->groupBy('pm.pozicija_id')
+                    ->where('pm.magacin_id',$v['mid'])
+                    ->get([DB::raw('sum(magacin_pm.kolicina) as kolicina_stanje'),'stolaza','polica','pozicija'])->toArray();
+            }
+        }
 		return json_encode($rezultati);
-		//return Security::autentifikacija('app-admin.proizvodi.pretraga',compact('rezultati'));
 	}
 	public function postDodajUKorpu(){
 		$niz=Session::get('korpa');
@@ -221,9 +253,16 @@ class Proizvod extends Controller {
 
 	public function postUkloniIzKorpe(){
 		if($_POST['i']=='all') Session::forget('korpa');
-		else Session::forget('korpa.'.$_POST['i']);
+		else{
+            //Session::forget('korpa.'.$_POST['i']);
+            $korpa=Session::get('korpa');
+            unset($korpa[$_POST['i']]);
+            Session::forget('korpa');
+            Session::set('korpa',array_merge($korpa));
+        }
 		return 1;
 	}
+    /*
 	public function getNarudzbaUredi($id){
 		$pristiglo = ZaNarudzbu::join('narudzbenice','narudzbenice.id','=','za_narudzbu.narudzbenice_id')
 			->join('proizvod','proizvod.id','=','za_narudzbu.proizvod_id')
@@ -232,7 +271,7 @@ class Proizvod extends Controller {
 			->where('za_narudzbu.narudzbenice_id','=',$id)
 			->get(['za_narudzbu.id','datum_narudzbe','datum_isporuke','kolicina_porucena','kolicina_pristigla','za_narudzbu.magacin_id','proizvod.naziv','proizvod.sifra','magacinid.naziv as magacin','narudzbenice.id as narudzbeniceid'])
 			->toArray();
-		return Security::autentifikacija('app-admin.fakture.index',compact('pristiglo'));
+		return Security::autentifikacija(Session::get('slug').'.fakture.index',compact('pristiglo'));
 	}
 	public function postNarudzbaUredi($id){
 		if(Security::autentifikacijaTest()){
@@ -256,9 +295,9 @@ class Proizvod extends Controller {
 			return redirect('/administracija/proizvod/narudzbe');
 		}
 		return Security::rediectToLogin();
-	}
+	}*/
 	public function postUploadFoto(){
-		if(!Security::autentifikacijaTest(4) or !Session::has('aplikacija')){
+		if(!Security::autentifikacijaTest(4,'min') or !Session::has('aplikacija')){
 			echo json_encode(['error'=>'Niste prijavljeni na platformu.']);
 			return;
 		}
@@ -286,9 +325,5 @@ class Proizvod extends Controller {
 		}
 		echo json_encode($output);
 		return;
-	}
-
-	public function postEditUcitaj(){
-		return json_encode(Proizvodi::find($_POST['id']));
 	}
 }

@@ -15,7 +15,7 @@ class Magacin extends Controller {
 
 	public function getIndex(){
 		//$magacini = MagaciniID::get(['id','naziv','opis'])->toArray();
-		return Security::autentifikacija('app-admin.magacin.index',null,4);
+		return Security::autentifikacija('app-admin.magacin.index',null,5);
 	}
 
 	public function postUcitaj(){
@@ -26,7 +26,7 @@ class Magacin extends Controller {
 //		return Security::autentifikacija('app-admin.magacin.index',['novi'=>true]);
 //	}
 	public function postAzuriraj(){
-		if(Security::autentifikacijaTest(4)){
+		if(Security::autentifikacijaTest(5)){
 			$podaci=json_decode(Input::get('podaci'));
 			$magacin = isset($podaci->id) ? MagaciniID::where('id','=',$podaci->id)->get(['id','naziv','opis'])->first() : new MagaciniID();
 			$magacin->naziv = $podaci->naziv;
@@ -45,7 +45,7 @@ class Magacin extends Controller {
 //		return Security::autentifikacija('app-admin.magacin.index',compact('magacin'));
 //	}
 	public function postUkloni(){
-		if(Security::autentifikacijaTest(4)){
+		if(Security::autentifikacijaTest(5)){
 			ProizvodMagacin::join('magacin as m','proizvod_iz_magacina.magacin_id','=','m.id')->where('m.magacin_id_id',$_POST['id'])->delete();
 			MMagacin::where('magacin_id_id',$_POST['id'])->delete();
 			MagaciniID::destroy($_POST['id']);

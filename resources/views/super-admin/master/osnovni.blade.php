@@ -46,7 +46,7 @@
                 <div id="dMenija" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/administracija/korisnici"><span class="glyphicon glyphicon-user"></span> Korisnici</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-th-large"></span> Aplikacije</a></li>
+                        <li><a href="/administracija/aplikacije"><span class="glyphicon glyphicon-th-large"></span> Aplikacije</a></li>
                         <li><a href="/administracija/logout"><span class="glyphicon glyphicon-off"></span> Odjava</a></li>
                     </ul>
                 </div>

@@ -8,16 +8,16 @@
         <p>
             IS Magacin omogućava funkcionalnosti:
             <ul class="col-sm-offset-2 ulul">
-                <li>Višemagacinski pregled (u slučaju posjedovanja više objekata za potrebe skladištenja)</li>
+                <li>Višemagacinski pregled (više objekata za potrebe skladištenja)</li>
                 <li>Vođenje stanja magacina</li>
-                <li>Obavještenja o isteku resursa</li>
+                <li>Upozorenje o isteku resursa</li>
                 <li>Izrada narudžbenica i faktura</li>
                 <li>Praćenje realizacije faktura</li>
                 <li>Pretrage po različitim kriterijumima</li>
                 <li>Izvoz podataka u pdf</li>
-                <li>Štampanje ponude proizvoda</li>
+                {{--<li>Štampanje ponude proizvoda</li>
                 <li>Šematski prikaz magacina - skladišta</li>
-                <li>Navigacija putem android aplikacije</li>
+                <li>Navigacija putem android aplikacije</li>--}}
             </ul><style>.ulul li{font-size:20px}</style>
         </p>
     </div>
